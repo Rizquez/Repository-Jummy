@@ -1,11 +1,11 @@
 # Creacion de las ramas de trabajo de cada uno de los miembros del equipo
 
-1. Rama main: esta rama es la encargada de ser desplegada en el servidor que albergue nuestra web (Netlify).
-2. Rama develop: esta rama es la que recibira todos el desarrollo nuevo y cambios que se realicen sobre el proyecto, basicamente sera un filtro para evitar que algo que llegue a la rama main sin testear pueda dañar algo.
-3. Rama pedro-b: en esta rama trabajara Pedro.
-4. Rama mario-b: en esta rama trabajara Mario.
-5. Rama marc-b: en esta rama trabajara Marc.
-6. Rama inigo-b: en esta rama trabajara inigo.
+- 1. Rama main: esta rama es la encargada de ser desplegada en el servidor que albergue nuestra web (Netlify).
+- 2. Rama develop: esta rama es la que recibira todos el desarrollo nuevo y cambios que se realicen sobre el proyecto, basicamente sera un filtro para evitar que algo que llegue a la rama main sin testear pueda dañar algo.
+- 3. Rama pedro-b: en esta rama trabajara Pedro.
+- 4. Rama mario-b: en esta rama trabajara Mario.
+- 5. Rama marc-b: en esta rama trabajara Marc.
+- 6. Rama inigo-b: en esta rama trabajara inigo.
 
 En en caso de las ramas de cada uno de los miembros del equipo, estas deberan ser creadas por cada uno y tendran que crearse a partir de la rama `develop` de manera excluyente.
 
