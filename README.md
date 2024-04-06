@@ -7,6 +7,8 @@
 5. Rama marc-b: en esta rama trabajara Marc.
 6. Rama inigo-b: en esta rama trabajara inigo.
 
+En en caso de las ramas de cada uno de los miembros del equipo, estas deberan ser creadas por cada uno y tendran que crearse a partir de la rama `develop` de manera excluyente.
+
 > [!IMPORTANT]
 El metodo de trabajo para las `Pull Request` sera definido en una proxima reunion.
 
