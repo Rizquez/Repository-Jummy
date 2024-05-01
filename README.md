@@ -13,4 +13,4 @@ En en caso de las ramas de cada uno de los miembros del equipo, estas deberan se
 El metodo de trabajo para las `Pull Request` sera definido en una proxima reunion.
 
 > [!NOTE]
-El fichero `index.html` ha sido creado unicamente para realizar la configuracion del despliegue continuo con `Netlify`.
+El fichero `index.html` ha sido creado unicamente para realizar la configuracion del despliegue continuo con `Netlify`. modificado
