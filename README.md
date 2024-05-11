@@ -27,5 +27,8 @@ Jummy está construida con tecnologías de punta que aseguran rapidez, seguridad
 > [!IMPORTANT]
 Todas las ramas donde el equipo de desarrollo trabaje tendran que crearse a partir de la rama `develop` de manera excluyente.
 
+> [!NOTE]
+La rama `main` es la unica rama que debe tener un directorio `dist`, de manera excluyente, ya que este directorio es el encargado de llevar el despliegue del proyecto a `Netlify`, este direcotirio se debera actualizar en local por cada despliegue que se haga sobre la rama `main`.
+
 ## Licencia
 Este proyecto está bajo la Licencia GPL-3.0, lo que permite el uso, distribución y modificación del software bajo ciertas condiciones. Consulta el archivo LICENSE para más detalles.
