@@ -2,10 +2,9 @@
 </script>
 
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+  <h1>hola</h1>
 </template>
 
 <style scoped>
+
 </style>
