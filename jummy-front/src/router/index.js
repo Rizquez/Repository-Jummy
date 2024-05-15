@@ -30,6 +30,16 @@ const routes = [
         path: '/gastronomy',
         name: 'gastronomy',
         component: () => import('../views/GastronomyView.vue')
+    },
+    {
+        path: '/restaurant',
+        name: 'restaurant',
+        component: () => import('../views/RestaurantView.vue')
+    },
+    {
+        path: '/menu',
+        name: 'menu',
+        component: () => import('../views/MenuView.vue')
     }
 ]
 
