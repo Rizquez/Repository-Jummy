@@ -2,9 +2,7 @@
 </script>
 
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+  <h1>Aqui existira la recuperacion de la contraseña</h1>
 </template>
 
 <style scoped>
