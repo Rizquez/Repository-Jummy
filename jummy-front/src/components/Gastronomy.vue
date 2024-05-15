@@ -1,3 +1,51 @@
+<script setup>
+</script>
+
+<template>
+    <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gastronomias</title>
+</head>
+<body>
+<div class="contenedor-hipervinculo">
+    <router-link to="/">Salir</router-link>
+</div >
+
+<div class="contenedor-fijo">
+
+    <div class="contenedor-logo">
+
+        <img src="./public/img-gastronomy.png" alt="logo Jummy" class="logo">
+    </div>
+
+    <div class = "contenedor-buscador">
+        <h4>Busca en Jummy</h4>
+        <input class="barra" type="text" value="">
+        
+    </div>
+
+</div>
+
+
+<div class = "contenedor-scroll">
+
+<button class="boton-gastronomia" id="japonesa">JAPONESA</button>
+<button class="boton-gastronomia" id="italiana">ITALIANA</button>
+<button class="boton-gastronomia" id="española">ESPAÑOLA</button>
+<button class="boton-gastronomia" id="venezolana">VENEZOLANA</button>
+<button class="boton-gastronomia" id="mexicana">MEXICANA</button>
+<button class="boton-gastronomia" id="tailandesa">TAILANDESA</button>
+
+</div>
+
+
+
+</body>
+</template>
+
+<style scoped>
+
 .contenedor-hipervinculo {
     text-align: right;
     margin: 30px;
@@ -98,3 +146,5 @@ h4 {
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+</style>

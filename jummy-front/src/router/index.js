@@ -25,6 +25,11 @@ const routes = [
         path: '/password-recovery',
         name: 'password-recovery',
         component: () => import('../views/PasswordRecoveryView.vue')
+    },
+    {
+        path: '/gastronomy',
+        name: 'gastronomy',
+        component: () => import('../views/GastronomyView.vue')
     }
 ]
 

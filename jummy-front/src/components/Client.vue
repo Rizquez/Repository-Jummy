@@ -12,7 +12,7 @@
       <input type="text" placeholder="Usuario" class="styled-input"/>
       <input type="password" placeholder="Contraseña" class="styled-input"/>
       <br><br><br>
-      <button>Ingresar</button>
+      <router-link to="/gastronomy" class="btn-loggin">Ingresar</router-link>
       <br><br><br><br><br>
       <div class="container-link">
         <router-link to="/password-recovery" class="txt-registro">Olvide mi contraseña</router-link>
@@ -38,7 +38,7 @@ section img {
   height: auto;
 }
 
-section div button {
+.btn-loggin {
   color: var(--text-100);
   background-color: var(--primary-100);
   font-size: 2vw;
@@ -46,6 +46,7 @@ section div button {
   border: none;
   cursor: pointer;
   border-radius: 30px;
+  text-decoration: none;
 }
 
 section div input {
