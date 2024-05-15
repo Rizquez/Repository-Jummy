@@ -16,7 +16,8 @@
 
     <div class="contenedor-logo">
 
-        <img src="./public/img-gastronomy.png" alt="logo Jummy" class="logo">
+        <img src="/img-gastronomy.png" alt="logo Jummy" class="logo">
+
     </div>
 
     <div class = "contenedor-buscador">
@@ -106,42 +107,42 @@ h4 {
 }
 
 #japonesa {
-    background-image: url(/jummy-front/public/fotos-comida/japonesa.jpg);
+    background-image: url(/fotos-comida/japonesa.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
 }
 
 #italiana {
-    background-image: url(/jummy-front/public/fotos-comida/italiana.jpg);
+    background-image: url(/fotos-comida/italiana.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
 }
 
 #española {
-    background-image: url(/jummy-front/public/fotos-comida/española.jpg);
+    background-image: url(/fotos-comida/española.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
 }
 
 #venezolana {
-    background-image: url(/jummy-front/public/fotos-comida/venezolana.jpg);
+    background-image: url(/fotos-comida/venezolana.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
 }
 
 #mexicana {
-    background-image: url(/jummy-front/public/fotos-comida/mexicana.jpg);
+    background-image: url(/fotos-comida/mexicana.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
 }
 
 #tailandesa {
-    background-image: url(/jummy-front/public/fotos-comida/tailandesa.jpg);
+    background-image: url(/fotos-comida/tailandesa.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
