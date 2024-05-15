@@ -1,0 +1,1 @@
+import{_ as t,o as e,c as n,b as _}from"./index-CYBgjhFK.js";const a={};function o(c,r){return e(),n("h1",null,"hola")}const s=t(a,[["render",o]]),f={__name:"MenuView",setup(c){return(r,u)=>(e(),n("main",null,[_(s)]))}};export{f as default};
