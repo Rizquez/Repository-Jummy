@@ -15,8 +15,8 @@
       <button>Ingresar</button>
       <br><br><br><br><br>
       <div class="container-link">
-        <router-link to="/password-recovery" class="txt-registro">Olvide mi contraseña</router-link>
         <router-link to="/register-company" class="txt-registro">Registrarse como empresa</router-link>
+        <router-link to="/password-recovery" class="txt-registro">Olvide mi contraseña</router-link>
       </div>
     </div>
   </section>
@@ -76,7 +76,6 @@ section div input {
   flex-direction: column;
   gap: 20px;
 }
-
 
 .styled-input {
   font-size: 2vw;
