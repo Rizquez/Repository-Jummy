@@ -1,1 +1,0 @@
-import{_ as n,o as e,c as r,b as o}from"./index-CYBgjhFK.js";const s={};function t(c,a){return e(),r("h1",null,"Aqui existira la recuperacion de la contraseña")}const _=n(s,[["render",t]]),u={__name:"PasswordRecoveryView",setup(c){return(a,i)=>(e(),r("main",null,[o(_)]))}};export{u as default};
