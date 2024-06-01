@@ -48,6 +48,7 @@ form {
   border-radius: 20px;
   box-sizing: border-box;
   padding: 2%;
+  margin: 2%;
 }
 
 .input-group {

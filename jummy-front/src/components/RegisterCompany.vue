@@ -5,9 +5,6 @@
   <header>
     <h1>Formulario de registro para empresas</h1>
   </header>
-
-
-
   <form>
     <div class="input-group">
       <input type="text" placeholder="Nombre fiscal"/>
@@ -46,12 +43,6 @@
       <router-link to="/company" class="form-button">Volver</router-link>
     </div>
   </form>
-
-
-
-
-
-
 </template>
 
 <style scoped>
@@ -72,6 +63,7 @@ form {
   border-radius: 20px;
   box-sizing: border-box;
   padding: 2%;
+  margin: 2%;
 }
 
 form textarea {
