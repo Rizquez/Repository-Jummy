@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="contenedor-hipervinculo">
-    <router-link to="/">Salir</router-link>
+    <a href="/" class="boton-salir" >Salir</a>
 </div >
 
 <div class="contenedor-fijo">
@@ -21,8 +21,8 @@
     </div>
 
     <div class = "contenedor-buscador">
-        <h4>Busca en Jummy</h4>
-        <input class="barra" type="text" value="">
+        
+        <input class="barra" type="text" value="" placeholder="Busca en Jummy">
         
     </div>
 
@@ -52,14 +52,24 @@
     margin: 30px;
 }
 
+.boton-salir{
+    padding: 5px 10px;
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .hipervinculo{
     color: rgb(143, 30, 0);
 }
 
 .contenedor-fijo {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 3rem;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 0 auto;
     position: sticky;
     top: 0px;
     z-index: 999;
@@ -68,21 +78,25 @@
 
 .contenedor-buscador {
     display: flex;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 30%;
-    gap: 1rem;
+    justify-content: center;
+    width: 100%;
+    margin: 40px 0px;
+
 }
 
-h4 {
-    font-weight: lighter;
+.contenedor-logo{
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
+
+
 
 .barra {
     background-color: rgb(196, 188, 171);
-    width: 70%;
-    height: 8%;
+    width: 80%;
     border-radius: 10px;
+    padding: 5px;
 }
 
 .contenedor-scroll {
@@ -91,6 +105,7 @@ h4 {
     justify-content: center;
     align-items: center;
     gap: 3rem;
+    padding-top: 40px;
    
     
 }
@@ -98,7 +113,7 @@ h4 {
 .boton-gastronomia {
     width: 70%;
     height: auto;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: bold;
     color: rgb(255, 255, 255);
     text-shadow: black -1px -1px 0px, black 1px -1px 0px, black -1px 1px 0px, black 1px 1px 0px;
