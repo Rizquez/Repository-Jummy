@@ -90,6 +90,12 @@
     justify-content: center;
 }
 
+.logo{
+    width: 20%;
+}
+
+
+
 
 
 .barra {
@@ -106,6 +112,7 @@
     align-items: center;
     gap: 3rem;
     padding-top: 40px;
+    padding-bottom: 30px;
    
     
 }
@@ -113,7 +120,7 @@
 .boton-gastronomia {
     width: 70%;
     height: auto;
-    font-size: 2rem;
+    font-size: 1rem;
     font-weight: bold;
     color: rgb(255, 255, 255);
     text-shadow: black -1px -1px 0px, black 1px -1px 0px, black -1px 1px 0px, black 1px 1px 0px;
@@ -125,7 +132,7 @@
     background-image: url(/fotos-comida/japonesa.jpg);
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center ;
 }
 
 #italiana {
@@ -161,6 +168,21 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+}
+
+@media(min-width: 980px){
+   .logo{
+    width: 10%;
+   } 
+
+   .boton-gastronomia{
+    width: 50%;
+    font-size: 1.5rem;
+   }
+   .barra{
+    width: 60%;
+   }
+
 }
 
 </style>
