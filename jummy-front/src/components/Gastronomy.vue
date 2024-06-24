@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="contenedor-hipervinculo">
-            <a href="/" class="boton-salir" >Salir</a>
+            <router-link to="/" class="boton-salir" >Volver</router-link>
         </div >
         <div class="contenedor-fijo">
             <div class="contenedor-logo">
@@ -39,9 +39,8 @@
 
 .boton-salir{
     padding: 5px 10px;
-    background-color: var(--primary-300);
-    border-radius: 5px;
-    color: var(--bg-100);
+    background-color: var(--bg-200);
+    color: var(--primary-300);
     cursor: pointer;
     text-decoration: none;
 }
@@ -50,7 +49,7 @@
 .contenedor-fijo {
     display: flex;
     flex-direction: row;
-    width: 95%;
+    width: 90%;
     margin: 0 auto;
     position: sticky;
     top: 0px;
@@ -66,21 +65,24 @@
     align-items: center;
     width: 100%;
     margin: 70px 0px;
+    margin-right: 15%;
 
 }
 
 .boton-buscador{
-    width: 20%;
+    width: 30%;
     margin-top: 2%;
     border-radius: 10px;
     background-color: var(--primary-300);
     color: var(--bg-100);
+    padding: 5px;
 }
 
 .contenedor-logo{
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-left: 12%;
 }
 
 .logo{
@@ -186,6 +188,7 @@
         padding: 8px 16px;
         font-size: 14px;
     }
+
 
 }
 
