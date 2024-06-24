@@ -17,6 +17,7 @@
             </div>
             <div class = "contenedor-buscador">
                 <input class="barra" type="text" value="" placeholder="Busca en Jummy">
+                <button class="boton-buscador">Buscar</button>
             </div>
         </div>
         <div class = "contenedor-scroll">
@@ -38,34 +39,42 @@
 
 .boton-salir{
     padding: 5px 10px;
-    background-color: black;
+    background-color: var(--primary-300);
     border-radius: 5px;
-    color: white;
+    color: var(--bg-100);
     cursor: pointer;
     text-decoration: none;
 }
 
-.hipervinculo{
-    color: rgb(143, 30, 0);
-}
 
 .contenedor-fijo {
     display: flex;
-    flex-direction: column;
-    width: 80%;
+    flex-direction: row;
+    width: 95%;
     margin: 0 auto;
     position: sticky;
     top: 0px;
     z-index: 999;
     background-color: var(--bg-200);
+    padding-bottom: 50px;
 }
 
 .contenedor-buscador {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: 100%;
-    margin: 40px 0px;
+    margin: 70px 0px;
 
+}
+
+.boton-buscador{
+    width: 20%;
+    margin-top: 2%;
+    border-radius: 10px;
+    background-color: var(--primary-300);
+    color: var(--bg-100);
 }
 
 .contenedor-logo{
@@ -75,11 +84,11 @@
 }
 
 .logo{
-    width: 20%;
+    width: 30%;
 }
 
 .barra {
-    background-color: rgb(196, 188, 171);
+    background-color: var(--bg-300);
     width: 80%;
     border-radius: 10px;
     padding: 5px;
@@ -100,8 +109,8 @@
     height: auto;
     font-size: 1rem;
     font-weight: bold;
-    color: rgb(255, 255, 255);
-    text-shadow: black -1px -1px 0px, black 1px -1px 0px, black -1px 1px 0px, black 1px 1px 0px;
+    color: var(--bg-100);
+    text-shadow: 2px 2px 4px var(--text-100), 2px 2px 4px var(--text-200);
     border-radius: 10px;
     padding: 2rem;
 }
@@ -150,7 +159,7 @@
 
 @media(min-width: 980px){
    .logo{
-    width: 10%;
+    width: 25%;
    } 
 
    .boton-gastronomia{
@@ -161,5 +170,62 @@
    .barra{
     width: 60%;
    }
+}
+
+@media (max-width: 1200px) {
+  .boton-salir {
+    padding: 8px 16px;
+    font-size: 14px;
+  }
+
+  .barra {
+    font-size: 14px;    
+   }
+
+   .boton-buscador{
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+}
+
+@media (max-width: 800px) {
+    .boton-salir {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  .barra{
+    font-size: 12px;
+  }
+
+  .logo{
+    width: 40%;
+   } 
+
+   .boton-buscador {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+}
+
+@media (max-width: 500px) {
+    .boton-salir {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
+  .barra{
+    font-size: 10px;
+  }
+
+  .logo{
+    width: 60%;
+   } 
+
+   .boton-buscador{
+    padding: 4px 8px;
+    font-size: 10px;
+   }
+
 }
 </style>
