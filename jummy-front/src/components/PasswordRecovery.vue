@@ -33,8 +33,8 @@ header h3 {
   font-size: 1.5vw;
 }
 
-header h1, h3{
-  font-weight:lighter;
+header h1, h3 {
+  font-weight: lighter;
   text-align: center;
   color: var(--text-100);
 }
@@ -47,7 +47,6 @@ form {
   box-sizing: border-box;
   padding: 2%;
   margin: 2%;
-  width: calc(1440px - 70%);
 }
 
 form input[type="text"],
@@ -82,6 +81,7 @@ form input[type="email"] {
 .button-group {
   display: flex;
   justify-content: space-between;
+  gap: 30px;
 }
 
 .form-group {

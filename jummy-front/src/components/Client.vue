@@ -10,12 +10,15 @@
     <img src="/public/logo-jummy.png" alt="Logo Jummy"/>
     <div>
       <input type="text" placeholder="Usuario" class="styled-input"/>
+      <br/>
       <input type="password" placeholder="Contraseña" class="styled-input"/>
+      <br><br>
+      <div class="div-space">
+        <router-link to="/gastronomy" class="btn-loggin">Ingresar</router-link>
+      </div>
       <br><br><br>
-      <router-link to="/gastronomy" class="btn-loggin">Ingresar</router-link>
-      <br><br><br><br><br>
       <div class="container-link">
-        <router-link to="/register-client" class="txt-registro">Registrarse como ciente</router-link>
+        <router-link to="/register-client" class="txt-registro">Registrarse como cliente</router-link>
         <router-link to="/password-recovery" class="txt-registro">Olvide mi contraseña</router-link>
 
 
@@ -70,6 +73,7 @@ section div input {
   display: flex;
   justify-content: space-around;
   align-items: center;
+  margin-top: 20px;
 }
 
 .nav-link {
@@ -92,5 +96,9 @@ section div input {
   border: 5px solid var(--primary-300);
   border-radius: 30px;
   background-color: transparent;
+}
+
+.div-space {
+  padding: 20px;
 }
 </style>
