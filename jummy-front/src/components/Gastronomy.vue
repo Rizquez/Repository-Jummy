@@ -8,14 +8,12 @@
         <title>Gastronomias</title>
     </head>
     <body>
-        <div class="contenedor-hipervinculo">
-            <router-link to="/" class="boton-salir" >Volver</router-link>
-        </div >
         <div class="contenedor-fijo">
-            <div class="contenedor-logo">
-                <img src="/img-gastronomy.png" alt="logo Jummy" class="logo">
-            </div>
+            
+            <img src="/img-gastronomy.png" alt="logo Jummy" class="logo">
+            
             <div class = "contenedor-buscador">
+                <router-link to="/" class="boton-salir" >Volver</router-link>
                 <input class="barra" type="text" value="" placeholder="Busca en Jummy">
                 <button class="boton-buscador">Buscar</button>
             </div>
@@ -32,30 +30,26 @@
 </template>
 
 <style scoped>
-.contenedor-hipervinculo {
-    text-align: right;
-    margin: 30px;
-}
-
-.boton-salir{
-    padding: 5px 10px;
-    background-color: var(--bg-200);
-    color: var(--primary-300);
-    cursor: pointer;
-    text-decoration: none;
-}
-
 
 .contenedor-fijo {
     display: flex;
-    flex-direction: row;
-    width: 90%;
+    /* flex-direction: row; */
+     width: 70%; 
+    justify-content: space-around;
+    align-items: center;
     margin: 0 auto;
+    top:0px;
+    padding-left: 20%;
+    padding-top: 5%;
     position: sticky;
-    top: 0px;
     z-index: 999;
     background-color: var(--bg-200);
     padding-bottom: 50px;
+}
+
+.logo{
+    width: 20%;
+    height: auto;
 }
 
 .contenedor-buscador {
@@ -69,30 +63,29 @@
 
 }
 
-.boton-buscador{
-    width: 30%;
-    margin-top: 2%;
-    border-radius: 10px;
-    background-color: var(--primary-300);
-    color: var(--bg-100);
-    padding: 5px;
-}
-
-.contenedor-logo{
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    margin-left: 12%;
-}
-
-.logo{
-    width: 30%;
+.boton-salir{
+    background-color: var(--bg-200);
+    color: var(--primary-300);
+    cursor: pointer;
+    text-decoration: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    padding-bottom: 30px;
 }
 
 .barra {
     background-color: var(--bg-300);
-    width: 80%;
+    width: 60%;
     border-radius: 10px;
+    padding: 5px;
+}
+
+.boton-buscador{
+    width: 30%;
+    margin-top: 5%;
+    border-radius: 10px;
+    background-color: var(--primary-300);
+    color: var(--bg-100);
     padding: 5px;
 }
 
@@ -102,14 +95,14 @@
     justify-content: center;
     align-items: center;
     gap: 3rem;
-    padding-top: 40px;
+    padding-top: 120px;
     padding-bottom: 30px;
 }
 
 .boton-gastronomia {
-    width: 70%;
+    width: 50%;
     height: auto;
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: bold;
     color: var(--bg-100);
     text-shadow: 2px 2px 4px var(--text-100), 2px 2px 4px var(--text-200);
@@ -159,82 +152,4 @@
     background-position: center center;
 }
 
-@media(min-width: 980px){
-   .logo{
-    width: 40%;
-   } 
-
-   .boton-gastronomia{
-    width: 50%;
-    font-size: 1.5rem;
-   }
-
-   .barra{
-    width: 60%;
-   }
-}
-
-@media(min-width: 800px) and ( max-width: 980px){
-    .logo{
-        width: 50%;
-    }
-}
-
-@media (max-width: 1200px) {
-  .boton-salir {
-    padding: 8px 16px;
-    font-size: 14px;
-  }
-
-  .barra {
-    font-size: 14px;    
-   }
-
-   .boton-buscador{
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-
-
-}
-
-@media (max-width: 800px) {
-    .boton-salir {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-  .barra{
-    font-size: 12px;
-  }
-
-  .logo{
-    width: 60%;
-   } 
-
-   .boton-buscador {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-
-}
-
-@media (max-width: 500px) {
-    .boton-salir {
-    padding: 4px 8px;
-    font-size: 10px;
-  }
-  .barra{
-    font-size: 10px;
-  }
-
-  .logo{
-    width: 80%;
-   } 
-
-   .boton-buscador{
-    padding: 4px 8px;
-    font-size: 10px;
-   }
-
-}
 </style>
