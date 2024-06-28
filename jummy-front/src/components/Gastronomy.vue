@@ -161,7 +161,7 @@
 
 @media(min-width: 980px){
    .logo{
-    width: 25%;
+    width: 40%;
    } 
 
    .boton-gastronomia{
@@ -172,6 +172,12 @@
    .barra{
     width: 60%;
    }
+}
+
+@media(min-width: 800px) and ( max-width: 980px){
+    .logo{
+        width: 50%;
+    }
 }
 
 @media (max-width: 1200px) {
@@ -202,7 +208,7 @@
   }
 
   .logo{
-    width: 40%;
+    width: 60%;
    } 
 
    .boton-buscador {
@@ -222,7 +228,7 @@
   }
 
   .logo{
-    width: 60%;
+    width: 80%;
    } 
 
    .boton-buscador{
