@@ -33,7 +33,6 @@
 
 .contenedor-fijo {
     display: flex;
-    /* flex-direction: row; */
      width: 70%; 
     justify-content: space-around;
     align-items: center;

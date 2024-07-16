@@ -14,7 +14,7 @@
       <input type="password" placeholder="Contraseña" class="styled-input"/>
       <br><br>
       <div class="div-space">
-        <router-link to="/company" class="btn-loggin">Ingresar</router-link>
+        <router-link to="/company-menu" class="btn-loggin">Ingresar</router-link>
       </div>
       <br><br><br>
       <div class="container-link">

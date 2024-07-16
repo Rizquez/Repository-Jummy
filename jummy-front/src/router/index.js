@@ -40,7 +40,14 @@ const routes = [
         path: '/menu',
         name: 'menu',
         component: () => import('../views/MenuView.vue')
+    },
+    {
+        path: '/company-menu',
+        name: 'company-menu',
+        component: () => import('../views/CompanyMenuView.vue')
     }
+
+
 ]
 
 const router = createRouter({
