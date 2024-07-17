@@ -45,6 +45,11 @@ const routes = [
         path: '/company-menu',
         name: 'company-menu',
         component: () => import('../views/CompanyMenuView.vue')
+    },
+    {
+        path: '/configuration',
+        name: 'configuration',
+        component: () => import('../views/ConfigurationView.vue')
     }
 
 

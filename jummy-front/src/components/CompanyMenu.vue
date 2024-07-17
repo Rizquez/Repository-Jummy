@@ -12,7 +12,7 @@
 
   </div>
   <div class="container-config">
-    <router-link to="/" class="btn-config">Configuracion</router-link>
+    <router-link to="/configuration" class="btn-config">Configuracion</router-link>
   </div>
 </template>
 
@@ -37,14 +37,14 @@ img {
   flex-direction: column;
   align-items: center;
   margin-left: 15%;
-  gap: 50px; /* Añadir espacio entre los botones */
+  gap: 50px;
 }
 
 .btn-loggin {
   color: var(--text-100);
   background-color: var(--primary-100);
-  font-size: 3vw; /* Aumenta el tamaño del texto */
-  padding: 15px 100px; /* Aumenta el padding */
+  font-size: 3vw; 
+  padding: 15px 100px; 
   border: none;
   cursor: pointer;
   border-radius: 50px;
