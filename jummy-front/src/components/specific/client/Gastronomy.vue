@@ -1,43 +1,31 @@
 <script setup>
+import { useRouter } from 'vue-router';
 import GastronomyRestaurant from '@/components/common/headers/GastronomyRestaurant.vue';
+
+const router = useRouter();
+function redirectToRestaurant(type) {
+    router.push({ name: 'restaurant', params: { type } });
+}
+
 </script>
 
 <template>
     <GastronomyRestaurant/>
     <section>
-        <div class = "contenedor-scroll">
-            <button class="boton-gastronomia txt-1-5vw" id="japonesa">JAPONESA</button>
-            <button class="boton-gastronomia txt-1-5vw" id="italiana">ITALIANA</button>
-            <button class="boton-gastronomia txt-1-5vw" id="española">ESPAÑOLA</button>
-            <button class="boton-gastronomia txt-1-5vw" id="venezolana">VENEZOLANA</button>
-            <button class="boton-gastronomia txt-1-5vw" id="mexicana">MEXICANA</button>
-            <button class="boton-gastronomia txt-1-5vw" id="tailandesa">TAILANDESA</button>
+        <div class="contenedor-scroll">
+            <button @click="() => redirectToRestaurant('japonesa')" class="boton-gastronomia txt-1-5vw" id="japonesa">JAPONESA</button>
+            <button @click="() => redirectToRestaurant('italiana')" class="boton-gastronomia txt-1-5vw" id="italiana">ITALIANA</button>
+            <button @click="() => redirectToRestaurant('espanola')" class="boton-gastronomia txt-1-5vw" id="española">ESPAÑOLA</button>
+            <button @click="() => redirectToRestaurant('venezolana')" class="boton-gastronomia txt-1-5vw" id="venezolana">VENEZOLANA</button>
+            <button @click="() => redirectToRestaurant('mexicana')" class="boton-gastronomia txt-1-5vw" id="mexicana">MEXICANA</button>
+            <button @click="() => redirectToRestaurant('tailandesa')" class="boton-gastronomia txt-1-5vw" id="tailandesa">TAILANDESA</button>
         </div>
     </section>
 </template>
 
 <style scoped>
 @import '@/assets/styles/common/fonts.css';
-
-.contenedor-scroll {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 3vw;
-    padding-top: 50px;
-    padding-bottom: 30px;
-}
-
-.boton-gastronomia {
-    width: 50%;
-    height: auto;
-    font-weight: bold;
-    color: var(--bg-100);
-    text-shadow: 2px 2px 4px var(--text-100), 2px 2px 4px var(--text-200);
-    border-radius: 10px;
-    padding: 2vw;
-}
+@import '@/assets/styles/common/common.css';
 
 #japonesa {
     background-image: url(../../../assets/images/gastronomy/japonesa.jpg);
@@ -54,7 +42,7 @@ import GastronomyRestaurant from '@/components/common/headers/GastronomyRestaura
 }
 
 #española {
-    background-image: url(../../../assets/images/gastronomy/española.jpg);
+    background-image: url(../../../assets/images/gastronomy/espanola.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;

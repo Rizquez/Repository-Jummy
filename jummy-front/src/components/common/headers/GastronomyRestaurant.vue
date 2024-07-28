@@ -1,4 +1,11 @@
 <script setup>
+import { defineProps } from 'vue';
+const props = defineProps({
+    showReturn: {
+        type: Boolean,
+        default: false
+    }
+})
 </script>
 
 <template>
@@ -6,12 +13,13 @@
         <div class="contenedor-fijo">
             <img src="../../../assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
             <div class="contenedor-general">
-                <div>
+                <div class="salir-volver">
                     <router-link to="/" class="boton-salir txt-1-5vw">Salir</router-link>
+                    <router-link v-if="showReturn" to="/gastronomy" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
                 </div>
                 <div class="contenedor-general">
                     <input class="barra txt-1-5vw" type="text" value="" placeholder="Busca en Jummy">
-                    <button class="boton-buscador txt-1-5vw">Buscar</button>
+                    <router-link to="/gastronomy" class="boton-buscador txt-1-5vw">Buscar</router-link>
                 </div>
             </div>
         </div>
@@ -30,7 +38,7 @@
 
 .contenedor-fijo {
     display: flex;
-    max-width: 50%;
+    max-width: 70%;
     margin: 0 auto;
     position: sticky;
     z-index: 999;
@@ -53,16 +61,22 @@
     text-decoration: none;
     cursor: pointer;
     text-align: right;
-    padding-bottom: 70px;
+}
+
+.boton-volver {
+    padding-top: 20px;
 }
 
 .boton-buscador {
     color: var(--text-100);
     background-color: var(--primary-100);
+    padding: 10px 35px;
+    border: none;
     cursor: pointer;
     border-radius: 30px;
     text-decoration: none;
     margin-top: 30px;
+    text-align: center;
 }
 
 .barra {
