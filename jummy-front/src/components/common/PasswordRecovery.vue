@@ -3,8 +3,8 @@
 
 <template>
   <header>
-    <h1>Restablecer la contraseña</h1>
-    <h3>Por favor confirme su móvil y correo electrónico</h3>
+    <h1 class="txt-3vw">Restablecer la contraseña</h1>
+    <h3 class="txt-1-5vw">Por favor confirme su móvil y correo electrónico</h3>
   </header>
   <div class="form-group">
     <form>
@@ -13,24 +13,18 @@
         <input type="email" placeholder="Correo electrónico"/>
       </div>
       <div class="button-group">
-        <button type="submit" class="form-button">Restablecer la contraseña</button>
-        <router-link to="/" class="form-button">Volver</router-link>
+        <button type="submit" class="form-button txt-1vw">Restablecer la contraseña</button>
+        <router-link to="/" class="form-button txt-1vw">Volver</router-link>
       </div>
     </form>
   </div>
 </template>
 
 <style scoped>
+@import '@/assets/styles/common/fonts.css';
+
 header {
   padding-top: 2%;
-}
-
-header h1 {
-  font-size: 3vw;
-}
-
-header h3 {
-  font-size: 1.5vw;
 }
 
 header h1, h3 {
@@ -67,7 +61,6 @@ form input[type="email"] {
 }
 
 .form-button {
-  font-size: 1vw;
   color: var(--text-100);
   background-color: var(--primary-100);
   font-weight:bold;

@@ -1,5 +1,5 @@
 <script setup>
-import Gastronomias from '../components/Gastronomy.vue'
+import Gastronomias from '../components/specific/client/Gastronomy.vue'
 </script>
 
 <template>

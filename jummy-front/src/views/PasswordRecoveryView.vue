@@ -1,5 +1,5 @@
 <script setup>
-import PasswordRecovery from '../components/PasswordRecovery.vue'
+import PasswordRecovery from '../components/common/PasswordRecovery.vue'
 </script>
 
 <template>

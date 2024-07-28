@@ -1,5 +1,5 @@
 <script setup>
-import Company from '../components/Company.vue'
+import Company from '../components/specific/company/Company.vue'
 </script>
 
 <template>

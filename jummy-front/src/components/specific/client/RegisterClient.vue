@@ -3,7 +3,7 @@
 
 <template>
   <header>
-    <h1>Formulario de registro para clientes</h1>
+    <h1 class="txt-2vw">Formulario de registro para clientes</h1>
   </header>
   <form>
     <div class="input-group">
@@ -21,23 +21,25 @@
     </div>
     <div class="input-group">
         <input type="password" placeholder="Contraseña"/>
-        <span class="help-text">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
+        <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
     </div>
     <div class="div-button">
-      <button type="submit" class="form-button">Registrarme</button>
-      <router-link to="/" class="form-button">Volver</router-link>
+      <button type="submit" class="form-button txt-1vw">Registrarme</button>
+      <router-link to="/" class="form-button txt-1vw">Volver</router-link>
     </div>
   </form>
 </template>
 
 <style scoped>
+
+@import '@/assets/styles/common/fonts.css';
+
 header {
   padding-top: 2%;
 }
 
 header h1 {
   font-weight:lighter;
-  font-size: 2vw;
   text-decoration: underline;
   text-align: center;
   color: var(--text-100);
@@ -70,7 +72,6 @@ form input[type="password"] {
 }
 
 .form-button {
-  font-size: 1vw;
   color: var(--text-100);
   background-color: var(--primary-100);
   font-weight:bold;
@@ -95,7 +96,6 @@ form input[type="password"] {
 }
 
 .help-text {
-  font-size: 1vw;
   color: var(--text-100); 
   padding-left: 10px;
   text-align: center;
