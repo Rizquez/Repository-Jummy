@@ -1,0 +1,25 @@
+/* Property sobre los colores */
+:root {
+  --primary-100:#FF7F50;
+  --primary-200:#dd6236;
+  --primary-300:#8f1e00;
+  --accent-100:#8B4513;
+  --accent-200:#ffd299;
+  --text-100:#000000;
+  --text-200:#2c2c2c;
+  --text-300: #326173;
+  --bg-100:#F7EEDD;
+  --bg-200:#ede4d3;
+  --bg-300:#c4bcab;
+}
+
+/* Clase la tipografica de letra para todo el body */
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--bg-200);
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1920px;
+}
+
+

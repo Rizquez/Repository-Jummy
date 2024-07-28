@@ -1,5 +1,5 @@
 <script setup>
-import Restaurant from '../components/Restaurant.vue'
+import Restaurant from '../components/common/Restaurant.vue'
 </script>
 
 <template>

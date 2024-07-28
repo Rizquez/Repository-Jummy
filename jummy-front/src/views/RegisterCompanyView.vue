@@ -1,5 +1,5 @@
 <script setup>
-import RegisterCompany from '../components/RegisterCompany.vue'
+import RegisterCompany from '../components/specific/company/RegisterCompany.vue'
 </script>
 
 <template>

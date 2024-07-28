@@ -32,15 +32,22 @@ const routes = [
         component: () => import('../views/GastronomyView.vue')
     },
     {
-        path: '/restaurant',
+        path: '/restaurant/:type',
         name: 'restaurant',
         component: () => import('../views/RestaurantView.vue')
     },
     {
-        path: '/menu',
-        name: 'menu',
-        component: () => import('../views/MenuView.vue')
+        path: '/company-menu',
+        name: 'company-menu',
+        component: () => import('../views/CompanyMenuView.vue')
+    },
+    {
+        path: '/configuration',
+        name: 'configuration',
+        component: () => import('../views/ConfigurationView.vue')
     }
+
+
 ]
 
 const router = createRouter({
