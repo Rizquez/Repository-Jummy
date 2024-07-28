@@ -1,5 +1,6 @@
 <script setup>
 import ClientCompany from '@/components/common/headers/ClientCompany.vue';
+import Footer from '@/components/common/Footer.vue';
 </script>
 
 <template>
@@ -21,6 +22,7 @@ import ClientCompany from '@/components/common/headers/ClientCompany.vue';
       </div>
     </div>
   </section>
+  <Footer/>
 </template>
 
 <style scoped>
