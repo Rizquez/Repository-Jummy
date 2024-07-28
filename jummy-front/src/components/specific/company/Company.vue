@@ -13,7 +13,7 @@ import Footer from '@/components/common/Footer.vue';
       <input type="password" placeholder="Contraseña" class="styled-input txt-2vw"/>
       <br><br>
       <div class="div-space">
-        <router-link to="/" class="btn-loggin txt-2vw">Ingresar</router-link> <!-- /company-menu -->
+        <router-link to="/company-menu" class="btn-loggin txt-2vw">Ingresar</router-link>
       </div>
       <br><br><br>
       <div class="container-link">

@@ -1,5 +1,5 @@
 <script setup>
-import CompanyMenu from '../components/CompanyMenu.vue'
+import CompanyMenu from '../components/specific/company/CompanyMenu.vue'
 </script>
 
 <template>
