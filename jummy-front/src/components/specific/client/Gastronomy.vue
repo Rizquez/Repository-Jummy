@@ -1,9 +1,9 @@
 <script setup>
-import LogoSearch from '@/components/common/headers/LogoSearch.vue';
+import GastronomyRestaurant from '@/components/common/headers/GastronomyRestaurant.vue';
 </script>
 
 <template>
-    <LogoSearch/>
+    <GastronomyRestaurant/>
     <section>
         <div class = "contenedor-scroll">
             <button class="boton-gastronomia txt-1-5vw" id="japonesa">JAPONESA</button>
