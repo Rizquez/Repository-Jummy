@@ -30,7 +30,9 @@ const restaurantes = ref([1, 2, 3]);
         </div>
         <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
       </div>
-      <router-link class="btn-carta txt-1vw">Ver carta</router-link>
+      <div>
+        <router-link class="btn-carta txt-1vw">Ver carta</router-link>
+      </div>
     </div>
   </div>
 </template>
