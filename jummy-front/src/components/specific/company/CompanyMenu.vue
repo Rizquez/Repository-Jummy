@@ -1,4 +1,5 @@
 <script setup>
+import Footer from '@/components/common/Footer.vue';
 </script>
 
 <template>
@@ -15,6 +16,7 @@
   <div class="container-config">
     <router-link to="/configuration" class="btn-config txt-1-5vw">Configuracion</router-link>
   </div>
+  <Footer/>
 </template>
 
 <style scoped>

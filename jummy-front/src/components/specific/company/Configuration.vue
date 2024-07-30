@@ -1,4 +1,5 @@
 <script setup>
+import Footer from '@/components/common/Footer.vue';
 </script>
 
 <template>
@@ -11,6 +12,7 @@
     <router-link to="/configuration" class="btn-config txt-2vw">Perfil Cliente</router-link>
     <router-link to="/configuration" class="btn-config txt-2vw">Eliminar Cuenta</router-link>
   </div>
+  <Footer/>
 </template>
 
 <style scoped>

@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import GastronomyRestaurant from '@/components/common/headers/GastronomyRestaurant.vue'
+import Footer from './Footer.vue';
 
 const route = useRoute()
 const type = computed(() => route.params.type)
@@ -11,7 +12,6 @@ const imageUrl = computed(() => {
   return images[`/src/assets/images/gastronomy/${type.value}.jpg`]?.default
 })
 
-// Dummy data to iterate over
 const restaurantes = ref([1, 2, 3]);
 </script>
 
@@ -33,6 +33,7 @@ const restaurantes = ref([1, 2, 3]);
       <router-link to="/gastronomy" class="btn-carta txt-1vw">Ver carta</router-link>
     </div>
   </div>
+  <Footer/>
 </template>
 
 <style scoped>

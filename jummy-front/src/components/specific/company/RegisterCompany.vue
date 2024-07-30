@@ -1,4 +1,5 @@
 <script setup>
+import Footer from '@/components/common/Footer.vue';
 </script>
 
 <template>
@@ -43,6 +44,7 @@
       <router-link to="/company" class="form-button txt-1vw">Volver</router-link>
     </div>
   </form>
+  <Footer/>
 </template>
 
 <style scoped>

@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import GastronomyRestaurant from '@/components/common/headers/GastronomyRestaurant.vue';
+import Footer from '@/components/common/Footer.vue';
 
 const router = useRouter();
 function redirectToRestaurant(type) {
@@ -21,6 +22,7 @@ function redirectToRestaurant(type) {
             <button @click="() => redirectToRestaurant('tailandesa')" class="boton-gastronomia txt-1-5vw" id="tailandesa">TAILANDESA</button>
         </div>
     </section>
+    <Footer/>
 </template>
 
 <style scoped>
