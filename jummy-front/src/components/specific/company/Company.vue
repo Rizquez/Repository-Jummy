@@ -22,7 +22,7 @@ import Footer from '@/components/common/Footer.vue';
       </div>
     </div>
   </section>
-  <Footer/>
+  <Footer :show-return="true"/>
 </template>
 
 <style scoped>
