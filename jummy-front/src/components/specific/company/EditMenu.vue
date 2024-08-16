@@ -1,5 +1,5 @@
 <script setup>
-import Dish from '@/components/common/Dish.vue'
+import EditDish from '@/components/common/EditDish.vue'
 import Footer from '@/components/common/Footer.vue';
 </script>
 
@@ -8,7 +8,8 @@ import Footer from '@/components/common/Footer.vue';
     <div>
         <h1>Carta</h1>
         <router-link to="/company-menu" class="boton-salir txt-1-5vw">Salir</router-link>
-        <router-link to="/look-menu" class="btn-carta txt-1vw">Ver menu</router-link>
+        
+        
         <ul>
             <li>
                 <button class="txt-1-5vw">Entrantes</button>
@@ -24,39 +25,40 @@ import Footer from '@/components/common/Footer.vue';
             </li>
         </ul>
         
-        
+        <router-link to="/look-menu" class="btn-carta txt-1vw">Ver menu</router-link>
+
     </div>
     <div>
         <p class="txt-1-5vw"> Entrantes</p>
 
         <div class="lista-platos">
-            <Dish/>
-            <Dish/>
-            <Dish/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
         <p class="txt-1-5vw"> Principales</p>
 
         <div class="lista-platos">
-            <Dish/>
-            <Dish/>
-            <Dish/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
         <p class="txt-1-5vw"> Postres</p>
 
         <div class="lista-platos">
-            <Dish/>
-            <Dish/>
-            <Dish/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
         <p class="txt-1-5vw"> Bebidas</p>
 
         <div class="lista-platos">
-            <Dish/>
-            <Dish/>
-            <Dish/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
     </div>
@@ -66,6 +68,8 @@ import Footer from '@/components/common/Footer.vue';
 <style scoped>
 
 @import '@/assets/styles/common/fonts.css';
+
+
 
 div{
    max-width: 70%;
@@ -82,6 +86,15 @@ h1 {
   color: var(--text-100);
 }
 
+.btn-carta {
+  color: var(--text-100);
+  background-color: var(--primary-100);
+  padding: 10px 35px;
+  border: none;
+  cursor: pointer;
+  border-radius: 30px;
+  text-decoration: none;
+}
 .boton-salir {
     display: flex;
     justify-content: flex-end;
@@ -90,33 +103,6 @@ h1 {
     cursor: pointer;
     text-align: right;
 
-}
-
-li {
-    color: var(--primary-300);  
-}
-
-button {
-    background-color: var(--bg-200);
-    border: none;
-    color: var(--primary-300);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-p {
-    text-decoration: underline;
-    color: var(--primary-300);
-    text-align: center;
-}
-
-.lista-platos {
-  display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  margin: 0 auto;
-  gap: 30px;
-  padding-bottom: 30px;
 }
 
 </style>
