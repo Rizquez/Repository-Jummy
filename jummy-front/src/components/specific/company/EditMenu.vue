@@ -1,5 +1,5 @@
 <script setup>
-import EditPlato from '@/components/common/EditPlato.vue'
+import EditDish from '@/components/common/EditDish.vue'
 import Footer from '@/components/common/Footer.vue';
 </script>
 
@@ -32,33 +32,33 @@ import Footer from '@/components/common/Footer.vue';
         <p class="txt-1-5vw"> Entrantes</p>
 
         <div class="lista-platos">
-            <EditPlato/>
-            <EditPlato/>
-            <EditPlato/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
         <p class="txt-1-5vw"> Principales</p>
 
         <div class="lista-platos">
-            <EditPlato/>
-            <EditPlato/>
-            <EditPlato/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
         <p class="txt-1-5vw"> Postres</p>
 
         <div class="lista-platos">
-            <EditPlato/>
-            <EditPlato/>
-            <EditPlato/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
         <p class="txt-1-5vw"> Bebidas</p>
 
         <div class="lista-platos">
-            <EditPlato/>
-            <EditPlato/>
-            <EditPlato/>
+            <EditDish/>
+            <EditDish/>
+            <EditDish/>
         </div>
 
     </div>

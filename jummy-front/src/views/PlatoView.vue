@@ -1,9 +1,9 @@
 <script setup>
-import Plato from '../components/common/Plato.vue'
+import Dish from '../components/common/Dish.vue'
 </script>
 
 <template>
   <main>
-    <Plato />
+    <Dish />
   </main>
 </template>
