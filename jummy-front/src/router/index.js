@@ -51,7 +51,13 @@ const routes = [
         path: '/look-menu',
         name: 'look-menu',
         component: () => import('../views/LookMenuView.vue')
+    },
+    {
+        path: '/edit-menu',
+        name: 'edit-menu',
+        component: () => import('../views/EditMenuView.vue')
     }
+
 
     
 
