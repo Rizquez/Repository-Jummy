@@ -1,4 +1,4 @@
-<template>
+f<template>
      <div id="plato" class="info-plato">
       <div class="container-info">
         <div>

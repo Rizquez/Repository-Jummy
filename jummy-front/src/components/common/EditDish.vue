@@ -1,32 +1,35 @@
 <template>
-     <div id="plato" class="info-plato">
-      <div class="container-info">
+     <!--<div id="plato" class="info-plato">-->
+      <div class="info-restaurante">
         <div>
           <p>n#</p>
-            <input class="barra txt-1-5vw" type="text" value="" placeholder="Nombre"/>
+            <input class="barra txt-1vm" type="text" value="" placeholder="Nombre"/>
             <br>
             
-            <input class="barra txt-1-5vw" type="text" value="" placeholder="Descripción"/>
+            <input class="barra txt-1vm" type="text" value="" placeholder="Descripción"/>
             <br>
             
-            <input class="barra txt-1-5vw" type="text" value="" placeholder="Ingredientes"/>
+            <input class="barra txt-1vm" type="text" value="" placeholder="Ingredientes"/>
             <br>
             
-            <input class="barra txt-1-5vw" type="text" value="" placeholder="Precio"/>
+            <input class="barra txt-1vm" type="text" value="" placeholder="Precio"/>
             <br>
             <br>
-            <button class="txt-1-5vw">Guardar</button>
+            <button class="btn-carta txt-1vw">Guardar</button>
             
-            <button class="txt-1-5vw">Borrar</button>
+            <button class="btn-carta txt-1vw">Borrar</button>
 
         </div>
         <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
       </div>
-    </div>
+    <!--</div>-->
 </template>
 
 
 <style scoped>
+@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/common/common.css';
+
 .info-plato {
   border: 3px solid var(--primary-300);
   border-radius: 20px;
@@ -59,5 +62,13 @@
     border-radius: 10px;
     padding: 10px;
 }
+
+.info-restaurante {
+  border: 3px solid var(--primary-300);
+  border-radius: 20px;
+  box-sizing: border-box;
+  padding: 10px 20px 30px 20px;
+}
+
 
 </style>
