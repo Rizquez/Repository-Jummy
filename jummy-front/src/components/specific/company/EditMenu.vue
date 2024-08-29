@@ -1,4 +1,3 @@
-
 <script setup>
 import EditDish from '@/components/common/EditDish.vue'
 import Footer from '@/components/common/Footer.vue';
@@ -8,67 +7,97 @@ import Footer from '@/components/common/Footer.vue';
 <template>
   <div>
     <h1>Carta</h1>
-    <router-link to="/company-menu" class="boton-salir txt-1-5vw">Salir</router-link>
-    
-    <ul>
-            <li>
-                <button class="txt-1-5vw">Entrantes</button>
-            </li>
-            <li>
-                <button class="txt-1-5vw">Principales</button>
-            </li>
-            <li>
-                <button class="txt-1-5vw">Postres</button>
-            </li>
-            <li>
-                <button class="txt-1-5vw">Bebidas</button>
-            </li>
+    <div class="container-nav">
+      <div>
+        <ul>
+          <li>
+              <a class="txt-1-5vw" href="#Entrantes">Entrantes</a>
+          </li>
+          <li>
+              <a class="txt-1-5vw" href="#Principales">Principales</a>
+          </li>
+          <li>
+              <a class="txt-1-5vw" href="#Postres">Postres</a>
+          </li>
+          <li>
+              <a class="txt-1-5vw" href="#Bebidas">Bebidas</a>
+          </li>
         </ul>
+      </div>
+      <div class="container-btn-salir">
+        <router-link to="/" class="txt-1-5vw">Salir</router-link>
+        <router-link to="/company-menu" class="txt-1-5vw">Volver</router-link>
+      </div>
+    </div>
+  </div>
 
-    <router-link to="/look-menu" class="btn-carta txt-1vw">Ver menu</router-link>
+  <div id="Entrantes">
+    <p class="txt-1-5vw">Entrantes</p>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
+  </div>
+
+  <div id="Principales">
+    <p class="txt-1-5vw">Principales</p>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
+  </div>
+
+  <div id="Postres">
+    <p class="txt-1-5vw">Postres</p>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
+  </div>
+
+
+  <div id="Bebidas">
+    <p class="txt-1-5vw">Bebidas</p>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
+    <EditDish/>
   </div>
   
-  
-    <p class="txt-1-5vw">Entrantes</p>
-
-    <div class="lista-restaurantes">
-      
-      <EditDish/>
-      <EditDish/> 
-      <EditDish/>
-    </div>
-
-    <p class="txt-1-5vw">Principales</p>
-    <div class="lista-restaurantes">
-      
-      <EditDish/>
-      <EditDish/>
-      <EditDish/>
-    </div>
-
-    <p class="txt-1-5vw">Postres</p>
-    <div class="lista-restaurantes">
-      
-        <EditDish/>
-        <EditDish/>
-        <EditDish/>
-    </div>
-
-    <p class="txt-1-5vw">Bebidas</p>
-    <div class="lista-restaurantes">
-        <EditDish/>
-        <EditDish/>
-        <EditDish/>
-    </div>
+    
+  <!-- <router-link to="/look-menu" class="btn-carta txt-1vw">Ver menu</router-link> -->
   
 
-  <Footer></Footer>
+  <Footer/>
 </template>
 
-<style scoped>
 
-@import '@/assets/styles/common/fonts.css';
-/*@import '@/assets/styles/common/common.css';*/
+
+<style scoped>
+.container-nav {
+  display: flex;
+  justify-content: space-between;
+  max-width: 70%;
+  margin: 0 auto;
+}
+
+.container-btn-salir {
+  display: flex;
+  flex-direction: column;
+}
+
+h1 {
+  text-align: center;
+}
+
+p {
+  text-align: center;
+}
+
+
+
+/* @import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/common/common.css';
 
 .lista-restaurantes {
   display: flex;
@@ -93,14 +122,14 @@ import Footer from '@/components/common/Footer.vue';
   justify-content: space-between;
 }
 
-/*div {
+div {
   max-width: 70%;
   margin: 0 auto;
   max-width: 70%;
   margin: 0 auto;
   position: sticky;
   z-index: 999;
-}*/
+}
 button {
     background-color: var(--bg-200);
     border: none;
@@ -148,7 +177,7 @@ h1 {
 
 li {
     color: var(--primary-300);  
-}
+} */
 
 
 </style>

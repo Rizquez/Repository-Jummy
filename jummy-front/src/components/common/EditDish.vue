@@ -1,34 +1,31 @@
 <template>
-     <!--<div id="plato" class="info-plato">-->
-      <div class="info-restaurante">
-        <div>
-          <p>n#</p>
-            <input class="barra txt-1vm" type="text" value="" placeholder="Nombre"/>
-            <br>
-            
-            <input class="barra txt-1vm" type="text" value="" placeholder="Descripción"/>
-            <br>
-            
-            <input class="barra txt-1vm" type="text" value="" placeholder="Ingredientes"/>
-            <br>
-            
-            <input class="barra txt-1vm" type="text" value="" placeholder="Precio"/>
-            <br>
-            <br>
-            <button class="btn-carta txt-1vw">Guardar</button>
-            
-            <button class="btn-carta txt-1vw">Borrar</button>
-
-        </div>
-        <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
-      </div>
-    <!--</div>-->
+  <div class="container-info info-plato">
+    <p>Nº Plato (por asignar)</p>
+      <input class="barra txt-1vm" type="text" value="" placeholder="Nombre"/>
+      <input class="barra txt-1vm" type="text" value="" placeholder="Descripción"/>
+      <input class="barra txt-1vm" type="text" value="" placeholder="Ingredientes"/>
+      <input class="barra txt-1vm" type="text" value="" placeholder="Precio"/>
+      <button class="btn-carta txt-1vw">Guardar</button>
+      <button class="btn-carta txt-1vw">Eliminar</button>
+      <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" class=""/>
+  </div>
 </template>
 
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
-@import '@/assets/styles/common/common.css';
+.container-info {
+  display: flex;
+  max-width: 70%;
+  margin: 0 auto;
+  justify-content: space-evenly;
+  flex-direction: column;
+  margin-bottom: 3%;
+}
+
+.container-info img {
+  width: 50%;
+  height: auto;
+}
 
 .info-plato {
   border: 3px solid var(--primary-300);
@@ -36,6 +33,12 @@
   box-sizing: border-box;
   padding: 10px 20px 30px 20px;
 }
+
+
+
+/* @import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/common/common.css';
+
 
 .info-plato img {
   width: 40%;
@@ -69,6 +72,6 @@
   box-sizing: border-box;
   padding: 10px 20px 30px 20px;
 }
-
+ */
 
 </style>
