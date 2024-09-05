@@ -31,7 +31,7 @@ import Footer from '@/components/common/Footer.vue';
     <div>
         <p class="txt-1-5vw"> Entrantes</p>
 
-        <div class="lista-platos">
+        <div class="lista-restaurantes">
             <EditDish/>
             <EditDish/>
             <EditDish/>
@@ -39,7 +39,7 @@ import Footer from '@/components/common/Footer.vue';
 
         <p class="txt-1-5vw"> Principales</p>
 
-        <div class="lista-platos">
+        <div class="lista-restaurantes">
             <EditDish/>
             <EditDish/>
             <EditDish/>
@@ -47,7 +47,7 @@ import Footer from '@/components/common/Footer.vue';
 
         <p class="txt-1-5vw"> Postres</p>
 
-        <div class="lista-platos">
+        <div class="lista-restaurantes">
             <EditDish/>
             <EditDish/>
             <EditDish/>
@@ -55,7 +55,7 @@ import Footer from '@/components/common/Footer.vue';
 
         <p class="txt-1-5vw"> Bebidas</p>
 
-        <div class="lista-platos">
+        <div class="lista-restaurantes">
             <EditDish/>
             <EditDish/>
             <EditDish/>
@@ -69,7 +69,14 @@ import Footer from '@/components/common/Footer.vue';
 
 @import '@/assets/styles/common/fonts.css';
 
-
+.lista-restaurantes {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  margin: 0 auto;
+  gap: 30px;
+  padding-bottom: 30px;
+}
 
 div{
    max-width: 70%;
