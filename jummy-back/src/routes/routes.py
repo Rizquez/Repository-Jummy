@@ -11,5 +11,5 @@ def home():
     a = MySQL.create_engine_mysql()
     b = MySQL.simple_query(a, 'select cif from restaurantes where id=:id', params= {'id': 41})
     print(b)
-
+    # Prueba de pedro
     return '<h1>hola</h1>'
