@@ -9,8 +9,8 @@ import Footer from '@/components/common/Footer.vue';
   <div class="container-general">
     <img src="../../../assets/images/general/logo-jummy.png" alt="Logo Jummy"/>
     <div class="button-container">
-      <router-link to="/company-menu" class="btn-loggin txt-2vw">Modificar Carta</router-link>
-      <router-link to="/company-menu" class="btn-loggin txt-2vw">Ver Carta</router-link>
+      <router-link to="/edit-menu" class="btn-loggin txt-2vw">Modificar Carta</router-link>
+      <router-link to="/look-menu" class="btn-loggin txt-2vw">Ver Carta</router-link>
     </div>
   </div>
   <div class="container-config">

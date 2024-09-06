@@ -45,7 +45,22 @@ const routes = [
         path: '/configuration',
         name: 'configuration',
         component: () => import('../views/ConfigurationView.vue')
+    },
+
+    {
+        path: '/look-menu',
+        name: 'look-menu',
+        component: () => import('../views/LookMenuView.vue')
+    },
+    {
+        path: '/edit-menu',
+        name: 'edit-menu',
+        component: () => import('../views/EditMenuView.vue')
     }
+
+
+    
+
 
 
 ]
