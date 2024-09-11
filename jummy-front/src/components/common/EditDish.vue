@@ -1,77 +1,61 @@
 <template>
-  <div class="container-info info-plato">
+  <div class="info-plato">
+<!--
+    <input v-model="dish.nombre" placeholder="Nombre del plato" />
+    <input v-model="dish.precio" placeholder="Precio" type="number" />
+    <textarea v-model="dish.descripcion" placeholder="Descripción"></textarea>
+    <button @click="$emit('remove')">Eliminar</button> -->
+    <!-- Prueba -->
     <p>Nº Plato (por asignar)</p>
-      <input class="barra txt-1vm" type="text" value="" placeholder="Nombre"/>
-      <input class="barra txt-1vm" type="text" value="" placeholder="Descripción"/>
-      <input class="barra txt-1vm" type="text" value="" placeholder="Ingredientes"/>
-      <input class="barra txt-1vm" type="text" value="" placeholder="Precio"/>
-      <button class="btn-carta txt-1vw">Guardar</button>
-      <button class="btn-carta txt-1vw">Eliminar</button>
-      <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" class=""/>
+    <input class="barra txt-1vm" type="text" value="" placeholder="Nombre"/>
+    <input class="barra txt-1vm" type="text" value="" placeholder="Descripción"/>
+    <input class="barra txt-1vm" type="text" value="" placeholder="Ingredientes"/>
+    <input class="barra txt-1vm" type="text" value="" placeholder="Precio"/>
+    <button class="btn-carta txt-1vw">Guardar</button>
+    <button class="btn-carta txt-1vw" @click="$emit('remove')">Eliminar</button>
+    <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" class=""/>
   </div>
 </template>
 
+<script>
+export default {
+  name: 'EditDish',
+  props: {
+    dish: {
+      type: Object,
+      required: true,
+    },
+  },
+};
+</script>
 
 <style scoped>
-.container-info {
-  display: flex;
-  max-width: 70%;
-  margin: 0 auto;
-  justify-content: space-evenly;
-  flex-direction: column;
-  margin-bottom: 3%;
+.dish-form {
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
-
-.container-info img {
-  width: 50%;
-  height: auto;
+input, textarea {
+  display: block;
+  margin-bottom: 10px;
 }
-
+/*
+button {
+  background-color: red;
+  color: white;
+  padding: 5px 10px;
+}*/
 .info-plato {
-  border: 3px solid var(--primary-300);
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 10px 20px 30px 20px;
+border: 3px solid var(--primary-300);
+border-radius: 20px;
+box-sizing: border-box;
+padding: 10px 20px 30px 20px;
+display: flex;
+max-width: 70%;
+margin: 0 auto;
+justify-content: space-evenly;
+flex-direction: column;
+margin-bottom: 3%;
 }
-
-
-
-/* @import '@/assets/styles/common/fonts.css';
-@import '@/assets/styles/common/common.css';
-
-
-.info-plato img {
-  width: 40%;
-  height: auto;
-}
-
-.container-info {
-  display: flex;
-  justify-content: space-between;
-}
-
-.btn-carta {
-  color: var(--text-100);
-  background-color: var(--primary-100);
-  padding: 10px 35px;
-  border: none;
-  cursor: pointer;
-  border-radius: 30px;
-  text-decoration: none;
-}
-.barra {
-    background-color: var(--bg-300);
-    width: calc(boton-buscador);
-    border-radius: 10px;
-    padding: 10px;
-}
-
-.info-restaurante {
-  border: 3px solid var(--primary-300);
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 10px 20px 30px 20px;
-}
- */
-
 </style>

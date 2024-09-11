@@ -57,12 +57,6 @@ const routes = [
         name: 'edit-menu',
         component: () => import('../views/EditMenuView.vue')
     }
-
-
-    
-
-
-
 ]
 
 const router = createRouter({

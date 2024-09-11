@@ -1,11 +1,10 @@
 <script setup>
-import EditDish from '@/components/common/EditDish.vue'
 import Footer from '@/components/common/Footer.vue';
 </script>
 
 
 <template>
-  <div>
+      <div>
     <h1>Carta</h1>
     <div class="container-nav">
       <div>
@@ -31,153 +30,113 @@ import Footer from '@/components/common/Footer.vue';
     </div>
   </div>
 
-  <div id="Entrantes">
-    <p class="txt-1-5vw">Entrantes</p>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-  </div>
-
-  <div id="Principales">
-    <p class="txt-1-5vw">Principales</p>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-  </div>
-
-  <div id="Postres">
-    <p class="txt-1-5vw">Postres</p>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-  </div>
-
-
-  <div id="Bebidas">
-    <p class="txt-1-5vw">Bebidas</p>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-    <EditDish/>
-  </div>
+    <div class = "continer-nav">
+      <!-- Sección Entrantes -->
+      <!--<div class="section">-->
+        <div class="section" id="Entrantes">
+        <p class="txt-1-5vw">Entrantes</p>
+        <button @click="addItem('entrantes')">Añadir Entrante</button>
+        <div v-for="(item, index) in entrantes" :key="'entrante-' + index">
+          <EditDish :dish="item" @remove="removeItem('entrantes', index)" />
+        </div>
+      </div>
   
-    
-  <!-- <router-link to="/look-menu" class="btn-carta txt-1vw">Ver menu</router-link> -->
+      <!-- Sección Principales -->
+      <div class="section" id="Principales">
+        <p class="txt-1-5vw">Principales</p>
+        <button @click="addItem('principales')">Añadir Principal</button>
+        <div v-for="(item, index) in principales" :key="'principal-' + index">
+          <EditDish :dish="item" @remove="removeItem('principales', index)" />
+        </div>
+      </div>
   
+      <!-- Sección Postres -->
+      <div class="section" id="Postres">
+        <p class="txt-1-5vw">Postres</p>
+        <button @click="addItem('postres')">Añadir Postre</button>
+        <div v-for="(item, index) in postres" :key="'postre-' + index">
+          <EditDish :dish="item" @remove="removeItem('postres', index)" />
+        </div>
+      </div>
+  
+      <!-- Sección Bebidas -->
+      <div class="section" id="Bebidas">
+        <p class="txt-1-5vw">Bebidas</p>
+        <button @click="addItem('bebidas')">Añadir Bebida</button>
+        <div v-for="(item, index) in bebidas" :key="'bebida-' + index">
+          <EditDish :dish="item" @remove="removeItem('bebidas', index)" />
+        </div>
+      </div>
+    </div>
+    <Footer/>
+  </template>
+  
+  <script>
+  import EditDish from '@/components/common/EditDish.vue';
 
-  <Footer/>
-</template>
+  
+  export default {
+    name: 'MenuEditor',
+    components: {
+      EditDish,
+    },
+    data() {
+      return {
+        entrantes: [],
+        principales: [],
+        postres: [],
+        bebidas: [],
+      };
+    },
+    methods: {
+      addItem(section) {
+        this[section].push({ nombre: '', precio: '', descripcion: '' }); // Añade un nuevo objeto plato vacío
+      },
+      removeItem(section, index) {
+        this[section].splice(index, 1); // Elimina el plato en la posición indicada
+      },
+    },
+  };
+  </script>
+  
+  <style>
 
-
-
-<style scoped>
-.container-nav {
+  .container-nav {
   display: flex;
   justify-content: space-between;
   max-width: 70%;
   margin: 0 auto;
-}
+  }
 
-.container-btn-salir {
-  display: flex;
-  flex-direction: column;
-}
-
-h1 {
-  text-align: center;
-}
-
-p {
-  text-align: center;
-}
-
-
-
-/* @import '@/assets/styles/common/fonts.css';
-@import '@/assets/styles/common/common.css';
-
-.lista-restaurantes {
-  display: flex;
+  .menu-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
   
-  flex-direction: column;
-  max-width: 70%;
-  margin: 0 auto;
-  gap: 30px;
-  padding-bottom: 30px;
-  padding: 10px 20px 30px 20px;
-}
+  .section {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  button {
+    margin-bottom: 10px;
+  }
 
-.info-restaurante {
-  border: 3px solid var(--primary-300);
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 10px 20px 30px 20px;
-}
-
-.container-info {
-  display: flex;
-  justify-content: space-between;
-}
-
-div {
-  max-width: 70%;
-  margin: 0 auto;
-  max-width: 70%;
-  margin: 0 auto;
-  position: sticky;
-  z-index: 999;
-}
-button {
-    background-color: var(--bg-200);
-    border: none;
-    color: var(--primary-300);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-
-.lista-platos {
+  .container-btn-salir {
   display: flex;
   flex-direction: column;
-  max-width: 100%;
-  margin: 0 auto;
-  gap: 30px;
-  padding-bottom: 30px;
-}
+  }
 
-
-h1 {
-  font-weight: lighter;
-  text-decoration: underline;
+  h1 {
   text-align: center;
-  color: var(--text-100);
-}
+  }
 
-.btn-carta {
-  color: var(--text-100);
-  background-color: var(--primary-100);
-  padding: 10px 35px;
-  border: none;
-  cursor: pointer;
-  border-radius: 30px;
-  text-decoration: none;
-}
-
-.boton-salir {
-  display: flex;
-  justify-content: flex-end;
-  color: var(--primary-300);
-  text-decoration: none;
-  cursor: pointer;
-  text-align: right;
-}
-
-li {
-    color: var(--primary-300);  
-} */
+  p {
+  text-align: center;
+  }
 
 
-</style>
+
+  </style>
