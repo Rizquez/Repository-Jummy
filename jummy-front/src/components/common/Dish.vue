@@ -1,15 +1,15 @@
-f<template>
-     <div id="plato" class="info-plato">
-      <div class="container-info">
-        <div>
-          <p class="txt-1vw">Nombre</p>
-          <p class="txt-1vw">Descripción</p>
-          <p class="txt-1vw">Ingredientes</p>
-          <p class="txt-1vw">Precio</p>
-        </div>
-        <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
+<template>
+  <div id="plato" class="info-plato">
+    <div class="container-info">
+      <div>
+        <p class="txt-1vw">Nombre</p>
+        <p class="txt-1vw">Descripción</p>
+        <p class="txt-1vw">Ingredientes</p>
+        <p class="txt-1vw">Precio</p>
       </div>
+      <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" />
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -18,6 +18,8 @@ f<template>
   border-radius: 20px;
   box-sizing: border-box;
   padding: 10px 20px 30px 20px;
+  position: relative; /* Ensure z-index is effective */
+  z-index: 1; /* Ensure it's lower than the popup's z-index */
 }
 
 .info-plato img {
@@ -39,5 +41,4 @@ f<template>
   border-radius: 30px;
   text-decoration: none;
 }
-
 </style>
