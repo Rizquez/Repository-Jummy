@@ -64,7 +64,7 @@ const agregarBebida = () => {
   <div class="contaniner-dish">
     <p class="txt-1-5vw">Entrantes</p>
     <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+        <button class="anadir" @click="mostrarPopupPlato">Añadir entrante</button>
     </div>
     <div class="lista-platos">
       <Dish />
@@ -75,7 +75,7 @@ const agregarBebida = () => {
   <div class="contaniner-dish">
     <p class="txt-1-5vw">Principales</p>
     <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+        <button class="anadir" @click="mostrarPopupPlato">Añadir principal</button>
     </div>
     <div class="lista-platos">
       <Dish />
@@ -86,7 +86,7 @@ const agregarBebida = () => {
   <div class="contaniner-dish">
     <p class="txt-1-5vw">Bebidas</p>
     <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+        <button class="anadir" @click="mostrarPopupBebida">Añadir bebida</button>
     </div>
     <div class="lista-platos">
       <Dish />
@@ -97,7 +97,7 @@ const agregarBebida = () => {
   <div class="contaniner-dish">
     <p class="txt-1-5vw">Postres</p>
     <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+        <button class="anadir" @click="mostrarPopupPlato">Añadir postre</button>
     </div>
     <div class="lista-platos">
       <Dish />
