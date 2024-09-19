@@ -1,6 +1,6 @@
 <template>
   <div class="info-plato">
-<!--
+    <!--
     <input v-model="dish.nombre" placeholder="Nombre del plato" />
     <input v-model="dish.precio" placeholder="Precio" type="number" />
     <textarea v-model="dish.descripcion" placeholder="Descripción"></textarea>
