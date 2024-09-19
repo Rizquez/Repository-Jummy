@@ -3,14 +3,16 @@ import Footer from '@/components/common/Footer.vue';
 </script>
 
 <template>
-  <div class="btn-volver-container">
-    <router-link to="/company-menu" class="btn-volver txt-1-5vw">Volver</router-link>
-  </div>
+  
   <div class="container-general">
     <p class="txt-3vw">Configuracion</p>
     <router-link to="/configuration" class="btn-config txt-2vw">Tipo de cuenta</router-link>
     <router-link to="/configuration" class="btn-config txt-2vw">Perfil Cliente</router-link>
     <router-link to="/configuration" class="btn-config txt-2vw">Eliminar Cuenta</router-link>
+  </div>
+  <div class="container-salir-volver">
+    <router-link to="/company-menu" class="btn-salir txt-1-5vw">Volver</router-link>
+    <router-link to="/company" class="btn-salir txt-1-5vw">Salir</router-link>
   </div>
   <Footer/>
 </template>
@@ -28,18 +30,20 @@ import Footer from '@/components/common/Footer.vue';
   max-width: 70%;
 }
 
-.btn-volver-container {
+.container-salir-volver {
   display: flex;
-  justify-content: flex-end;
-  max-width: 70%;
-  padding-top: 60px;
+  max-width: 25%;
+  padding: 50px 0px 20px 0px;
+  justify-content: space-between;
+  margin: 0 auto; 
 }
 
-.btn-volver {
+.btn-salir {
   color: var(--primary-300);
   text-decoration: none;
+  cursor: pointer;
+  text-align: right;
 }
-
 
 .btn-config {
   color: var(--text-100);

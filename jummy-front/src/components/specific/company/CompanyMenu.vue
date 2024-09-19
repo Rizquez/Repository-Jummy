@@ -10,11 +10,8 @@ import Footer from '@/components/common/Footer.vue';
     <img src="../../../assets/images/general/logo-jummy.png" alt="Logo Jummy"/>
     <div class="button-container">
       <router-link to="/edit-menu" class="btn-loggin txt-2vw">Modificar Carta</router-link>
-      <router-link to="/look-menu" class="btn-loggin txt-2vw">Ver Carta</router-link>
+      <router-link to="/configuration" class="btn-loggin txt-2vw">Configuracion</router-link>
     </div>
-  </div>
-  <div class="container-config">
-    <router-link to="/configuration" class="btn-config txt-1-5vw">Configuracion</router-link>
   </div>
   <Footer/>
 </template>
@@ -63,11 +60,6 @@ import Footer from '@/components/common/Footer.vue';
   cursor: pointer;
   border-radius: 50px;
   text-decoration: none;
-}
-
-.container-config {
-  max-width: 83%;
-  text-align: right;
 }
 
 .btn-config {
