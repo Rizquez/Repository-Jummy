@@ -46,86 +46,97 @@ const agregarBebida = () => {
 </script>
 
 <template>
-  <div>
-    <h1>Carta</h1>
-    <router-link to="/company-menu" class="boton-salir txt-1-5vw">Salir</router-link>
-    <router-link to="/look-menu" class="btn-carta txt-1vw">Ver menu</router-link>
-    <ul>
-      <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Entrantes</button></li>
-      <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Principales</button></li>
-      <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Postres</button></li>
-      <li><button class="txt-1-5vw" @click="mostrarPopupBebida">Bebidas</button></li>
-    </ul>
+  <h1 class="txt-3vw">Carta</h1>
+  <div class="container-btn-nav">
+    <div>
+      <ul>
+        <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Entrantes</button></li>
+        <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Principales</button></li>
+        <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Postres</button></li>
+        <li><button class="txt-1-5vw" @click="mostrarPopupBebida">Bebidas</button></li>
+      </ul>
+    </div>
+    <div class="container-volver-salir">
+      <router-link to="/company" class="btn-volver-salir txt-1-5vw">Salir</router-link>
+      <router-link to="/company-menu" class="btn-volver-salir txt-1-5vw">Volver</router-link>
+    </div>
+  </div>
+  <div class="contaniner-dish">
+    <p class="txt-1-5vw">Entrantes</p>
+    <div class="contaniner-anadir">
+        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+    </div>
+    <div class="lista-platos">
+      <Dish />
+      <Dish />
+      <Dish />
+    </div>
+  </div>
+  <div class="contaniner-dish">
+    <p class="txt-1-5vw">Principales</p>
+    <div class="contaniner-anadir">
+        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+    </div>
+    <div class="lista-platos">
+      <Dish />
+      <Dish />
+      <Dish />
+    </div>
+  </div>
+  <div class="contaniner-dish">
+    <p class="txt-1-5vw">Bebidas</p>
+    <div class="contaniner-anadir">
+        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+    </div>
+    <div class="lista-platos">
+      <Dish />
+      <Dish />
+      <Dish />
+    </div>
+  </div>
+  <div class="contaniner-dish">
+    <p class="txt-1-5vw">Postres</p>
+    <div class="contaniner-anadir">
+        <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
+    </div>
+    <div class="lista-platos">
+      <Dish />
+      <Dish />
+      <Dish />
+    </div>
   </div>
   
-  <div>
-    <p class="txt-1-5vw">Entrantes</p>
-    <div class="boton-anadir-container">
-      <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
-      
-      <!-- Popup (Modal) para plato -->
-      <div v-if="popupPlatoVisible" class="modal">
-        <h2>Añadir Nuevo Plato</h2>
-        <form @submit.prevent="agregarPlato">
-          <div>
-            <label for="nombre-plato">Nombre:</label>
-            <input type="text" id="nombre-plato" v-model="nuevoPlato.nombre" required />
-          </div>
-          <div>
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" v-model="nuevoPlato.descripcion" required></textarea>
-          </div>
-          <div>
-            <label for="ingredientes">Ingredientes:</label>
-            <textarea id="ingredientes" v-model="nuevoPlato.ingredientes" required></textarea>
-          </div>
-          <div>
-            <label for="precio">Precio:</label>
-            <input type="number" id="precio" v-model="nuevoPlato.precio" required />
-          </div>
-          <div class="modal-buttons">
-            <button type="submit">Guardar</button>
-            <button type="button" @click="cerrarPopupPlato">Cancelar</button>
-          </div>
-        </form>
-      </div>
+  <!-- Popup (Modal) para los platos -->
+  <div class="boton-anadir-container">
+    <div v-if="popupPlatoVisible" class="modal">
+      <h2>Añadir Nuevo Plato</h2>
+      <form @submit.prevent="agregarPlato">
+        <div>
+          <label for="nombre-plato">Nombre:</label>
+          <input type="text" id="nombre-plato" v-model="nuevoPlato.nombre" required />
+        </div>
+        <div>
+          <label for="descripcion">Descripción:</label>
+          <textarea id="descripcion" v-model="nuevoPlato.descripcion" required></textarea>
+        </div>
+        <div>
+          <label for="ingredientes">Ingredientes:</label>
+          <textarea id="ingredientes" v-model="nuevoPlato.ingredientes" required></textarea>
+        </div>
+        <div>
+          <label for="precio">Precio:</label>
+          <input type="number" id="precio" v-model="nuevoPlato.precio" required />
+        </div>
+        <div class="modal-buttons">
+          <button type="submit">Guardar</button>
+          <button type="button" @click="cerrarPopupPlato">Cancelar</button>
+        </div>
+      </form>
     </div>
+  </div>
 
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
-    </div>
-
-    <p class="txt-1-5vw">Principales</p>
-    <div class="boton-anadir-container">
-      <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
-    </div>
-
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
-    </div>
-
-    <p class="txt-1-5vw">Postres</p>
-    <div class="boton-anadir-container">
-      <button class="anadir" @click="mostrarPopupPlato">Añadir plato</button>
-    </div>
-
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
-    </div>
-
-    <p class="txt-1-5vw">Bebidas</p>
-    <div class="boton-anadir-container">
-      <button class="anadir" @click="mostrarPopupBebida">Añadir Bebida</button>
-    </div>
-
-    <!-- Popup (Modal) para bebida -->
-    <div v-if="popupBebidaVisible" class="modal">
+  <!-- Popup (Modal) para bebida -->
+  <div v-if="popupBebidaVisible" class="modal">
       <h2>Añadir Nueva Bebida</h2>
       <form @submit.prevent="agregarBebida">
         <div>
@@ -142,47 +153,30 @@ const agregarBebida = () => {
         </div>
       </form>
     </div>
-
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
-    </div>
-  </div>
-
   <Footer />
 </template>
 
 <style scoped>
 @import '@/assets/styles/common/fonts.css';
-
-div {
-  max-width: 70%;
-  margin: 0 auto;
-  position: relative;
-}
+@import '@/assets/styles/base.css';
 
 h1 {
-  font-weight: lighter;
-  text-decoration: underline;
+  font-weight: initial;
   text-align: center;
-  color: var(--text-100);
 }
 
-.boton-salir {
+.container-btn-nav {
   display: flex;
-  justify-content: flex-end;
-  color: var(--primary-300);
-  text-decoration: none;
-  cursor: pointer;
-  text-align: right;
+  max-width: 70%;
+  margin: 0 auto;
+  justify-content: space-between;
 }
 
-li {
+.container-btn-nav li {
   color: var(--primary-300);
 }
 
-button {
+.container-btn-nav button {
   background-color: var(--bg-200);
   border: none;
   color: var(--primary-300);
@@ -190,16 +184,37 @@ button {
   cursor: pointer;
 }
 
-p {
-  text-decoration: underline;
-  color: var(--primary-300);
-  text-align: center;
+.container-volver-salir {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.boton-anadir-container {
+.btn-volver-salir {
+  color: var(--primary-300);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: right;
+}
+
+.lista-platos {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 20px;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.contaniner-dish {
+  display: flex;
+  flex-direction: column;
+  max-width: 70%;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.contaniner-dish p {
+  text-align: center;
+  color: var(--primary-300);
+  margin: 0px;
 }
 
 .anadir {
@@ -210,28 +225,31 @@ p {
   text-decoration: underline;
 }
 
-.lista-platos {
+.contaniner-anadir {
   display: flex;
-  flex-direction: column;
-  max-width: 100%;
-  margin: 0 auto;
-  gap: 30px;
-  padding-bottom: 30px;
+  justify-content: flex-end;
+  padding-bottom: 10px;
 }
+
+
 
 .modal {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: white;
-  padding: 20px;
+  background-color: var(--bg-100);
+  padding: 40px;
   border-radius: 10px;
-  width: 90%;
+  width: 100%;
   max-width: 30rem;
   z-index: 10000; /* Aumentar z-index para asegurarse de que esté sobre todos los elementos */
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
-  border: 4px solid var(--primary-300); /* Añadir borde con color var(--primary-300) */
+  border: 3px solid var(--primary-300); /* Añadir borde con color var(--primary-300) */
+}
+
+.modal h2 {
+  text-align: center;
 }
 
 /* Estilo para los campos del formulario en el popup */
@@ -247,9 +265,9 @@ p {
 .modal form input[type="text"],
 .modal form input[type="number"],
 .modal form textarea {
-  width: 100%;
+  width: 96%;
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--primary-300);
   border-radius: 4px;
 }
 
@@ -269,6 +287,9 @@ p {
 }
 
 .modal-buttons button:nth-child(2) {
-  background-color: gray;
+  background-color: var(--text-300);
 }
+
 </style>
+
+
