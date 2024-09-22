@@ -103,13 +103,55 @@ class MySQLDataManager():
             df = pd.read_sql_query(text(consulta), connection, params=params)
             return df
 
+    # @classmethod
+    # def simple_query(self, engine, consulta, type_data='simple', params=None):
+    #     """
+    #     Apply
+    #     -----
+    #     Metodo para realizar una consulta sencilla sobre cualquier BBDD, este 
+    #     metodo funciona tanto para las consultas de SQL Server.
+
+    #     Parameters
+    #     ----------
+    #     engine: `SQLAlchemy.Engine`
+    #         Objeto engine de la libreria SQLAlchemy generado mediante el metodo 
+    #         de conexion a la BBDD.
+
+    #     consulta: `str`
+    #         Consulta en SQL para realizar sobre la bbdd en la cual se genero el 
+    #         objeto engine.
+
+    #     type_data: `str` - Default `simple`
+    #         Indica con `simple` si se retorna un valor unico o con `multi` si se 
+    #         retornan varios valores.
+
+    #     params: `dict` - Default `None`
+    #         Diccionario que sirve para indicar el valor de los parametros que son 
+    #         necesarios para la ejecucion de la consulta de SQL.
+
+    #     Returns
+    #     -------
+    #     - Tupla con la lista de los datos retornado de las diferentes columnas que se 
+    #     solicitaron en la consulta, es importante que cuando se retornen los datos se 
+    #     indice mediante el uso del indice `0` que se desea el primer valor de la tupla 
+    #     que sera la lista antes mencionada.
+    #     """
+    #     # Verificamos si el tipo de dato es multi o simple
+    #     if type_data not in ['simple', 'multi']:
+    #         raise ValueError("El parametro 'type_data' debe ser 'simple' o 'multi'")
+        
+    #     # Abrimos la conexion y capturamos los resultados devolviendo un tipo de dato en funcion de la cantidad de datos solicitados
+    #     with engine.connect() as conn:
+    #         result = conn.execute(text(consulta), params)
+    #         data = result.fetchone() if type_data == 'simple' else result.fetchall()
+    #         return data[0] if data else None
+        
     @classmethod
     def simple_query(self, engine, consulta, type_data='simple', params=None):
         """
         Apply
         -----
-        Metodo para realizar una consulta sencilla sobre cualquier BBDD, este 
-        metodo funciona tanto para las consultas de SQL Server.
+        Metodo para realizar una consulta sencilla sobre cualquier BBDD.
 
         Parameters
         ----------
@@ -131,18 +173,17 @@ class MySQLDataManager():
 
         Returns
         -------
-        - Tupla con la lista de los datos retornado de las diferentes columnas que se 
-        solicitaron en la consulta, es importante que cuando se retornen los datos se 
-        indice mediante el uso del indice `0` que se desea el primer valor de la tupla 
-        que sera la lista antes mencionada.
+        - Un diccionario con los datos retornados o None si no hay resultados.
         """
-        # Verificamos si el tipo de dato es multi o simple
         if type_data not in ['simple', 'multi']:
             raise ValueError("El parametro 'type_data' debe ser 'simple' o 'multi'")
-        
-        # Abrimos la conexion y capturamos los resultados devolviendo un tipo de dato en funcion de la cantidad de datos solicitados
+
         with engine.connect() as conn:
             result = conn.execute(text(consulta), params)
-            data = result.fetchone() if type_data == 'simple' else result.fetchall()
-            return data[0] if data else None
-        
+
+        if "INSERT" in consulta or "UPDATE" in consulta or "DELETE" in consulta:
+            conn.commit()  # Asegúrate de confirmar la transacción
+            return None  # Retorna None para operaciones de modificación
+
+        data = result.fetchone() if type_data == 'simple' else result.fetchall()
+        return data[0] if data else None
