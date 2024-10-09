@@ -1,5 +1,8 @@
-/* Estilos comunes sobre los diferentes componentes del proyecto */
-
+/********************************************
+Configuracion de los estilos comunes sobre 
+las secciones de navegacionde las diferentes 
+interfaces de usuario
+********************************************/
 .container-general {
     display: flex;
     justify-content: space-around;

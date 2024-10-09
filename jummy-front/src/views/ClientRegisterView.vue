@@ -1,40 +1,42 @@
 <script setup>
-import Footer from '@/components/common/Footer.vue';
+import Footer from '@/components/Footer.vue';
 </script>
 
 <template>
-  <header>
+  <main>
+    <header>
     <h1 class="txt-2vw">Formulario de registro para clientes</h1>
-  </header>
-  <form>
-    <div class="input-group">
-      <input type="text" placeholder="Nombre"/>
-      <input type="text" placeholder="Apellidos"/>
-    </div>
-    <input type="text" placeholder="Dirección"/>
-    <div class="input-group">
-      <input type="text" placeholder="Localidad"/>
-      <input type="text" placeholder="Código Postal"/>
-    </div>
-    <div class="input-group">
-      <input type="text" placeholder="Teléfono"/>
-      <input type="email" placeholder="Correo electrónico"/>
-    </div>
-    <div class="input-group">
-        <input type="password" placeholder="Contraseña"/>
-        <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
-    </div>
-    <div class="div-button">
-      <button type="submit" class="form-button txt-1vw">Registrarme</button>
-      <router-link to="/" class="form-button txt-1vw">Volver</router-link>
-    </div>
-  </form>
-  <Footer/>
+    </header>
+    <form>
+      <div class="input-group">
+        <input type="text" placeholder="Nombre"/>
+        <input type="text" placeholder="Apellidos"/>
+      </div>
+      <input type="text" placeholder="Dirección"/>
+      <div class="input-group">
+        <input type="text" placeholder="Localidad"/>
+        <input type="text" placeholder="Código Postal"/>
+      </div>
+      <div class="input-group">
+        <input type="text" placeholder="Teléfono"/>
+        <input type="email" placeholder="Correo electrónico"/>
+      </div>
+      <div class="input-group">
+          <input type="password" placeholder="Contraseña"/>
+          <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
+      </div>
+      <div class="div-button">
+        <button type="submit" class="form-button txt-1vw">Registrarme</button>
+        <router-link :to="{ name: 'client-home' }" class="form-button txt-1vw">Volver</router-link>
+      </div>
+    </form>
+    <Footer/>
+  </main>
 </template>
 
 <style scoped>
 
-@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/fonts.css';
 
 header {
   padding-top: 2%;

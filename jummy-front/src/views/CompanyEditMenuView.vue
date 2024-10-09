@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import Dish from '@/components/common/Dish.vue';
-import Footer from '@/components/common/Footer.vue';
+import Dish from '@/components/Dish.vue';
+import Footer from '@/components/Footer.vue';
 
 // Variables de estado
 const popupPlatoVisible = ref(false);
@@ -46,65 +46,68 @@ const agregarBebida = () => {
 </script>
 
 <template>
-  <h1 class="txt-3vw">Carta</h1>
-  <div class="container-btn-nav">
-    <div>
-      <ul>
-        <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Entrantes</button></li>
-        <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Principales</button></li>
-        <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Postres</button></li>
-        <li><button class="txt-1-5vw" @click="mostrarPopupBebida">Bebidas</button></li>
-      </ul>
+  <main>
+    <h1 class="txt-3vw">Carta</h1>
+    <div class="container-btn-nav">
+      <div>
+        <ul>
+          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Entrantes</button></li>
+          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Principales</button></li>
+          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Postres</button></li>
+          <li><button class="txt-1-5vw" @click="mostrarPopupBebida">Bebidas</button></li>
+        </ul>
+      </div>
+      <div class="container-volver-salir">
+        <router-link :to="{ name: 'company-home' }" class="btn-volver-salir txt-1-5vw">Salir</router-link>
+        <router-link :to="{ name: 'company-menu' }" class="btn-volver-salir txt-1-5vw">Volver</router-link>
+      </div>
     </div>
-    <div class="container-volver-salir">
-      <router-link to="/company" class="btn-volver-salir txt-1-5vw">Salir</router-link>
-      <router-link to="/company-menu" class="btn-volver-salir txt-1-5vw">Volver</router-link>
+    <div class="contaniner-dish">
+      <p class="txt-1-5vw">Entrantes</p>
+      <div class="contaniner-anadir">
+          <button class="anadir" @click="mostrarPopupPlato">Añadir entrante</button>
+      </div>
+      <div class="lista-platos">
+        <Dish />
+        <Dish />
+        <Dish />
+      </div>
     </div>
-  </div>
-  <div class="contaniner-dish">
-    <p class="txt-1-5vw">Entrantes</p>
-    <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupPlato">Añadir entrante</button>
+    <div class="contaniner-dish">
+      <p class="txt-1-5vw">Principales</p>
+      <div class="contaniner-anadir">
+          <button class="anadir" @click="mostrarPopupPlato">Añadir principal</button>
+      </div>
+      <div class="lista-platos">
+        <Dish />
+        <Dish />
+        <Dish />
+      </div>
     </div>
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
+    <div class="contaniner-dish">
+      <p class="txt-1-5vw">Bebidas</p>
+      <div class="contaniner-anadir">
+          <button class="anadir" @click="mostrarPopupBebida">Añadir bebida</button>
+      </div>
+      <div class="lista-platos">
+        <Dish />
+        <Dish />
+        <Dish />
+      </div>
     </div>
-  </div>
-  <div class="contaniner-dish">
-    <p class="txt-1-5vw">Principales</p>
-    <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupPlato">Añadir principal</button>
+    <div class="contaniner-dish">
+      <p class="txt-1-5vw">Postres</p>
+      <div class="contaniner-anadir">
+          <button class="anadir" @click="mostrarPopupPlato">Añadir postre</button>
+      </div>
+      <div class="lista-platos">
+        <Dish />
+        <Dish />
+        <Dish />
+      </div>
     </div>
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
-    </div>
-  </div>
-  <div class="contaniner-dish">
-    <p class="txt-1-5vw">Bebidas</p>
-    <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupBebida">Añadir bebida</button>
-    </div>
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
-    </div>
-  </div>
-  <div class="contaniner-dish">
-    <p class="txt-1-5vw">Postres</p>
-    <div class="contaniner-anadir">
-        <button class="anadir" @click="mostrarPopupPlato">Añadir postre</button>
-    </div>
-    <div class="lista-platos">
-      <Dish />
-      <Dish />
-      <Dish />
-    </div>
-  </div>
+    <Footer/>
+  </main>
   
   <!-- Popup (Modal) para los platos -->
   <div class="boton-anadir-container">
@@ -153,12 +156,10 @@ const agregarBebida = () => {
         </div>
       </form>
     </div>
-  <Footer />
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
-@import '@/assets/styles/base.css';
+@import '@/assets/styles/fonts.css';
 
 h1 {
   font-weight: initial;
@@ -230,8 +231,6 @@ h1 {
   justify-content: flex-end;
   padding-bottom: 10px;
 }
-
-
 
 .modal {
   position: fixed;
