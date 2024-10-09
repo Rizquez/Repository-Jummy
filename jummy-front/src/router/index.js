@@ -3,53 +3,53 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: () => import('../views/HomeView.vue')
+        name: 'client-home',
+        component: () => import('@/views/ClientHomeView.vue')
     },
     {
-        path: '/company', 
-        name: 'company',
-        component: () => import('../views/CompanyView.vue')
+        path: '/', 
+        name: 'company-home',
+        component: () => import('@/views/CompanyHomeView.vue')
     },
     {
-        path: '/register-client',
-        name: 'register-client',
-        component: () => import('../views/RegisterClientView.vue')
+        path: '/registro',
+        name: 'client-register',
+        component: () => import('@/views/ClientRegisterView.vue')
     },
     {
-        path: '/register-company',
-        name: 'register-company',
-        component: () => import('../views/RegisterCompanyView.vue')
+        path: '/registro',
+        name: 'company-register',
+        component: () => import('@/views/CompanyRegisterView.vue')
     },
     {
-        path: '/password-recovery',
+        path: '/recuperar-cuenta',
         name: 'password-recovery',
-        component: () => import('../views/PasswordRecoveryView.vue')
+        component: () => import('@/views/PasswordRecoveryView.vue')
     },
     {
-        path: '/gastronomy',
-        name: 'gastronomy',
-        component: () => import('../views/GastronomyView.vue')
+        path: '/gastronomia',
+        name: 'client-gastronomy',
+        component: () => import('@/views/ClientGastronomyView.vue')
     },
     {
-        path: '/restaurant/:type',
-        name: 'restaurant',
-        component: () => import('../views/RestaurantView.vue')
+        path: '/restaurante/:type',
+        name: 'client-restaurant',
+        component: () => import('@/views/ClientListRestaurantView.vue')
     },
     {
-        path: '/company-menu',
+        path: '/empresa',
         name: 'company-menu',
-        component: () => import('../views/CompanyMenuView.vue')
+        component: () => import('@/views/CompanyMenuView.vue')
     },
     {
-        path: '/configuration',
-        name: 'configuration',
-        component: () => import('../views/ConfigurationView.vue')
+        path: '/configuracion',
+        name: 'company-configuration',
+        component: () => import('@/views/CompanyConfigurationView.vue')
     },
     {
-        path: '/edit-menu',
-        name: 'edit-menu',
-        component: () => import('../views/EditMenuView.vue')
+        path: '/editar-menu',
+        name: 'company-edit-menu',
+        component: () => import('@/views/CompanyEditMenuView.vue')
     }
 ]
 
