@@ -11,7 +11,7 @@ const props = defineProps({
 <template>
    <header>
         <div class="contenedor-fijo">
-            <img src="../../assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
+            <img src="@/assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
             <div class="contenedor-general">
                 <div class="salir-volver">
                     <router-link to="/" class="boton-salir txt-1-5vw">Salir</router-link>

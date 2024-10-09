@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import GastronomyRestaurant from '@/components/common/HeaderClient.vue'
-import Footer from '@/components/common/Footer.vue';
+import HeaderClient from '@/components/HeaderClient.vue'
+import Footer from '@/components/Footer.vue';
 
 const route = useRoute()
 const type = computed(() => route.params.type)
@@ -16,24 +16,26 @@ const restaurantes = ref([1, 2, 3]);
 </script>
 
 <template>
-  <GastronomyRestaurant :show-return="true"/>
-  <div class="contenedor-scroll">
-    <button v-if="imageUrl" class="boton-gastronomia txt-1-5vw" :style="{ backgroundImage: `url(${imageUrl})` }">{{ type }}</button>
-  </div>
-  <div class="lista-restaurantes">
-    <div v-for="(restaurante, index) in restaurantes" :key="index" id="restaurante" class="info-restaurante">
-      <div class="container-info">
-        <div>
-          <p class="txt-1vw">Nombre del restaurante</p>
-          <p class="txt-1vw">Gastronomia del restaurante</p>
-          <p class="txt-1vw">Descripcion del restaurante</p>
-        </div>
-        <img src="../../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
-      </div>
-      <router-link to="/gastronomy" class="btn-carta txt-1vw">Ver carta</router-link>
+  <main>
+    <HeaderClient :show-return="true"/>
+    <div class="contenedor-scroll">
+      <button v-if="imageUrl" class="boton-gastronomia txt-1-5vw" :style="{ backgroundImage: `url(${imageUrl})` }">{{ type.toUpperCase() }}</button>
     </div>
-  </div>
-  <Footer/>
+    <div class="lista-restaurantes">
+      <div v-for="(restaurante, index) in restaurantes" :key="index" id="restaurante" class="info-restaurante">
+        <div class="container-info">
+          <div>
+            <p class="txt-1vw">Nombre del restaurante</p>
+            <p class="txt-1vw">Gastronomia del restaurante</p>
+            <p class="txt-1vw">Descripcion del restaurante</p>
+          </div>
+          <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
+        </div>
+        <router-link to="/gastronomy" class="btn-carta txt-1vw">Ver carta</router-link>
+      </div>
+    </div>
+    <Footer/>
+  </main>
 </template>
 
 <style scoped>
@@ -76,3 +78,4 @@ const restaurantes = ref([1, 2, 3]);
   text-decoration: none;
 }
 </style>
+

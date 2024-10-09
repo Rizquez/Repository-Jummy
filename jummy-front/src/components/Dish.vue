@@ -7,7 +7,7 @@
         <p class="txt-1vw">Ingredientes</p>
         <p class="txt-1vw">Precio</p>
       </div>
-      <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" />
+      <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" />
     </div>
   </div>
 </template>
