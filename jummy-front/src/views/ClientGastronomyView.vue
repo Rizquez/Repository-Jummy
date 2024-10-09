@@ -5,7 +5,7 @@ import Footer from '@/components/Footer.vue';
 
 const router = useRouter();
 function redirectToRestaurant(type) {
-  router.push({ name: 'restaurant', params: { type } });
+  router.push({ name: 'client-restaurant', params: { type } });
 }
 </script>
 
@@ -27,8 +27,8 @@ function redirectToRestaurant(type) {
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
-@import '@/assets/styles/common/common.css';
+@import '@/assets/styles/fonts.css';
+@import '@/assets/styles/common.css';
 
 #japonesa {
     background-image: url(@/assets/images/gastronomy/japonesa.jpg);

@@ -55,10 +55,13 @@ El proyecto está organizado en tres directorios principales, lo que facilita su
 ├── src
 │   ├── assets
 │   │   ├── images/...
-│   │   └── styles/...
+│   │   ├── styles/...
+│   │   └── main.css
 │   ├── components
-│   │   ├── common/...
-│   │   └── specific/...
+│   │   ├── Dish.vue
+│   │   ├── Footer.vue
+│   │   ├── HeaderClient.vue
+│   │   └── HeaderHome.vue
 │   ├── router
 │   │   └── index.js
 │   ├── stores

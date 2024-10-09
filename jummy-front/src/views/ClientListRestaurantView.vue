@@ -39,8 +39,8 @@ const restaurantes = ref([1, 2, 3]);
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
-@import '@/assets/styles/common/common.css';
+@import '@/assets/styles/fonts.css';
+@import '@/assets/styles/common.css';
 
 .lista-restaurantes {
   display: flex;

@@ -3,51 +3,51 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     {
         path: '/',
-        name: 'home',
+        name: 'client-home',
         component: () => import('@/views/ClientHomeView.vue')
     },
     {
-        path: '/company', 
-        name: 'company',
+        path: '/', 
+        name: 'company-home',
         component: () => import('@/views/CompanyHomeView.vue')
     },
     {
-        path: '/register-client',
+        path: '/registro',
         name: 'client-register',
         component: () => import('@/views/ClientRegisterView.vue')
     },
     {
-        path: '/register-company',
+        path: '/registro',
         name: 'company-register',
         component: () => import('@/views/CompanyRegisterView.vue')
     },
     {
-        path: '/password-recovery',
+        path: '/recuperar-cuenta',
         name: 'password-recovery',
         component: () => import('@/views/PasswordRecoveryView.vue')
     },
     {
-        path: '/gastronomy',
-        name: 'clien-gastronomy',
+        path: '/gastronomia',
+        name: 'client-gastronomy',
         component: () => import('@/views/ClientGastronomyView.vue')
     },
     {
-        path: '/restaurant/:type',
+        path: '/restaurante/:type',
         name: 'client-restaurant',
         component: () => import('@/views/ClientListRestaurantView.vue')
     },
     {
-        path: '/company-menu',
+        path: '/empresa',
         name: 'company-menu',
         component: () => import('@/views/CompanyMenuView.vue')
     },
     {
-        path: '/configuration',
+        path: '/configuracion',
         name: 'company-configuration',
         component: () => import('@/views/CompanyConfigurationView.vue')
     },
     {
-        path: '/edit-menu',
+        path: '/editar-menu',
         name: 'company-edit-menu',
         component: () => import('@/views/CompanyEditMenuView.vue')
     }

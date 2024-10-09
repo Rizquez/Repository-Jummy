@@ -14,12 +14,12 @@ const props = defineProps({
             <img src="@/assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
             <div class="contenedor-general">
                 <div class="salir-volver">
-                    <router-link to="/" class="boton-salir txt-1-5vw">Salir</router-link>
-                    <router-link v-if="showReturn" to="/gastronomy" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
+                    <router-link :to="{ name: 'client-home' }" class="boton-salir txt-1-5vw">Salir</router-link>
+                    <router-link v-if="showReturn" :to="{ name: 'client-gastronomy' }" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
                 </div>
                 <div class="contenedor-general">
                     <input class="barra txt-1-5vw" type="text" value="" placeholder="Busca en Jummy">
-                    <router-link to="/gastronomy" class="boton-buscador txt-1-5vw">Buscar</router-link>
+                    <router-link :to="{ name: 'client-gastronomy' }" class="boton-buscador txt-1-5vw">Buscar</router-link>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/fonts.css';
 
 .contenedor-general {
     display: flex;

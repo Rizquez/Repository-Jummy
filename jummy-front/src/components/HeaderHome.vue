@@ -3,14 +3,14 @@
 
 <template>
   <header class="container-general">
-    <router-link to="/company" class="nav-link txt-2vw">Cuenta Profesional</router-link>
-    <router-link to="/" class="nav-link txt-2vw">Cuenta Cliente</router-link>
+    <router-link :to="{ name: 'company-home' }" class="nav-link txt-2vw">Cuenta Profesional</router-link>
+    <router-link :to="{ name: 'client-home' }" class="nav-link txt-2vw">Cuenta Cliente</router-link>
   </header>
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/common.css';
-@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/common.css';
+@import '@/assets/styles/fonts.css';
 
 header{
   padding-top: 3%;

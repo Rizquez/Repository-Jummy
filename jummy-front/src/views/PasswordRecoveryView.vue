@@ -16,7 +16,7 @@ import Footer from '@/components/Footer.vue';
         </div>
         <div class="button-group">
           <button type="submit" class="form-button txt-1vw">Restablecer la contraseña</button>
-          <router-link to="/" class="form-button txt-1vw">Volver</router-link>
+          <router-link :to="{ name: 'client-home' }" class="form-button txt-1vw">Volver</router-link>
         </div>
       </form>
     </div>
@@ -25,7 +25,7 @@ import Footer from '@/components/Footer.vue';
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/fonts.css';
 
 header {
   padding-top: 2%;

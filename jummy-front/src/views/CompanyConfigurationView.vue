@@ -6,20 +6,20 @@ import Footer from '@/components/Footer.vue';
   <main>
     <div class="container-general">
       <p class="txt-3vw">Configuracion</p>
-      <router-link to="/configuration" class="btn-config txt-2vw">Tipo de cuenta</router-link>
-      <router-link to="/configuration" class="btn-config txt-2vw">Perfil Cliente</router-link>
-      <router-link to="/configuration" class="btn-config txt-2vw">Eliminar Cuenta</router-link>
+      <router-link :to="{ name: 'company-configuration' }" class="btn-config txt-2vw">Tipo de cuenta</router-link>
+      <router-link :to="{ name: 'company-configuration' }" class="btn-config txt-2vw">Perfil Cliente</router-link>
+      <router-link :to="{ name: 'company-configuration' }" class="btn-config txt-2vw">Eliminar Cuenta</router-link>
     </div>
     <div class="container-salir-volver">
-      <router-link to="/company-menu" class="btn-salir txt-1-5vw">Volver</router-link>
-      <router-link to="/company" class="btn-salir txt-1-5vw">Salir</router-link>
+      <router-link :to="{ name: 'company-menu' }" class="btn-salir txt-1-5vw">Volver</router-link>
+      <router-link :to="{ name: 'company-home' }" class="btn-salir txt-1-5vw">Salir</router-link>
     </div>
     <Footer/>
   </main>
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/fonts.css';
 
 .container-general {
   display: flex;

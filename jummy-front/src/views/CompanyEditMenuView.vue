@@ -58,8 +58,8 @@ const agregarBebida = () => {
         </ul>
       </div>
       <div class="container-volver-salir">
-        <router-link to="/company" class="btn-volver-salir txt-1-5vw">Salir</router-link>
-        <router-link to="/company-menu" class="btn-volver-salir txt-1-5vw">Volver</router-link>
+        <router-link :to="{ name: 'company-home' }" class="btn-volver-salir txt-1-5vw">Salir</router-link>
+        <router-link :to="{ name: 'company-menu' }" class="btn-volver-salir txt-1-5vw">Volver</router-link>
       </div>
     </div>
     <div class="contaniner-dish">
@@ -159,8 +159,7 @@ const agregarBebida = () => {
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
-@import '@/assets/styles/base.css';
+@import '@/assets/styles/fonts.css';
 
 h1 {
   font-weight: initial;

@@ -16,7 +16,7 @@ const props = defineProps({
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/fonts.css';
 
 footer {
     padding-top: 20px;

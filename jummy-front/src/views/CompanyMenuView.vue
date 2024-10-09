@@ -5,13 +5,13 @@ import Footer from '@/components/Footer.vue';
 <template>
   <main>
     <div class="btn-volver-container">
-      <router-link to="/company" class="btn-volver txt-1-5vw">Salir</router-link>
+      <router-link :to="{ name: 'company-home' }" class="btn-volver txt-1-5vw">Salir</router-link>
     </div>
     <div class="container-general">
       <img src="@/assets/images/general/logo-jummy.png" alt="Logo Jummy"/>
       <div class="button-container">
-        <router-link to="/edit-menu" class="btn-loggin txt-2vw">Modificar Carta</router-link>
-        <router-link to="/configuration" class="btn-loggin txt-2vw">Configuracion</router-link>
+        <router-link :to="{ name: 'company-edit-menu' }" class="btn-loggin txt-2vw">Modificar Carta</router-link>
+        <router-link :to="{ name: 'company-configuration' }" class="btn-loggin txt-2vw">Configuracion</router-link>
       </div>
     </div>
     <Footer/>
@@ -19,7 +19,7 @@ import Footer from '@/components/Footer.vue';
 </template>
 
 <style scoped>
-@import '@/assets/styles/common/fonts.css';
+@import '@/assets/styles/fonts.css';
 
 .btn-volver-container {
   display: flex;
