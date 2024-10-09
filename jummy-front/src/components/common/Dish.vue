@@ -18,8 +18,8 @@
   border-radius: 20px;
   box-sizing: border-box;
   padding: 10px 20px 30px 20px;
-  position: relative; /* Ensure z-index is effective */
-  z-index: 1; /* Ensure it's lower than the popup's z-index */
+  position: relative;
+  z-index: 1;
 }
 
 .info-plato img {

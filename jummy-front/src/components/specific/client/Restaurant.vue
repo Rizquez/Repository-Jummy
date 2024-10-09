@@ -1,8 +1,8 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import GastronomyRestaurant from '@/components/common/headers/GastronomyRestaurant.vue'
-import Footer from './Footer.vue';
+import GastronomyRestaurant from '@/components/common/HeaderClient.vue'
+import Footer from '@/components/common/Footer.vue';
 
 const route = useRoute()
 const type = computed(() => route.params.type)
@@ -28,7 +28,7 @@ const restaurantes = ref([1, 2, 3]);
           <p class="txt-1vw">Gastronomia del restaurante</p>
           <p class="txt-1vw">Descripcion del restaurante</p>
         </div>
-        <img src="../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
+        <img src="../../../assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
       </div>
       <router-link to="/gastronomy" class="btn-carta txt-1vw">Ver carta</router-link>
     </div>

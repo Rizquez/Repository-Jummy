@@ -1,10 +1,10 @@
 <script setup>
-import ClientCompany from '@/components/common/headers/ClientCompany.vue';
+import HeaderHome from '@/components/common/HeaderHome.vue';
 import Footer from '@/components/common/Footer.vue';
 </script>
 
 <template>
-  <ClientCompany/>
+  <HeaderHome/>
   <section class="container-general">
     <img src="../../../assets/images/general/logo-jummy.png" alt="Logo Jummy"/>
     <div>

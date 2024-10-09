@@ -1,6 +1,6 @@
 <script setup>
 import { useRouter } from 'vue-router';
-import GastronomyRestaurant from '@/components/common/headers/GastronomyRestaurant.vue';
+import HeaderClient from '@/components/common/HeaderClient.vue';
 import Footer from '@/components/common/Footer.vue';
 
 const router = useRouter();
@@ -11,7 +11,7 @@ function redirectToRestaurant(type) {
 </script>
 
 <template>
-    <GastronomyRestaurant/>
+    <HeaderClient/>
     <section>
         <div class="contenedor-scroll">
             <button @click="() => redirectToRestaurant('japonesa')" class="boton-gastronomia txt-1-5vw" id="japonesa">JAPONESA</button>
