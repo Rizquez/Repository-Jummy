@@ -1,34 +1,105 @@
 # JUMMY - La nueva era de la hostelería digital
-Bienvenido a Jummy, la aplicación revolucionaria que transformará la manera en que los restaurantes interactúan con sus clientes. Diseñada para modernizar y optimizar el servicio de hostelería, Jummy permite a los restaurantes gestionar digitalmente sus menús, pedidos y pagos, mejorando la eficiencia operativa y enriqueciendo la experiencia del cliente y permitiendo a los clientes visualizar los diferentes restaurantes separados por gastronomias y autogestionarse las comandas enviandolas directamente a cocina.
 
-## Caracteristicas
-- Gestión de Menús Digitales: Facilita a los restaurantes la creación, modificación y visualización de menús digitales atractivos e intuitivos, accesibles directamente desde cualquier dispositivo móvil.
-Sistema de Pedidos Integrado: Permite a los clientes realizar pedidos directamente a través de la aplicación, reduciendo tiempos de espera y mejorando la precisión de los pedidos.
-- Proceso de Pago Seguro: Ofrece un método de pago integrado y seguro, permitiendo a los clientes pagar sus comandas desde su propio dispositivo, lo que aumenta la seguridad y reduce los riesgos de impago.
-- Análisis y Reportes: Proporciona a los restaurantes herramientas de análisis para evaluar el rendimiento de ventas, preferencias de los clientes y más, ayudando a tomar decisiones informadas para mejorar el servicio.
-- Soporte Multilingüe: Asegura que tanto operadores como clientes puedan utilizar la aplicación en varios idiomas, ampliando el alcance del servicio.
+![img](images/jummy-home-app.jpg)
 
-## Tecnologia
-Jummy está construida con tecnologías de punta que aseguran rapidez, seguridad y una excelente experiencia de usuario. Algunas de las tecnologías utilizadas incluyen:
-- Backend: Python
-- Frontend: VueJs
-- Base de datos: MySQL
-- Seguridad: Implementación de SSL/TLS (Netlify), autenticación JWT (Auth0)
-- Infraestructura: Despliegue en Netlify y almancenamiento de la Base de Datos en Clever Cloud
+## 🧾 Descripción del Proyecto
+Jummy es la aplicación revolucionaria diseñada para transformar la interacción entre restaurantes y clientes, llevando la industria de la hostelería a la era digital. Con un enfoque en la optimización y modernización del servicio, Jummy permite a los restaurantes gestionar de manera eficiente sus menús, pedidos y pagos, mejorando tanto la experiencia del cliente como la operativa del restaurante. A través de la aplicación, los clientes pueden explorar diversos restaurantes clasificados por gastronomía, autogestionar sus pedidos y enviarlos directamente a la cocina.
 
-## Descripcion de las ramas de trabajo en Git
-- main: esta es la rama principal, la cual es llevada a `Netlify` para el despliegue y visualizacion de la web.
-- develop: esta rama es la que recibie todo el desarrollo nuevo y cambios que se realicen sobre el proyecto, basicamente sera un filtro para evitar que algo que llegue a la rama main sin testear y que pueda dañar algo que se encuentre operativo.
-- __dev_pedro__: en esta rama trabaja `Pedro`.
-- __dev_mario__: en esta rama trabaja `Mario`.
-- __dev_marc__: en esta rama trabaja `Marc`.
-- __dev_inigo__: en esta rama trabaja `Iñigo`.
+## 📑 Contexto
+En los últimos años, la digitalización ha transformado múltiples sectores, y la hostelería no es la excepción. Sin embargo, muchos restaurantes aún enfrentan desafíos en la adopción de soluciones tecnológicas que mejoren tanto su eficiencia operativa como la experiencia del cliente. La falta de integración entre sistemas de pedidos, pagos, y gestión de menús digitales genera ineficiencias, errores y una experiencia insatisfactoria para el cliente.
+
+A raíz de la pandemia de COVID-19, la necesidad de adoptar soluciones digitales en la hostelería se volvió aún más urgente, con una creciente demanda de opciones sin contacto, como los pedidos online y pagos digitales. Sin embargo, muchas soluciones en el mercado son complejas, costosas o no están adaptadas a las necesidades específicas de pequeños y medianos restaurantes.
+
+Jummy nace de esta necesidad. Su misión es ofrecer una plataforma intuitiva, accesible y asequible que permita a los restaurantes gestionar digitalmente sus operaciones y mejorar la experiencia del cliente. Con Jummy, los restaurantes pueden ofrecer menús digitales interactivos, recibir pedidos en tiempo real directamente en la cocina y gestionar pagos de manera segura, todo desde una única aplicación. Además, Jummy ayuda a los restaurantes a diferenciarse al permitir que los clientes descubran nuevos lugares basados en sus preferencias gastronómicas, facilitando la visibilidad de los restaurantes en el mercado local.
+
+Jummy no solo mejora la eficiencia del servicio, sino que también beneficia a los clientes, dándoles más control sobre su experiencia en el restaurante, desde la selección del menú hasta el pago final. De esta manera, la aplicación busca revolucionar la hostelería, simplificando los procesos, reduciendo los errores y potenciando la satisfacción del cliente.
+
+## 🚀 Funcionalidades Clave
+- __Gestión de Menús Digitales:__ Los restaurantes pueden crear, editar y visualizar menús digitales atractivos y fáciles de usar, accesibles desde cualquier dispositivo móvil.
+- __Sistema de Pedidos Integrado:__ Los clientes pueden realizar sus pedidos directamente desde la aplicación, lo que reduce tiempos de espera y minimiza errores en los pedidos.
+- __Proceso de Pago Seguro:__ Jummy incluye una opción de pago integrada y segura, que permite a los clientes realizar pagos desde su propio dispositivo, mejorando la seguridad y reduciendo riesgos de impago.
+- __Análisis y Reportes:__ Los restaurantes tienen acceso a herramientas de análisis que les permiten evaluar el rendimiento de ventas, las preferencias de los clientes y otros indicadores clave, facilitando la toma de decisiones informadas.
+- __Soporte Multilingüe:__ La aplicación ofrece soporte en varios idiomas, asegurando su accesibilidad para usuarios de diferentes regiones y culturas.
+
+## 🛠️ Tecnologías Utilizadas
+Jummy está construido con una sólida base tecnológica que garantiza velocidad, seguridad y una excelente experiencia de usuario. Entre las tecnologías empleadas se incluyen:
+- Backend: `Flask`.
+- Frontend: `Vue.js`.
+- Base de datos: `MySQL`.
+- Seguridad: Autenticación JWT (`Auth0`).
+- Infraestructura: Despliegue del Frontend en `Netlify` y del Backend en `Render`; almacenamiento de la Base de Datos en linea en `Clever Cloud`.
+
+## 📂 Estructura del Proyecto
+El proyecto está organizado en tres directorios principales, lo que facilita su mantenimiento y escalabilidad. Debido a la cantidad de carpetas y archivos involucrados, se ha separado en las siguientes secciones para una mejor comprensión:
+
+### jummy-back (Backend)
+```
+├── config
+│   └── config.py
+├── src
+│   ├── models
+│   │   └── models.py
+│   ├── routes
+│   │   └── routes.py
+│   └── tools
+│       └── tools.py
+├── .gitignore
+└── main.py
+```
+> [!IMPORTANT]
+> Dentro de `jummy-back` debe existir un fichero llamado `.env` el cual contiene las variables de entonro necesarias para la ejecucion del proyecto. Por seguridad este fichero nunca es subido a `GitHub` y el mismo esta configurado para generarse durante el despliegue a produccion del Backend. De necesitar los valores de estos parametros, conmuniquese con los responsables del proyecto.
+
+### jummy-front (Frontend)
+```
+├── .vscode/...
+├── dist/...
+├── public/...
+├── src
+│   ├── assets
+│   │   ├── images/...
+│   │   ├── styles/...
+│   │   └── main.css
+│   ├── components
+│   │   ├── Dish.vue
+│   │   ├── Footer.vue
+│   │   ├── HeaderClient.vue
+│   │   └── HeaderHome.vue
+│   ├── router
+│   │   └── index.js
+│   ├── stores
+│   │   └── counter.js
+│   ├── views/...
+│   ├── App.vue
+│   └── main.js
+├── .gitignore
+├── index.html
+├── jsconfig.json
+├── package-lock.json
+├── package.json
+├── README.md
+├── vite.config.js
+└── vitest.config.js
+```
+
+### jummy-scripts (Scripts SQL)
+```
+├── script-gastronomias.sql
+└── script-restaurantes.sql
+```
+
+## 🖥️ Descripción de las Ramas de Trabajo en Git
+- __main__: Esta es la rama principal, utilizada para el despliegue en `Netlify` y `Render`.
+- __develop__: Recibe el desarrollo y cambios nuevos, sirviendo como filtro antes de fusionarse con main para evitar la introducción de código no testeado que pueda afectar al sistema en producción.
+- __dev_pedro__: Rama de desarrollo de `Pedro`.
+- __dev_mario__: Rama de desarrollo de `Mario`.
+- __dev_marc__: Rama de desarrollo de `Marc`.
 
 > [!IMPORTANT]
-Todas las ramas donde el equipo de desarrollo trabaje tendran que crearse a partir de la rama `develop` de manera excluyente.
+> Solo las ramas `main` y `develop` deben contener el directorio `dist` dentro de `jummy-front`, el cual es esencial para el despliegue en `Netlify`. Este directorio debe actualizarse localmente sobre la rama `develop` cada vez que se quiera realizar un despliegue a produccion, esto solo aplica al `Frontend`.
 
-> [!NOTE]
-La rama `main` y `develop` son las unicas ramas que deben tener un directorio `dist`, de manera excluyente, ya que este directorio es el encargado de llevar el despliegue del proyecto a `Netlify`, este direcotirio se debera actualizar en local sobre la rama `develop` por cada despliegue que se quiera realizar sobre la rama `main`.
+## 🚧 Contribuciones
+Este proyecto __no__ está abierto a contribuciones externas. No se aceptarán pull requests ni issues. Gracias por tu comprensión.
 
-## Licencia
-Este proyecto está bajo la Licencia GPL-3.0, lo que permite el uso, distribución y modificación del software bajo ciertas condiciones. Consulta el archivo LICENSE para más detalles.
+## 📄 Licencia
+Este proyecto se distribuye bajo la `Licencia GPL-3.0`, lo que permite su uso, distribución y modificación bajo ciertas condiciones. Consulta el archivo `LICENSE` para obtener más información.
+© 2024 Todos los derechos reservados.
