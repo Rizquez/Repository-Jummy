@@ -1,11 +1,18 @@
 <script setup>
+import { useAuth0 } from '@auth0/auth0-vue';
 import { defineProps } from 'vue';
+
 const props = defineProps({
     showReturn: {
         type: Boolean,
         default: false
     }
-})
+});
+
+const { user, isAuthenticated, logout } = useAuth0();
+const handleLogout = () => {
+  logout({ returnTo: window.location.origin });
+};
 </script>
 
 <template>
@@ -14,7 +21,8 @@ const props = defineProps({
             <img src="@/assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
             <div class="contenedor-general">
                 <div class="salir-volver">
-                    <router-link :to="{ name: 'client-home' }" class="boton-salir txt-1-5vw">Salir</router-link>
+                    <!-- <router-link :to="{ name: 'client-home' }" class="boton-salir txt-1-5vw">Salir</router-link> -->
+                    <button @click="handleLogout">Salir</button>
                     <router-link v-if="showReturn" :to="{ name: 'client-gastronomy' }" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
                 </div>
                 <div class="contenedor-general">
