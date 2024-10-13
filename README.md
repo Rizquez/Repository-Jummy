@@ -1,5 +1,7 @@
 # JUMMY - La nueva era de la hostelería digital
 
+![img](images/jummy-home-app.jpg)
+
 ## 🧾 Descripción del Proyecto
 Jummy es la aplicación revolucionaria diseñada para transformar la interacción entre restaurantes y clientes, llevando la industria de la hostelería a la era digital. Con un enfoque en la optimización y modernización del servicio, Jummy permite a los restaurantes gestionar de manera eficiente sus menús, pedidos y pagos, mejorando tanto la experiencia del cliente como la operativa del restaurante. A través de la aplicación, los clientes pueden explorar diversos restaurantes clasificados por gastronomía, autogestionar sus pedidos y enviarlos directamente a la cocina.
 
