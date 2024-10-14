@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import { useAuth0 } from '@auth0/auth0-vue';
 import Dish from '@/components/Dish.vue';
 import Footer from '@/components/Footer.vue';
 
@@ -43,6 +44,11 @@ const agregarBebida = () => {
   console.log('Nueva bebida:', nuevaBebida.value);
   cerrarPopupBebida(); // Cierra el modal después de guardar
 };
+
+const { logout } = useAuth0();
+const handleLogout = () => {
+  logout({ returnTo: window.location.origin });
+};
 </script>
 
 <template>
@@ -58,8 +64,8 @@ const agregarBebida = () => {
         </ul>
       </div>
       <div class="container-volver-salir">
-        <router-link :to="{ name: 'company-home' }" class="btn-volver-salir txt-1-5vw">Salir</router-link>
-        <router-link :to="{ name: 'company-menu' }" class="btn-volver-salir txt-1-5vw">Volver</router-link>
+        <p class="boton-salir txt-1-5vw" @click="handleLogout">Salir</p>
+        <router-link :to="{ name: 'company-menu' }" class="btn-volver txt-1-5vw">Volver</router-link>
       </div>
     </div>
     <div class="contaniner-dish">
@@ -140,26 +146,27 @@ const agregarBebida = () => {
 
   <!-- Popup (Modal) para bebida -->
   <div v-if="popupBebidaVisible" class="modal">
-      <h2>Añadir Nueva Bebida</h2>
-      <form @submit.prevent="agregarBebida">
-        <div>
-          <label for="nombre-bebida">Nombre:</label>
-          <input type="text" id="nombre-bebida" v-model="nuevaBebida.nombre" required />
-        </div>
-        <div>
-          <label for="precio-bebida">Precio:</label>
-          <input type="number" id="precio-bebida" v-model="nuevaBebida.precio" required />
-        </div>
-        <div class="modal-buttons">
-          <button type="submit">Guardar</button>
-          <button type="button" @click="cerrarPopupBebida">Cancelar</button>
-        </div>
-      </form>
-    </div>
+    <h2>Añadir Nueva Bebida</h2>
+    <form @submit.prevent="agregarBebida">
+      <div>
+        <label for="nombre-bebida">Nombre:</label>
+        <input type="text" id="nombre-bebida" v-model="nuevaBebida.nombre" required />
+      </div>
+      <div>
+        <label for="precio-bebida">Precio:</label>
+        <input type="number" id="precio-bebida" v-model="nuevaBebida.precio" required />
+      </div>
+      <div class="modal-buttons">
+        <button type="submit">Guardar</button>
+        <button type="button" @click="cerrarPopupBebida">Cancelar</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <style scoped>
 @import '@/assets/styles/fonts.css';
+@import '@/assets/styles/common.css';
 
 h1 {
   font-weight: initial;
@@ -191,11 +198,12 @@ h1 {
   gap: 20px;
 }
 
-.btn-volver-salir {
+.btn-volver {
   color: var(--primary-300);
   text-decoration: none;
   cursor: pointer;
   text-align: right;
+  padding-top: 20px;
 }
 
 .lista-platos {

@@ -1,11 +1,17 @@
 <script setup>
+import { useAuth0 } from '@auth0/auth0-vue';
 import Footer from '@/components/Footer.vue';
+
+const { logout } = useAuth0();
+const handleLogout = () => {
+  logout({ returnTo: window.location.origin });
+};
 </script>
 
 <template>
   <main>
     <div class="btn-volver-container">
-      <router-link :to="{ name: 'company-home' }" class="btn-volver txt-1-5vw">Salir</router-link>
+      <p class="boton-salir txt-1-5vw" @click="handleLogout">Salir</p>
     </div>
     <div class="container-general">
       <img src="@/assets/images/general/logo-jummy.png" alt="Logo Jummy"/>
@@ -20,6 +26,7 @@ import Footer from '@/components/Footer.vue';
 
 <style scoped>
 @import '@/assets/styles/fonts.css';
+@import '@/assets/styles/common.css';
 
 .btn-volver-container {
   display: flex;

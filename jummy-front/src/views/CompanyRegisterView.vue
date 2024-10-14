@@ -42,7 +42,7 @@ import Footer from '@/components/Footer.vue';
       <input id="file-upload" type="file" accept="image/*" class="input-img"/>
       <div class="div-button">
         <button type="submit" class="form-button txt-1vw">Registrar empresa</button>
-        <router-link :to="{ name: 'company-home' }" class="form-button txt-1vw">Volver</router-link>
+        <router-link :to="{ name: 'home' }" class="form-button txt-1vw">Volver</router-link>
       </div>
     </form>
     <Footer/>

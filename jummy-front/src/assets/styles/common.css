@@ -33,3 +33,14 @@ interfaces de usuario
     background-repeat: no-repeat;
     background-position: center;
 }
+
+.boton-salir {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--primary-300);
+    text-decoration: none;
+    cursor: pointer;
+    text-align: right;
+    margin: 0;
+}
+
