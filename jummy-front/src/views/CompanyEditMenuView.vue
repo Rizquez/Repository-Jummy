@@ -140,22 +140,22 @@ const agregarBebida = () => {
 
   <!-- Popup (Modal) para bebida -->
   <div v-if="popupBebidaVisible" class="modal">
-      <h2>Añadir Nueva Bebida</h2>
-      <form @submit.prevent="agregarBebida">
-        <div>
-          <label for="nombre-bebida">Nombre:</label>
-          <input type="text" id="nombre-bebida" v-model="nuevaBebida.nombre" required />
-        </div>
-        <div>
-          <label for="precio-bebida">Precio:</label>
-          <input type="number" id="precio-bebida" v-model="nuevaBebida.precio" required />
-        </div>
-        <div class="modal-buttons">
-          <button type="submit">Guardar</button>
-          <button type="button" @click="cerrarPopupBebida">Cancelar</button>
-        </div>
-      </form>
-    </div>
+    <h2>Añadir Nueva Bebida</h2>
+    <form @submit.prevent="agregarBebida">
+      <div>
+        <label for="nombre-bebida">Nombre:</label>
+        <input type="text" id="nombre-bebida" v-model="nuevaBebida.nombre" required />
+      </div>
+      <div>
+        <label for="precio-bebida">Precio:</label>
+        <input type="number" id="precio-bebida" v-model="nuevaBebida.precio" required />
+      </div>
+      <div class="modal-buttons">
+        <button type="submit">Guardar</button>
+        <button type="button" @click="cerrarPopupBebida">Cancelar</button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <style scoped>

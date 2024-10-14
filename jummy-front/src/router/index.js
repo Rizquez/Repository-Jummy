@@ -16,13 +16,11 @@ const routes = [
         path: '/registro',
         name: 'client-register',
         component: () => import('@/views/ClientRegisterView.vue'),
-        beforeEnter: authGuard,
     },
     {
         path: '/registro',
         name: 'company-register',
         component: () => import('@/views/CompanyRegisterView.vue'),
-        beforeEnter: authGuard,
     },
     {
         path: '/recuperar-cuenta',

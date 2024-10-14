@@ -35,7 +35,6 @@ import Footer from '@/components/Footer.vue';
 </template>
 
 <style scoped>
-
 @import '@/assets/styles/fonts.css';
 
 header {
