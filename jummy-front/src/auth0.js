@@ -7,9 +7,8 @@ export default {
         domain: 'dev-svn5pro1gx71qriy.us.auth0.com',
         clientId: 'ZoGdT8U0UPbb0dwLRrZJiAGMM9PRQANI',
         authorizationParams: {
-          redirect_uri: window.location.origin,
+          redirect_uri: window.location.origin+'/callback',
         },
-        debug: true,
       })
     );
   },

@@ -1,5 +1,11 @@
 <script setup>
+import { useAuth0 } from '@auth0/auth0-vue';
 import Footer from '@/components/Footer.vue';
+
+const { logout } = useAuth0();
+const handleLogout = () => {
+  logout({ returnTo: window.location.origin });
+};
 </script>
 
 <template>
@@ -12,7 +18,7 @@ import Footer from '@/components/Footer.vue';
     </div>
     <div class="container-salir-volver">
       <router-link :to="{ name: 'company-menu' }" class="btn-salir txt-1-5vw">Volver</router-link>
-      <router-link :to="{ name: 'company-home' }" class="btn-salir txt-1-5vw">Salir</router-link>
+      <p class="boton-salir txt-1-5vw" @click="handleLogout">Salir</p>
     </div>
     <Footer/>
   </main>
@@ -20,6 +26,7 @@ import Footer from '@/components/Footer.vue';
 
 <style scoped>
 @import '@/assets/styles/fonts.css';
+@import '@/assets/styles/common.css';
 
 .container-general {
   display: flex;

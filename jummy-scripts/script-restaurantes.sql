@@ -1,3 +1,4 @@
+-- NOTA: El numero de telefono ha sido modificado mediante un UPDATE para cumplir con el formato E. 164 (format movil phone number)
 USE bzyltuzdyjcjudmbjtog;
 
 INSERT INTO restaurantes (cif, nombre_fiscal, direccion_fiscal, localidad, cp, telefono, email, nombre_comercial, descripcion, logo, password, id_gastronomia) 
