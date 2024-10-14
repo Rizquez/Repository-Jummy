@@ -19,7 +19,7 @@ const props = defineProps({
 @import '@/assets/styles/fonts.css';
 
 footer {
-    padding-top: 20px;
+    padding-top: 40px;
 }
 
 footer p {

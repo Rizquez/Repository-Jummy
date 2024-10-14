@@ -2,7 +2,7 @@
 CREATE VIEW v_usuarios AS
 SELECT 
     id, 
-    nombre AS user, 
+    REGEXP_REPLACE(nombre, '[^A-Za-z0-9]', '') AS user, 
     email, 
     password, 
     telefono,
@@ -12,12 +12,13 @@ FROM
 UNION ALL
 SELECT 
     id, 
-    nombre_fiscal AS user, 
+    REGEXP_REPLACE(cif, '[^A-Za-z0-9]', '') AS user, 
     email, 
     password, 
     telefono,
     'restaurante' AS tipo_usuario
 FROM 
     restaurantes;
+
 
     

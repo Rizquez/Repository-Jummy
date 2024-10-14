@@ -9,7 +9,7 @@ const props = defineProps({
     }
 });
 
-const { user, isAuthenticated, logout } = useAuth0();
+const { logout } = useAuth0();
 const handleLogout = () => {
   logout({ returnTo: window.location.origin });
 };
@@ -21,7 +21,7 @@ const handleLogout = () => {
             <img src="@/assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
             <div class="contenedor-general">
                 <div class="salir-volver">
-                    <button @click="handleLogout">Salir</button>
+                    <p class="boton-salir txt-1-5vw" @click="handleLogout">Salir</p>
                     <router-link v-if="showReturn" :to="{ name: 'client-gastronomy' }" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
                 </div>
                 <div class="contenedor-general">
@@ -35,6 +35,7 @@ const handleLogout = () => {
 
 <style scoped>
 @import '@/assets/styles/fonts.css';
+@import '@/assets/styles/common.css';
 
 .contenedor-general {
     display: flex;
@@ -61,17 +62,8 @@ const handleLogout = () => {
     align-items: flex-start;
 }
 
-.boton-salir {
-    display: flex;
-    justify-content: flex-end;
-    color: var(--primary-300);
-    text-decoration: none;
-    cursor: pointer;
-    text-align: right;
-}
-
 .boton-volver {
-    padding-top: 20px;
+    padding: 30px 0px;
 }
 
 .boton-buscador {
