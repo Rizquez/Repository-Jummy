@@ -2,15 +2,16 @@
 import { useAuth0 } from '@auth0/auth0-vue';
 import router from '@/router';
 
+const { isAuthenticated, user, isLoading } = useAuth0();
+
 router.beforeEach((to, from, next) => {
-    const { isAuthenticated, user, isLoading } = useAuth0();
 
     // Esperamos hasta que la autenticacion este cargada
     if (isLoading.value) {
         return next();
     }
 
-    // Varificamos si el usuario esta autenticado y existen datos sobre el
+    // Verificamos si el usuario esta autenticado y existen datos sobre el
     if (isAuthenticated.value && user.value) {
 
         // Sobre el nickname vamos a realizar la redirecion en funcion del tipo de usuario
@@ -25,24 +26,18 @@ router.beforeEach((to, from, next) => {
     }
     return next();
 });
+
+// Recargamos la vista para evitar errores de redireccionado sobre el router-link
+router.afterEach((to, from) => {
+    if (isAuthenticated.value) {
+        window.location.reload();
+    }
+});
 </script>
 
 <template>
-    <div>
-        <p>Cargando Jummy...</p>
-        <p>Espere un momento mientras verificamos los datos de autenticacion 😉</p>
-    </div>
+    <p>Cargando Jummy...</p>
 </template>
 
 <style scoped>
-p {
-    font-size: 1vw;
-    font-weight: lighter;
-}
-
-div {
-    display: grid;
-    place-items: center;
-    padding-top: 20%;
-}
 </style>
