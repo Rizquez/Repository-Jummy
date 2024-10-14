@@ -27,7 +27,7 @@ import Footer from '@/components/Footer.vue';
       </div>
       <div class="div-button">
         <button type="submit" class="form-button txt-1vw">Registrarme</button>
-        <router-link :to="{ name: 'client-home' }" class="form-button txt-1vw">Volver</router-link>
+        <router-link :to="{ name: 'home' }" class="form-button txt-1vw">Volver</router-link>
       </div>
     </form>
     <Footer/>

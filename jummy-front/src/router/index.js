@@ -4,29 +4,18 @@ import { authGuard } from '@auth0/auth0-vue';
 const routes = [
     {
         path: '/',
-        name: 'client-home',
-        component: () => import('@/views/ClientHomeView.vue'),
+        name: 'home',
+        component: () => import('@/views/HomeView.vue'),
     },
     {
-        path: '/', 
-        name: 'company-home',
-        component: () => import('@/views/CompanyHomeView.vue'),
-    },
-    {
-        path: '/registro',
+        path: '/registro/cliente',
         name: 'client-register',
         component: () => import('@/views/ClientRegisterView.vue'),
     },
     {
-        path: '/registro',
+        path: '/registro/empresa',
         name: 'company-register',
         component: () => import('@/views/CompanyRegisterView.vue'),
-    },
-    {
-        path: '/recuperar-cuenta',
-        name: 'password-recovery',
-        component: () => import('@/views/PasswordRecoveryView.vue'),
-        beforeEnter: authGuard,
     },
     {
         path: '/gastronomia',

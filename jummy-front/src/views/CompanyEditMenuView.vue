@@ -58,7 +58,7 @@ const agregarBebida = () => {
         </ul>
       </div>
       <div class="container-volver-salir">
-        <router-link :to="{ name: 'company-home' }" class="btn-volver-salir txt-1-5vw">Salir</router-link>
+        <router-link :to="{ name: 'home' }" class="btn-volver-salir txt-1-5vw">Salir</router-link>
         <router-link :to="{ name: 'company-menu' }" class="btn-volver-salir txt-1-5vw">Volver</router-link>
       </div>
     </div>

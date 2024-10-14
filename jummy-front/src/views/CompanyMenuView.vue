@@ -5,7 +5,7 @@ import Footer from '@/components/Footer.vue';
 <template>
   <main>
     <div class="btn-volver-container">
-      <router-link :to="{ name: 'company-home' }" class="btn-volver txt-1-5vw">Salir</router-link>
+      <router-link :to="{ name: 'home' }" class="btn-volver txt-1-5vw">Salir</router-link>
     </div>
     <div class="container-general">
       <img src="@/assets/images/general/logo-jummy.png" alt="Logo Jummy"/>

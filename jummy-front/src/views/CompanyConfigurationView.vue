@@ -12,7 +12,7 @@ import Footer from '@/components/Footer.vue';
     </div>
     <div class="container-salir-volver">
       <router-link :to="{ name: 'company-menu' }" class="btn-salir txt-1-5vw">Volver</router-link>
-      <router-link :to="{ name: 'company-home' }" class="btn-salir txt-1-5vw">Salir</router-link>
+      <router-link :to="{ name: 'home' }" class="btn-salir txt-1-5vw">Salir</router-link>
     </div>
     <Footer/>
   </main>

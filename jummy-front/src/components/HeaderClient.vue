@@ -21,7 +21,6 @@ const handleLogout = () => {
             <img src="@/assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
             <div class="contenedor-general">
                 <div class="salir-volver">
-                    <!-- <router-link :to="{ name: 'client-home' }" class="boton-salir txt-1-5vw">Salir</router-link> -->
                     <button @click="handleLogout">Salir</button>
                     <router-link v-if="showReturn" :to="{ name: 'client-gastronomy' }" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
                 </div>
