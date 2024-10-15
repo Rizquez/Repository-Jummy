@@ -1,13 +1,18 @@
+<script>
+export default {
+  name: 'App'
+}
+</script>
+
 <template>
   <div id="app">
-    <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
+    <router-view v-slot="{ Component }" :key="$route.fullPath">
+      <transition name="fade" mode="out-in" appear>
         <component :is="Component" />
       </transition>
     </router-view>
   </div>
 </template>
-
 
 <style scoped>
 .fade-enter-active, .fade-leave-active {

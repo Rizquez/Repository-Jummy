@@ -36,8 +36,21 @@ router.afterEach((to, from) => {
 </script>
 
 <template>
-    <p>Cargando Jummy...</p>
+    <div>
+        <p>Cargando Jummy...</p>
+        <p>Espere un momento mientras verificamos los datos de autenticacion 😉</p>
+    </div>
 </template>
 
 <style scoped>
+p {
+    font-size: 1vw;
+    font-weight: lighter;
+}
+
+div {
+    display: grid;
+    place-items: center;
+    padding-top: 20%;
+}
 </style>
