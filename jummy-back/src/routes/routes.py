@@ -1,6 +1,8 @@
 from flask import Flask, render_template, redirect, request, send_file, jsonify, url_for
 from ..tools import MySQL
 from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
+import bcrypt
 import base64
 
 
@@ -15,38 +17,19 @@ def home():
         return redirect(url)
     return '<h1>API JUMMY</h1>'
 
+#Ruta que nos permite crear una nueva gastronomia
 
-# @app.route('/result/', methods=['GET'])
-# def api():
-#     gastronomia = request.args.get('gastronomia')
-#     engine = MySQL.create_engine_mysql()
-#     id_gastronomia = MySQL.simple_query(
-#         engine, 
-#         "SELECT id FROM gastronomias WHERE gastronomia=:gastronomia", 
-#         params={'gastronomia': gastronomia}
-#     )
-
-#     if id_gastronomia is None:
-#         return redirect('/error')
-#     else:
-#         data = MySQL.table_query(
-#             engine, 
-#             "SELECT * FROM restaurantes WHERE id_gastronomia=:id_gastronomia",
-#             params={'id_gastronomia': id_gastronomia}
-#         ).to_dict(orient='records')
-#         return jsonify([data]), 200
-    
-#Ruta que crea una nueva gastronomia a partir de un nombre, si existe una gastronomia con el mismo nombre dará error
 @app.route('/gastronomia', methods=['POST'])
 def create_gastronomia():
     data = request.json
-    nombre = data.get('gastronomia')
+    nombre = data.get('gastronomia')  
 
     if not nombre:
-        return jsonify({'error': 'Gastronomia es requerido'}), 400
+        return jsonify({'error': 'El campo "gastronomia" es requerido'}), 400
 
     engine = MySQL.create_engine_mysql()
 
+    
     existing_gastronomia = MySQL.simple_query(
         engine,
         "SELECT id FROM gastronomias WHERE gastronomia=:gastronomia",
@@ -55,16 +38,18 @@ def create_gastronomia():
 
     if existing_gastronomia is not None:
         return jsonify({'error': 'Ya existe una gastronomía con ese nombre'}), 409
+
     
     try:
-        MySQL.simple_query(
-            engine,
-            "INSERT INTO gastronomias (gastronomia) VALUES (:gastronomia)",
-            params={'gastronomia': nombre}
-        )
+        with engine.begin() as conn: 
+            conn.execute(
+                text("INSERT INTO gastronomias (gastronomia) VALUES (:gastronomia)"),
+                {'gastronomia': nombre}
+            )
         return jsonify({'mensaje': 'Gastronomía creada exitosamente'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
 #Ruta que nos da acceso a todas las gastronomias
     
@@ -84,34 +69,7 @@ def get_gastronomias():
 
     
 #Update Gastronomia existente
-# @app.route('/gastronomia/<int:id_gastronomia>', methods=['PUT'])
-# def update_gastronomia(id_gastronomia):
-#     data = request.json
-#     nuevo_nombre = data.get('gastronomia')
 
-#     if not nuevo_nombre:
-#         return jsonify({'error': 'Se requiere un nuevo nombre'}), 400
-
-#     engine = MySQL.create_engine_mysql()
-
-#     existing_gastronomia = MySQL.simple_query(
-#         engine,
-#         "SELECT * FROM gastronomias WHERE id=:id",
-#         params={'id': id_gastronomia}
-#     )
-
-#     if not existing_gastronomia:
-#         return jsonify({'error': 'Gastronomía no encontrada'}), 404
-
-#     try:
-#         MySQL.simple_query(
-#             engine,
-#             "UPDATE gastronomias SET gastronomia=:nuevo_nombre WHERE id=:id",
-#             params={'nuevo_nombre': nuevo_nombre, 'id': id_gastronomia}
-#         )
-#         return jsonify({'mensaje': 'Gastronomía actualizada exitosamente'}), 200
-#     except Exception as e:
-#         return jsonify({'error': str(e)}), 500
 @app.route('/gastronomia/<int:id_gastronomia>', methods=['PUT'])
 def update_gastronomia(id_gastronomia):
     data = request.json
@@ -127,6 +85,7 @@ def update_gastronomia(id_gastronomia):
     engine = MySQL.create_engine_mysql()
 
     try:
+        
         existing_gastronomia = MySQL.simple_query(
             engine,
             "SELECT * FROM gastronomias WHERE id=:id",
@@ -137,16 +96,27 @@ def update_gastronomia(id_gastronomia):
             return jsonify({'error': 'Gastronomía no encontrada'}), 404
 
         
-        MySQL.simple_query(
+        nombre_repetido = MySQL.simple_query(
             engine,
-            "UPDATE gastronomias SET gastronomia=:nuevo_nombre WHERE id=:id",
+            "SELECT id FROM gastronomias WHERE gastronomia=:nuevo_nombre AND id != :id",
             params={'nuevo_nombre': nuevo_nombre, 'id': id_gastronomia}
         )
+
+        if nombre_repetido:
+            return jsonify({'error': 'Ya existe una gastronomía con ese nombre'}), 409
+
+        
+        with engine.begin() as conn:
+            conn.execute(
+                text("UPDATE gastronomias SET gastronomia=:nuevo_nombre WHERE id=:id"),
+                {'nuevo_nombre': nuevo_nombre, 'id': id_gastronomia}
+            )
 
         return jsonify({'mensaje': 'Gastronomía actualizada exitosamente'}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
 #Método para encontrar UNA gastronomia concreta
     
@@ -155,16 +125,20 @@ def get_gastronomia(id_gastronomia):
     engine = MySQL.create_engine_mysql()
 
     try:
+        
         gastronomia = MySQL.simple_query(
             engine,
             "SELECT gastronomia FROM gastronomias WHERE id=:id",
             params={'id': id_gastronomia}
         )
 
+        
         if gastronomia is None:
             return jsonify({'error': 'Gastronomía no encontrada'}), 404
 
         return jsonify({'gastronomia': gastronomia}), 200
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -175,6 +149,7 @@ def get_gastronomia(id_gastronomia):
 def delete_gastronomia(id_gastronomia):
     engine = MySQL.create_engine_mysql()
 
+   
     existing_gastronomia = MySQL.simple_query(
         engine,
         "SELECT * FROM gastronomias WHERE id=:id",
@@ -185,12 +160,16 @@ def delete_gastronomia(id_gastronomia):
         return jsonify({'error': 'Gastronomía no encontrada'}), 404
 
     try:
-        MySQL.simple_query(
-            engine,
-            "DELETE FROM gastronomias WHERE id=:id",
-            params={'id': id_gastronomia}
-        )
+        
+        with engine.begin() as conn:
+            conn.execute(
+                text("DELETE FROM gastronomias WHERE id=:id"),
+                {'id': id_gastronomia}
+            )
+
         return jsonify({'mensaje': 'Gastronomía eliminada exitosamente'}), 200
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
@@ -214,63 +193,67 @@ def create_restaurante():
     id_gastronomia = data.get('id_gastronomia')
 
     
-    if not cif:
-        return jsonify({'error': 'El cif es requerido'}), 400
-    if not nombre_fiscal:
-        return jsonify({'error': 'El nombre fiscal es requerido'}), 400
-    if not direccion_fiscal:
-        return jsonify({'error': 'La dirección fiscal es requerida'}), 400
-    if not localidad:
-        return jsonify({'error': 'La localidad es requerida'}), 400
-    if not cp:
-        return jsonify({'error': 'El código postal es requerido'}), 400
-    if not telefono:
-        return jsonify({'error': 'El teléfono es requerido'}), 400
-    if not email:
-        return jsonify({'error': 'El email es requerido'}), 400
-    if not nombre_comercial:
-        return jsonify({'error': 'El nombre comercial es requerido'}), 400
-    if not descripcion:
-        return jsonify({'error': 'La descripción es requerida'}), 400
-    if not password:
-        return jsonify({'error': 'La contraseña es requerida'}), 400
-    if not id_gastronomia:
-        return jsonify({'error': 'El ID de gastronomía es requerido'}), 400
+    required_fields = [
+        ('cif', 'El CIF es requerido'),
+        ('nombre_fiscal', 'El nombre fiscal es requerido'),
+        ('direccion_fiscal', 'La dirección fiscal es requerida'),
+        ('localidad', 'La localidad es requerida'),
+        ('cp', 'El código postal es requerido'),
+        ('telefono', 'El teléfono es requerido'),
+        ('email', 'El email es requerido'),
+        ('nombre_comercial', 'El nombre comercial es requerido'),
+        ('descripcion', 'La descripción es requerida'),
+        ('password', 'La contraseña es requerida'),
+        ('id_gastronomia', 'El ID de gastronomía es requerido'),
+    ]
+
+    for field, message in required_fields:
+        if not data.get(field):
+            return jsonify({'error': message}), 400
 
     engine = MySQL.create_engine_mysql()
 
     
     existing_restaurante = MySQL.simple_query(
         engine,
-        "SELECT * FROM restaurantes WHERE cif=:cif OR nombre_fiscal=:nombre_fiscal OR direccion_fiscal=:direccion_fiscal OR telefono=:telefono OR email=:email",
-        params={'cif': cif, 'nombre_fiscal': nombre_fiscal, 'direccion_fiscal': direccion_fiscal, 'telefono': telefono, 'email': email}
+        "SELECT id FROM restaurantes WHERE cif=:cif OR nombre_fiscal=:nombre_fiscal OR direccion_fiscal=:direccion_fiscal OR telefono=:telefono OR email=:email",
+        params={
+            'cif': cif,
+            'nombre_fiscal': nombre_fiscal,
+            'direccion_fiscal': direccion_fiscal,
+            'telefono': telefono,
+            'email': email
+        }
     )
 
     if existing_restaurante:
         return jsonify({'error': 'Ya existe un restaurante con esos campos'}), 409
 
     try:
-        MySQL.simple_query(
-            engine,
-            "INSERT INTO restaurantes (cif, nombre_fiscal, direccion_fiscal, localidad, cp, telefono, email, nombre_comercial, descripcion, logo, password, id_gastronomia) VALUES (:cif, :nombre_fiscal, :direccion_fiscal, :localidad, :cp, :telefono, :email, :nombre_comercial, :descripcion, :logo, :password, :id_gastronomia)",
-            params={
-                'cif': cif,
-                'nombre_fiscal': nombre_fiscal,
-                'direccion_fiscal': direccion_fiscal,
-                'localidad': localidad,
-                'cp': cp,
-                'telefono': telefono,
-                'email': email,
-                'nombre_comercial': nombre_comercial,
-                'descripcion': descripcion,
-                'logo': logo,  # Puede ser None si no se proporciona
-                'password': password,
-                'id_gastronomia': id_gastronomia
-            }
-        )
+        with engine.begin() as conn:  
+            conn.execute(
+                text("INSERT INTO restaurantes (cif, nombre_fiscal, direccion_fiscal, localidad, cp, telefono, email, nombre_comercial, descripcion, logo, password, id_gastronomia) VALUES (:cif, :nombre_fiscal, :direccion_fiscal, :localidad, :cp, :telefono, :email, :nombre_comercial, :descripcion, :logo, :password, :id_gastronomia)"),
+                {
+                    'cif': cif,
+                    'nombre_fiscal': nombre_fiscal,
+                    'direccion_fiscal': direccion_fiscal,
+                    'localidad': localidad,
+                    'cp': cp,
+                    'telefono': telefono,
+                    'email': email,
+                    'nombre_comercial': nombre_comercial,
+                    'descripcion': descripcion,
+                    'logo': logo,  # Puede ser None si no se proporciona
+                    'password': password,  
+                    'id_gastronomia': id_gastronomia
+                }
+            )
         return jsonify({'mensaje': 'Restaurante creado exitosamente'}), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+
     
 #Ruta para obtener todos los restaurantes por un tipo de gastronomia en concreto
     
@@ -279,9 +262,10 @@ def get_restaurantes_by_gastronomia(id_gastronomia):
     engine = MySQL.create_engine_mysql()
 
     try:
+        
         restaurantes = MySQL.table_query(
             engine,
-            "SELECT * FROM restaurantes WHERE id_gastronomia=:id_gastronomia",
+            "SELECT id, nombre_comercial, descripcion, direccion_fiscal, localidad, cp, email, telefono, logo FROM restaurantes WHERE id_gastronomia=:id_gastronomia",
             params={'id_gastronomia': id_gastronomia}
         ).to_dict(orient='records')
 
@@ -293,116 +277,48 @@ def get_restaurantes_by_gastronomia(id_gastronomia):
             if restaurante['logo']:
                 restaurante['logo'] = base64.b64encode(restaurante['logo']).decode('utf-8')
 
-        return jsonify(restaurantes), 200
+        return jsonify({'restaurantes': restaurantes}), 200  
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
-#Ruta para obtener un restaurante por su id
-    
-@app.route('/restaurante/<int:id_restaurante>', methods=['GET'])
-def get_restaurante_by_id(id_restaurante):
+#Ruta para obtener un restaurante por su nombre comercial
+
+@app.route('/restaurante/<string:nombre_comercial>', methods=['GET'])
+def get_restaurante_by_nombre(nombre_comercial):
     engine = MySQL.create_engine_mysql()
 
     try:
+        
         restaurante = MySQL.simple_query(
             engine,
-            "SELECT * FROM restaurantes WHERE id=:id",
-            params={'id': id_restaurante},
-            type_data='simple'
+            "SELECT id, nombre_comercial, descripcion, direccion_fiscal, localidad, cp, email, telefono, logo FROM restaurantes WHERE nombre_comercial=:nombre_comercial",
+            params={'nombre_comercial': nombre_comercial}
         )
 
+        
         if restaurante is None:
             return jsonify({'error': 'Restaurante no encontrado'}), 404
 
-        # Convertir el campo logo a Base64 si existe
-        if 'logo' in restaurante and restaurante['logo']:
-            restaurante['logo'] = base64.b64encode(restaurante['logo']).decode('utf-8')
+       
+        if 'logo' in restaurante:
+            logo_data = restaurante['logo']
+            if logo_data is not None and isinstance(logo_data, (bytes, bytearray)):
+                restaurante['logo'] = base64.b64encode(logo_data).decode('utf-8')
+            else:
+                restaurante['logo'] = None  
 
-        return jsonify(restaurante), 200
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    
-#Ruta para actualizar un restaurante a través de su id
-@app.route('/restaurante/<int:id_restaurante>', methods=['PUT'])
-def update_restaurante(id_restaurante):
-    data = request.json
 
-    if not data:
-        return jsonify({'error': 'No se han proporcionado datos'}), 400
+        return jsonify({'restaurante': restaurante}), 200  
 
-    
-    nombre_fiscal = data.get('nombre_fiscal')
-    direccion_fiscal = data.get('direccion_fiscal')
-    localidad = data.get('localidad')
-    cp = data.get('cp')
-    telefono = data.get('telefono')
-    email = data.get('email')
-    nombre_comercial = data.get('nombre_comercial')
-    descripcion = data.get('descripcion')
-    logo = data.get('logo')
-
-    engine = MySQL.create_engine_mysql()
-
-   
-    existing_restaurante = MySQL.simple_query(
-        engine,
-        "SELECT * FROM restaurantes WHERE id=:id",
-        params={'id': id_restaurante}
-    )
-
-    if not existing_restaurante:
-        return jsonify({'error': 'Restaurante no encontrado'}), 404
-
-    
-    set_clause = []
-    params = {'id': id_restaurante}
-
-    if nombre_fiscal is not None:
-        set_clause.append("nombre_fiscal=:nombre_fiscal")
-        params['nombre_fiscal'] = nombre_fiscal
-    if direccion_fiscal is not None:
-        set_clause.append("direccion_fiscal=:direccion_fiscal")
-        params['direccion_fiscal'] = direccion_fiscal
-    if localidad is not None:
-        set_clause.append("localidad=:localidad")
-        params['localidad'] = localidad
-    if cp is not None:
-        set_clause.append("cp=:cp")
-        params['cp'] = cp
-    if telefono is not None:
-        set_clause.append("telefono=:telefono")
-        params['telefono'] = telefono
-    if email is not None:
-        set_clause.append("email=:email")
-        params['email'] = email
-    if nombre_comercial is not None:
-        set_clause.append("nombre_comercial=:nombre_comercial")
-        params['nombre_comercial'] = nombre_comercial
-    if descripcion is not None:
-        set_clause.append("descripcion=:descripcion")
-        params['descripcion'] = descripcion
-    if logo is not None:
-        set_clause.append("logo=:logo")
-        params['logo'] = logo
-
-    if not set_clause:
-        return jsonify({'mensaje': 'No se proporcionaron datos para actualizar'}), 400
-
-    set_clause_str = ", ".join(set_clause)
-
-    
-    try:
-        MySQL.simple_query(
-            engine,
-            f"UPDATE restaurantes SET {set_clause_str} WHERE id=:id",
-            params=params
-        )
-        return jsonify({'mensaje': 'Restaurante actualizado exitosamente'}), 200
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
 #Ruta para eliminar un restaurante a través de su id.
-#De momento no funciona porque tenemos que discutir los delete en cascada
     
 @app.route('/restaurante/<int:id_restaurante>', methods=['DELETE'])
 def delete_restaurante(id_restaurante):
@@ -419,52 +335,72 @@ def delete_restaurante(id_restaurante):
         return jsonify({'error': 'Restaurante no encontrado'}), 404
 
     try:
-        
-        MySQL.simple_query(
-            engine,
-            "DELETE FROM restaurantes WHERE id=:id",
-            params={'id': id_restaurante}
-        )
+       
+        with engine.begin() as conn:
+            conn.execute(
+                text("DELETE FROM restaurantes WHERE id=:id"),
+                {'id': id_restaurante}
+            )
+
         return jsonify({'mensaje': 'Restaurante eliminado exitosamente'}), 200
+
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
 #Endpoint que nos crea un plato nuevo a traves de el id_restaurante
-    
+
 @app.route('/carta/<int:id_restaurante>', methods=['POST'])
 def create_plato(id_restaurante):
     data = request.json
 
+    
     nombre = data.get('nombre')
     descripcion = data.get('descripcion')
     ingredientes = data.get('ingredientes')
     precio = data.get('precio')
     foto = data.get('foto')  # Puede ser None si no se proporciona
+    id_tipo_plato = data.get('id_tipo_plato')
 
-    if not nombre or not descripcion or not ingredientes or not precio:
+    
+    if not nombre or not descripcion or not ingredientes or precio is None:
         return jsonify({'error': 'Todos los campos excepto foto son obligatorios'}), 400
 
     engine = MySQL.create_engine_mysql()
 
+   
+    existing_restaurante = MySQL.simple_query(
+        engine,
+        "SELECT id FROM restaurantes WHERE id=:id_restaurante",
+        params={'id_restaurante': id_restaurante}
+    )
+
+    if not existing_restaurante:
+        return jsonify({'error': 'Restaurante no encontrado'}), 404
+
     try:
-        MySQL.simple_query(
-            engine,
-            "INSERT INTO platos (nombre, descripcion, ingredientes, precio, foto, id_tipo_plato, id_restaurante) "
-            "VALUES (:nombre, :descripcion, :ingredientes, :precio, :foto, :id_tipo_plato, :id_restaurante)",
-            params={
-                'nombre': nombre,
-                'descripcion': descripcion,
-                'ingredientes': ingredientes,
-                'precio': precio,
-                'foto': foto if foto else None,  # Usa None para pasar NULL a la base de datos
-                'id_tipo_plato': data.get('id_tipo_plato'),
-                'id_restaurante': id_restaurante
-            }
-        )
+        with engine.begin() as conn:  
+            
+            conn.execute(
+                text("INSERT INTO platos (nombre, descripcion, ingredientes, precio, foto, id_tipo_plato, id_restaurante) "
+                     "VALUES (:nombre, :descripcion, :ingredientes, :precio, :foto, :id_tipo_plato, :id_restaurante)"),
+                {
+                    'nombre': nombre,
+                    'descripcion': descripcion,
+                    'ingredientes': ingredientes,
+                    'precio': precio,
+                    'foto': foto if foto else None,  # Usa None para pasar NULL a la base de datos
+                    'id_tipo_plato': id_tipo_plato,  
+                    'id_restaurante': id_restaurante
+                }
+            )
         return jsonify({'mensaje': 'Plato creado exitosamente'}), 201
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
 #Endpoint que nos devuelve todos los platos de un restaurante a través de id_restaurante
     
@@ -472,27 +408,40 @@ def create_plato(id_restaurante):
 def get_platos(id_restaurante):
     engine = MySQL.create_engine_mysql()
 
-    platos = MySQL.simple_query(
-        engine,
-        "SELECT id, nombre, descripcion, ingredientes, precio, "
-        "CASE WHEN foto IS NOT NULL THEN TO_BASE64(foto) ELSE NULL END AS foto "
-        "FROM platos WHERE id_restaurante=:id_restaurante",
-        params={'id_restaurante': id_restaurante},
-        type_data='multi'
-    )
+    try:
+        
+        platos_df = MySQL.table_query(
+            engine,
+            "SELECT id, nombre, descripcion, ingredientes, precio, "
+            "CASE WHEN foto IS NOT NULL THEN TO_BASE64(foto) ELSE NULL END AS foto "
+            "FROM platos WHERE id_restaurante=:id_restaurante",
+            params={'id_restaurante': id_restaurante}
+        )
 
-    return jsonify(platos), 200
+        
+        platos = platos_df.to_dict(orient='records')
 
-#Endpoint que nos permite buscar un plato a través de su id
+        
+        if not platos:
+            return jsonify({'mensaje': 'No se encontraron platos para este restaurante.'}), 404
+
+        return jsonify(platos), 200
+
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+#Endpoint que nos permite updatear un plato
 
 @app.route('/carta/<int:id_restaurante>/<int:id_plato>', methods=['PUT'])
 def update_plato(id_restaurante, id_plato):
     data = request.json
 
-    if not data:
+    if data is None:
         return jsonify({'error': 'No se han proporcionado datos'}), 400
 
-    
     nuevo_nombre = data.get('nombre')
     nueva_descripcion = data.get('descripcion')
     nuevos_ingredientes = data.get('ingredientes')
@@ -503,7 +452,6 @@ def update_plato(id_restaurante, id_plato):
     engine = MySQL.create_engine_mysql()
 
     try:
-        
         existing_plato = MySQL.simple_query(
             engine,
             "SELECT * FROM platos WHERE id=:id AND id_restaurante=:id_restaurante",
@@ -514,41 +462,61 @@ def update_plato(id_restaurante, id_plato):
             return jsonify({'error': 'Plato no encontrado en el restaurante especificado'}), 404
 
         
-        query = "UPDATE platos SET "
-        params = {}
         if nuevo_nombre:
-            query += "nombre=:nombre, "
-            params['nombre'] = nuevo_nombre
-        if nueva_descripcion:
-            query += "descripcion=:descripcion, "
-            params['descripcion'] = nueva_descripcion
-        if nuevos_ingredientes:
-            query += "ingredientes=:ingredientes, "
-            params['ingredientes'] = nuevos_ingredientes
-        if nuevo_precio is not None:
-            query += "precio=:precio, "
-            params['precio'] = nuevo_precio
-        if nueva_foto:
-            query += "foto=:foto, "
-            params['foto'] = nueva_foto
-        if nuevo_id_tipo_plato is not None:
-            query += "id_tipo_plato=:id_tipo_plato "
-            params['id_tipo_plato'] = nuevo_id_tipo_plato
-        else:
-            query = query.rstrip(", ")  
+            nombre_repetido = MySQL.simple_query(
+                engine,
+                "SELECT id FROM platos WHERE nombre=:nuevo_nombre AND id != :id AND id_restaurante=:id_restaurante",
+                params={'nuevo_nombre': nuevo_nombre, 'id': id_plato, 'id_restaurante': id_restaurante}
+            )
 
-        query += " WHERE id=:id"
-        params['id'] = id_plato
+            if nombre_repetido:
+                return jsonify({'error': 'Ya existe un plato con ese nombre en este restaurante'}), 409
 
         
-        MySQL.simple_query(engine, query, params)
+        query = "UPDATE platos SET "
+        params = {}
+        fields_to_update = []
 
-        return jsonify({'mensaje': 'Plato actualizado exitosamente'}), 200
+        if nuevo_nombre is not None:
+            fields_to_update.append("nombre=:nombre")
+            params['nombre'] = nuevo_nombre
+        if nueva_descripcion is not None:
+            fields_to_update.append("descripcion=:descripcion")
+            params['descripcion'] = nueva_descripcion
+        if nuevos_ingredientes is not None:
+            fields_to_update.append("ingredientes=:ingredientes")
+            params['ingredientes'] = nuevos_ingredientes
+        if nuevo_precio is not None:
+            fields_to_update.append("precio=:precio")
+            params['precio'] = nuevo_precio
+        if nueva_foto is not None:  # Permitir que la foto sea None
+            fields_to_update.append("foto=:foto")
+            params['foto'] = nueva_foto
+        if nuevo_id_tipo_plato is not None:
+            fields_to_update.append("id_tipo_plato=:id_tipo_plato")
+            params['id_tipo_plato'] = nuevo_id_tipo_plato
+
+        
+        if fields_to_update:
+            query += ', '.join(fields_to_update)
+            query += " WHERE id=:id AND id_restaurante=:id_restaurante"
+            params['id'] = id_plato
+            params['id_restaurante'] = id_restaurante
+
+            
+            with engine.begin() as conn:
+                conn.execute(text(query), params)
+
+            return jsonify({'mensaje': 'Plato actualizado exitosamente'}), 200
+
+        return jsonify({'error': 'No se han proporcionado datos para actualizar'}), 400
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
     
-#Endpoint para eliminar a través de su id
+#Endpoint para eliminar un plato a través de su id
     
 @app.route('/carta/<int:id_restaurante>/<int:id_plato>', methods=['DELETE'])
 def delete_plato(id_restaurante, id_plato):
@@ -557,7 +525,7 @@ def delete_plato(id_restaurante, id_plato):
     
     existing_plato = MySQL.simple_query(
         engine,
-        "SELECT * FROM platos WHERE id=%s AND id_restaurante=%s",
+        "SELECT * FROM platos WHERE id=:id AND id_restaurante=:id_restaurante",
         params={'id': id_plato, 'id_restaurante': id_restaurante}
     )
 
@@ -565,29 +533,46 @@ def delete_plato(id_restaurante, id_plato):
         return jsonify({'error': 'Plato no encontrado'}), 404
 
     try:
-       
-        MySQL.simple_query(
-            engine,
-            "DELETE FROM platos WHERE id=%s",
-            params={'id': id_plato}
-        )
+        
+        with engine.begin() as conn:
+            conn.execute(
+                text("DELETE FROM platos WHERE id=:id"),
+                {'id': id_plato}
+            )
+
         return jsonify({'mensaje': 'Plato eliminado exitosamente'}), 200
+
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
     
 #Endpoint que nos permite crear un comensal
     
+from flask import Flask, request, jsonify
+from sqlalchemy import text
+from sqlalchemy.exc import OperationalError
+
+app = Flask(__name__)
+
 @app.route('/users', methods=['POST'])
 def create_comensal():
     data = request.json
 
-    
+    # Verifica si los datos están presentes
+    if data is None:
+        return jsonify({'error': 'No se han proporcionado datos'}), 400
+
+    # Definir campos obligatorios
     required_fields = ['nombre', 'apellidos', 'email', 'direccion', 'localidad', 'cp', 'telefono', 'user', 'password']
     missing_fields = [field for field in required_fields if field not in data]
-    
+
+    # Validar campos obligatorios
     if missing_fields:
         return jsonify({'error': f'Faltan los siguientes campos: {", ".join(missing_fields)}'}), 400
 
+    # Obtener los datos del comensal
     nombre = data['nombre']
     apellidos = data['apellidos']
     email = data['email']
@@ -600,89 +585,56 @@ def create_comensal():
 
     engine = MySQL.create_engine_mysql()
 
-    
-    existing_email = MySQL.simple_query(
-        engine, "SELECT * FROM comensales WHERE email=:email", params={'email': email})
-    existing_phone = MySQL.simple_query(
-        engine, "SELECT * FROM comensales WHERE telefono=:telefono", params={'telefono': telefono})
-    existing_user = MySQL.simple_query(
-        engine, "SELECT * FROM comensales WHERE user=:user", params={'user': user})
-
-    if existing_email:
-        return jsonify({'error': 'El email ya está registrado'}), 400
-    if existing_phone:
-        return jsonify({'error': 'El teléfono ya está registrado'}), 400
-    if existing_user:
-        return jsonify({'error': 'El nombre de usuario ya está registrado'}), 400
-
-    
+    # Comprobar si el email, teléfono o usuario ya existen
     try:
-        MySQL.simple_query(
-            engine,
-            """
-            INSERT INTO comensales (nombre, apellidos, email, direccion, localidad, cp, telefono, user, password)
-            VALUES (:nombre, :apellidos, :email, :direccion, :localidad, :cp, :telefono, :user, :password)
-            """,
-            params={
-                'nombre': nombre, 'apellidos': apellidos, 'email': email,
-                'direccion': direccion, 'localidad': localidad, 'cp': cp,
-                'telefono': telefono, 'user': user, 'password': password
-            }
+        existing_email = MySQL.simple_query(
+            engine, "SELECT * FROM comensales WHERE email=:email", params={'email': email}
         )
+        existing_phone = MySQL.simple_query(
+            engine, "SELECT * FROM comensales WHERE telefono=:telefono", params={'telefono': telefono}
+        )
+        existing_user = MySQL.simple_query(
+            engine, "SELECT * FROM comensales WHERE user=:user", params={'user': user}
+        )
+
+        if existing_email:
+            return jsonify({'error': 'El email ya está registrado'}), 400
+        if existing_phone:
+            return jsonify({'error': 'El teléfono ya está registrado'}), 400
+        if existing_user:
+            return jsonify({'error': 'El nombre de usuario ya está registrado'}), 400
+
+        # Insertar el nuevo comensal en la base de datos
+        with engine.begin() as conn:
+            conn.execute(
+                text("""
+                    INSERT INTO comensales (nombre, apellidos, email, direccion, localidad, cp, telefono, user, password)
+                    VALUES (:nombre, :apellidos, :email, :direccion, :localidad, :cp, :telefono, :user, :password)
+                """),
+                {
+                    'nombre': nombre,
+                    'apellidos': apellidos,
+                    'email': email,
+                    'direccion': direccion,
+                    'localidad': localidad,
+                    'cp': cp,
+                    'telefono': telefono,
+                    'user': user,
+                    'password': password  # Considera cifrar la contraseña antes de almacenar
+                }
+            )
+
         return jsonify({'mensaje': 'Comensal creado exitosamente'}), 201
 
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
     
-#Endpoint que devuelve todos los comensales
-    
-@app.route('/users', methods=['GET'])
-def get_all_comensales():
-    engine = MySQL.create_engine_mysql()
-
-    try:
-        
-        with engine.connect() as connection:
-            
-            result = connection.execute(text("SELECT * FROM comensales"))
-            
-            
-            columns = result.keys()
-            
-            
-            comensales = [dict(zip(columns, row)) for row in result.fetchall()]
-
-        
-        if not comensales:
-            return jsonify({'mensaje': 'No hay comensales registrados'}), 404
-
-        
-        return jsonify(comensales), 200
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-    
-#Endpoint que nos da un comensal a partir de su id
-    
-@app.route('/users/<int:id_comensal>', methods=['GET'])
-def get_comensal(id_comensal):
-    engine = MySQL.create_engine_mysql()
-
-    try:
-        with engine.connect() as connection:
-            result = connection.execute(text("SELECT * FROM comensales WHERE id = :id"), {'id': id_comensal})
-            columns = result.keys()
-            comensal = result.fetchone()
-
-        if comensal is None:
-            return jsonify({'error': 'Comensal no encontrado'}), 404
-
-        comensal_dict = dict(zip(columns, comensal))
-
-        return jsonify(comensal_dict), 200
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
     
 #Metodo para actualizar la informacion de un comensal
 
