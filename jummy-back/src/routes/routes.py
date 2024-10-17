@@ -2,9 +2,7 @@ from flask import Flask, render_template, redirect, request, send_file, jsonify,
 from ..tools import MySQL
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
-import bcrypt
 import base64
-
 
 app = Flask(__name__)
 
@@ -549,68 +547,52 @@ def delete_plato(id_restaurante, id_plato):
 
     
 #Endpoint que nos permite crear un comensal
-    
-from flask import Flask, request, jsonify
-from sqlalchemy import text
-from sqlalchemy.exc import OperationalError
-
-app = Flask(__name__)
-
+ 
 @app.route('/users', methods=['POST'])
 def create_comensal():
     data = request.json
+    nombre = data.get('nombre')
+    apellidos = data.get('apellidos')
+    email = data.get('email')
+    direccion = data.get('direccion')
+    localidad = data.get('localidad')
+    cp = data.get('cp')
+    telefono = data.get('telefono')
+    password = data.get('password')
 
-    # Verifica si los datos están presentes
-    if data is None:
-        return jsonify({'error': 'No se han proporcionado datos'}), 400
+    required_fields = [
+        ('nombre', 'El nombre es requerido'),
+        ('apellidos', 'Los apellidos son requeridos'),
+        ('email', 'El email es requerido'),
+        ('direccion', 'La dirección es requerida'),
+        ('localidad', 'La localidad es requerida'),
+        ('cp', 'El código postal es requerido'),
+        ('telefono', 'El teléfono es requerido'),
+        ('password', 'La contraseña es requerida'),
+    ]
 
-    # Definir campos obligatorios
-    required_fields = ['nombre', 'apellidos', 'email', 'direccion', 'localidad', 'cp', 'telefono', 'user', 'password']
-    missing_fields = [field for field in required_fields if field not in data]
+    for field, message in required_fields:
+        if not data.get(field):
+            return jsonify({'error': message}), 400
 
-    # Validar campos obligatorios
-    if missing_fields:
-        return jsonify({'error': f'Faltan los siguientes campos: {", ".join(missing_fields)}'}), 400
+    engine = MySQL.create_engine_mysql()  
 
-    # Obtener los datos del comensal
-    nombre = data['nombre']
-    apellidos = data['apellidos']
-    email = data['email']
-    direccion = data['direccion']
-    localidad = data['localidad']
-    cp = data['cp']
-    telefono = data['telefono']
-    user = data['user']
-    password = data['password']
+    existing_comensal = MySQL.simple_query(
+        engine,
+        "SELECT id FROM comensales WHERE email=:email OR telefono=:telefono",
+        params={
+            'email': email,
+            'telefono': telefono
+        }
+    )
 
-    engine = MySQL.create_engine_mysql()
+    if existing_comensal:
+        return jsonify({'error': 'Ya existe un comensal con esos campos'}), 409
 
-    # Comprobar si el email, teléfono o usuario ya existen
     try:
-        existing_email = MySQL.simple_query(
-            engine, "SELECT * FROM comensales WHERE email=:email", params={'email': email}
-        )
-        existing_phone = MySQL.simple_query(
-            engine, "SELECT * FROM comensales WHERE telefono=:telefono", params={'telefono': telefono}
-        )
-        existing_user = MySQL.simple_query(
-            engine, "SELECT * FROM comensales WHERE user=:user", params={'user': user}
-        )
-
-        if existing_email:
-            return jsonify({'error': 'El email ya está registrado'}), 400
-        if existing_phone:
-            return jsonify({'error': 'El teléfono ya está registrado'}), 400
-        if existing_user:
-            return jsonify({'error': 'El nombre de usuario ya está registrado'}), 400
-
-        # Insertar el nuevo comensal en la base de datos
         with engine.begin() as conn:
             conn.execute(
-                text("""
-                    INSERT INTO comensales (nombre, apellidos, email, direccion, localidad, cp, telefono, user, password)
-                    VALUES (:nombre, :apellidos, :email, :direccion, :localidad, :cp, :telefono, :user, :password)
-                """),
+                text("INSERT INTO comensales (nombre, apellidos, email, direccion, localidad, cp, telefono, password) VALUES (:nombre, :apellidos, :email, :direccion, :localidad, :cp, :telefono, :password)"),
                 {
                     'nombre': nombre,
                     'apellidos': apellidos,
@@ -619,117 +601,136 @@ def create_comensal():
                     'localidad': localidad,
                     'cp': cp,
                     'telefono': telefono,
-                    'user': user,
-                    'password': password  # Considera cifrar la contraseña antes de almacenar
+                    'password': password  
                 }
             )
-
         return jsonify({'mensaje': 'Comensal creado exitosamente'}), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
 
+#Metodo para encontrar un comensal por su id
+
+@app.route('/user/<int:id_comensal>', methods=['GET'])
+def get_comensal(id_comensal):
+    engine = MySQL.create_engine_mysql()
+
+    try:
+        
+        comensal = MySQL.simple_query(
+            engine,
+            "SELECT nombre, apellidos, email, direccion, localidad, cp, telefono FROM comensales WHERE id=:id",
+            params={'id': id_comensal}
+        )
+
+        
+        if comensal is None:
+            return jsonify({'error': 'Comensal no encontrado'}), 404
+
+        return jsonify({'comensal': comensal}), 200
     except OperationalError:
         return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
     
     
-#Metodo para actualizar la informacion de un comensal
+#Metodo update para actualizar la informacion de un comensal
 
-@app.route('/users/<int:id_comensal>', methods=['PUT'])
+@app.route('/user/<int:id_comensal>', methods=['PUT'])
 def update_comensal(id_comensal):
     data = request.json
 
     if data is None:
         return jsonify({'error': 'No se han proporcionado datos'}), 400
 
+    email = data.get('comensal', {}).get('email')
+    direccion = data.get('comensal', {}).get('direccion')
+    localidad = data.get('comensal', {}).get('localidad')
+    cp = data.get('comensal', {}).get('cp')
+    telefono = data.get('comensal', {}).get('telefono')
+
     engine = MySQL.create_engine_mysql()
 
     try:
-        with engine.connect() as connection:
-           
-            result = connection.execute(text("SELECT * FROM comensales WHERE id = :id"), {'id': id_comensal})
-            comensal = result.fetchone()
+        
+        existing_comensal = MySQL.simple_query(
+            engine,
+            "SELECT * FROM comensales WHERE id=:id",
+            params={'id': id_comensal}
+        )
 
-            if comensal is None:
-                return jsonify({'error': 'Comensal no encontrado'}), 404
+        if not existing_comensal:
+            return jsonify({'error': 'Comensal no encontrado'}), 404
 
+        
+        update_fields = {}
+        
+        if email:
+            update_fields['email'] = email
             
-            updates = []
-            params = {'id': id_comensal}
+        if direccion:
+            update_fields['direccion'] = direccion
+            
+        if localidad:
+            update_fields['localidad'] = localidad
+            
+        if cp:
+            update_fields['cp'] = cp
+            
+        if telefono:
+            update_fields['telefono'] = telefono
+            
+        
+        if not update_fields:
+            return jsonify({'error': 'No se han proporcionado datos para actualizar'}), 400
 
-            for key in data:
-                if key != 'id':  
-                    updates.append(f"{key} = :{key}")
-                    params[key] = data[key]
+        
+        set_clause = ', '.join(f"{key}=:{key}" for key in update_fields.keys())
+        update_query = f"UPDATE comensales SET {set_clause} WHERE id=:id"
 
-            if not updates:  
-                return jsonify({'mensaje': 'No se han proporcionado campos para actualizar'}), 400
+        
+        update_fields['id'] = id_comensal
 
-            update_query = f"UPDATE comensales SET {', '.join(updates)} WHERE id = :id"
-            connection.execute(text(update_query), params)
+        with engine.begin() as conn:
+            conn.execute(text(update_query), update_fields)
 
-            return jsonify({'mensaje': 'Comensal actualizado exitosamente'}), 200
+        return jsonify({'mensaje': 'Comensal actualizado exitosamente'}), 200
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-    
+  
 #Endpoint para eliminar un comensal a partir de su id
-    
-@app.route('/users/<int:id_comensal>', methods=['DELETE'])
+ 
+@app.route('/user/<int:id_comensal>', methods=['DELETE'])
 def delete_comensal(id_comensal):
     engine = MySQL.create_engine_mysql()
 
+    
+    existing_comensal = MySQL.simple_query(
+        engine,
+        "SELECT * FROM comensales WHERE id=:id",
+        params={'id': id_comensal}
+    )
+
+    if not existing_comensal:
+        return jsonify({'error': 'Comensal no encontrado'}), 404
+
     try:
-        with engine.connect() as connection:
-            
-            result = connection.execute(text("SELECT * FROM comensales WHERE id = :id"), {'id': id_comensal})
-            comensal = result.fetchone()
+        with engine.begin() as conn:
+            conn.execute(
+                text("DELETE FROM comensales WHERE id=:id"),
+                {'id': id_comensal}
+            )
 
-            if comensal is None:
-                return jsonify({'error': 'Comensal no encontrado'}), 404
-
-            
-            connection.execute(text("DELETE FROM comensales WHERE id = :id"), {'id': id_comensal})
-
-            return jsonify({'mensaje': 'Comensal eliminado exitosamente'}), 200
-
+        return jsonify({'mensaje': 'Comensal eliminado exitosamente'}), 200
+    except OperationalError:
+        return jsonify({'error': 'Error de conexión a la base de datos'}), 500
     except Exception as e:
         return jsonify({'error': str(e)}), 500
     
 #Endpoint que crea un nuevo pedido a través del id del comensal
     
-@app.route('/users/<int:id_comensal>/pedido', methods=['POST'])
-def create_pedido(id_comensal):
-    data = request.json
-    fecha = data.get('fecha')
-    estado = data.get('estado')
 
-    if not fecha or not estado:
-        return jsonify({'error': 'Se requieren fecha y estado'}), 400
-
-    engine = MySQL.create_engine_mysql()
-
-    try:
-        
-        with engine.connect() as connection:
-            result = connection.execute(text("SELECT * FROM comensales WHERE id=:id"), {'id': id_comensal})
-            if result.rowcount == 0:
-                return jsonify({'error': 'Comensal no encontrado'}), 404
-
-        
-        with engine.connect() as connection:
-            connection.execute(text("""
-                INSERT INTO pedidos (fecha, estado, id_comensal)
-                VALUES (:fecha, :estado, :id_comensal)
-            """), {'fecha': fecha, 'estado': estado, 'id_comensal': id_comensal})
-
-        return jsonify({'mensaje': 'Pedido creado exitosamente'}), 201
-
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
     
 @app.errorhandler(404)
 @app.errorhandler(500)
