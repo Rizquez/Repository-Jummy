@@ -12,6 +12,7 @@ load_dotenv(override=False)
 # -------------------------------------------------------------------------------------------------------------------------------------------------
 
 class MySQLDataManager():
+
     """
     Apply
     -----
@@ -136,13 +137,28 @@ class MySQLDataManager():
         indice mediante el uso del indice `0` que se desea el primer valor de la tupla 
         que sera la lista antes mencionada.
         """
-        # Verificamos si el tipo de dato es multi o simple
+        # # Verificamos si el tipo de dato es multi o simple
+        # if type_data not in ['simple', 'multi']:
+        #     raise ValueError("El parametro 'type_data' debe ser 'simple' o 'multi'")
+        
+        # # Abrimos la conexion y capturamos los resultados devolviendo un tipo de dato en funcion de la cantidad de datos solicitados
+        # with engine.connect() as conn:
+        #     result = conn.execute(text(consulta), params)
+        #     data = result.fetchone() if type_data == 'simple' else result.fetchall()
+        #     return data[0] if data else None
+
         if type_data not in ['simple', 'multi']:
             raise ValueError("El parametro 'type_data' debe ser 'simple' o 'multi'")
-        
-        # Abrimos la conexion y capturamos los resultados devolviendo un tipo de dato en funcion de la cantidad de datos solicitados
+
         with engine.connect() as conn:
             result = conn.execute(text(consulta), params)
             data = result.fetchone() if type_data == 'simple' else result.fetchall()
-            return data[0] if data else None
+
+            if data is None:
+                return None
+
+            if type_data == 'simple':
+                # Cambiar esta línea para retornar un diccionario con nombres de columna
+                return {column: value for column, value in zip(result.keys(), data)}  # Cambia este retorno
+            return [dict(zip(result.keys(), row)) for row in data]  # Retorna una lista de diccionarios si es 'multi'
         
