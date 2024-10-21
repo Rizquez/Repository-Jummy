@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { authGuard } from '@auth0/auth0-vue';
+//import { authGuard } from '@auth0/auth0-vue';
 
 const routes = [
     {
@@ -16,49 +16,49 @@ const routes = [
         path: '/registro',
         name: 'client-register',
         component: () => import('@/views/ClientRegisterView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     },
     {
         path: '/registro',
         name: 'company-register',
         component: () => import('@/views/CompanyRegisterView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     },
     {
         path: '/recuperar-cuenta',
         name: 'password-recovery',
         component: () => import('@/views/PasswordRecoveryView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     },
     {
         path: '/gastronomia',
         name: 'client-gastronomy',
         component: () => import('@/views/ClientGastronomyView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     },
     {
         path: '/restaurante/:type',
         name: 'client-restaurant',
         component: () => import('@/views/ClientListRestaurantView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     },
     {
         path: '/empresa',
         name: 'company-menu',
         component: () => import('@/views/CompanyMenuView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     },
     {
         path: '/configuracion',
         name: 'company-configuration',
         component: () => import('@/views/CompanyConfigurationView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     },
     {
         path: '/editar-menu',
         name: 'company-edit-menu',
         component: () => import('@/views/CompanyEditMenuView.vue'),
-        beforeEnter: authGuard,
+        //beforeEnter: authGuard,
     }
 ]
 

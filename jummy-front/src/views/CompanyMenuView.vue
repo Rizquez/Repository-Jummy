@@ -1,5 +1,29 @@
 <script setup>
 import Footer from '@/components/Footer.vue';
+import { ref, onMounted } from 'vue'; //import promesas
+import { loadDishes } from '@/stores/utils.js'; //import promesas
+
+// Vriables promesas
+const dishes = ref([]); 
+const isLoading = ref(false); 
+const errorMessage = ref(null); 
+
+const fetchDataFromAPI = async () => {
+  isLoading.value = true;
+  try {
+    restaurantes.value = await loadRestaurantes();
+    dishes.value = await loadDishes();
+  } catch (error) {
+    errorMessage.value = error.message;
+  } finally {
+    isLoading.value = false;
+  }
+}; //Método promesas
+
+onMounted(() => {
+  fetchDataFromAPI();
+}); //Método promesas
+
 </script>
 
 <template>

@@ -2,11 +2,34 @@
 import { useRouter } from 'vue-router';
 import HeaderClient from '@/components/HeaderClient.vue';
 import Footer from '@/components/Footer.vue';
+import { ref, onMounted } from 'vue'; //import promesas
+import { loadRestaurants } from '@/stores/utils.js'; //import promesas
+
+// Variables promesas
+const restaurants = ref([]); 
+const isLoading = ref(false); 
+const errorMessage = ref(null); 
 
 const router = useRouter();
 function redirectToRestaurant(type) {
   router.push({ name: 'client-restaurant', params: { type } });
 }
+const fetchDataFromAPI = async () => {
+  isLoading.value = true;
+  try {
+    restaurants.value = await loadRestaurants();
+
+  } catch (error) {
+    errorMessage.value = error.message;
+  } finally {
+    isLoading.value = false;
+  }
+}; //Método promesas
+
+onMounted(() => {
+  fetchDataFromAPI();
+}); //Método promesas
+
 </script>
 
 <template>
