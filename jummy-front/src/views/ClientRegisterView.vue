@@ -1,5 +1,75 @@
 <script setup>
 import Footer from '@/components/Footer.vue';
+import { validateNumber } from '@/stores/utils';
+
+
+
+
+
+
+/* import { ref } from 'vue';
+
+// Variables reactivas para los datos del formulario
+const nombre = ref('');
+const apellidos = ref('');
+const direccion = ref('');
+const localidad = ref('');
+const codigoPostal = ref('');
+const telefono = ref('');
+const correo = ref('');
+const contrasena = ref('');
+const mensajeError = ref('');
+
+// Función para enviar los datos a la API y guardarlos en la base de datos
+async function registerUser() {
+  try {
+    const response = await fetch('', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre: nombre.value,
+        apellidos: apellidos.value,
+        direccion: direccion.value,
+        localidad: localidad.value,
+        codigoPostal: codigoPostal.value,
+        telefono: telefono.value,
+        correo: correo.value,
+        contrasena: contrasena.value
+      })
+    });
+    
+
+    if (response.status === 201) {
+    console.log("Registro exitoso");
+    mensajeError.value = ''; // Resetea el mensaje de error si el registro es exitoso
+  } else if (response.status === 409) {
+    mensajeError.value = 'Error: el teléfono o el correo ya están registrados.';
+  } else if (response.status === 404) {
+    mensajeError.value = 'Error: la URL solicitada no fue encontrada.';
+  } else if (response.status === 500) {
+    mensajeError.value = 'Error: problema en el servidor. Intente nuevamente más tarde.';
+  } else {
+    mensajeError.value = 'Error desconocido. Intente nuevamente.';
+  }
+} catch (error) {
+  console.error("Error de conexión", error);
+  mensajeError.value = 'Error de conexión. Intente más tarde.';
+}
+}
+
+// Manejador de envío del formulario
+function handleSubmit(event) {
+  event.preventDefault();
+  registerUser();
+} */
+
+
+
+
+
+const handleInput = (event) => {
+  validateNumber(event);
+};
 </script>
 
 <template>
@@ -7,100 +77,47 @@ import Footer from '@/components/Footer.vue';
     <header>
     <h1 class="txt-2vw">Formulario de registro para clientes</h1>
     </header>
-    <form>
-      <div class="input-group">
-        <input type="text" placeholder="Nombre"/>
-        <input type="text" placeholder="Apellidos"/>
-      </div>
-      <input type="text" placeholder="Dirección"/>
-      <div class="input-group">
-        <input type="text" placeholder="Localidad"/>
-        <input type="text" placeholder="Código Postal"/>
-      </div>
-      <div class="input-group">
-        <input type="text" placeholder="Teléfono"/>
-        <input type="email" placeholder="Correo electrónico"/>
-      </div>
-      <div class="input-group">
-          <input type="password" placeholder="Contraseña"/>
-          <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
-      </div>
-      <div class="div-button">
-        <button type="submit" class="form-button txt-1vw">Registrarme</button>
-        <router-link :to="{ name: 'home' }" class="form-button txt-1vw">Volver</router-link>
-      </div>
-    </form>
+    <div class="form-center">
+      <form>
+        <div class="input-group">
+          <input type="text" placeholder="Nombre" required/>
+          <input type="text" placeholder="Apellidos" required/>
+        </div>
+        <input type="text" placeholder="Dirección" required/>
+        <div class="input-group">
+          <input type="text" placeholder="Localidad" required/>
+          <input type="text" v-model="postalCode" @input="handleInput" placeholder="Código Postal" required/>
+        </div>
+        <div class="input-group">
+          <select name="Pais" class="codigopais" required>
+            <option value="" disabled selected>País</option>
+            <option value="spain">+34 (España)</option>
+            <option value="italia">+39 (Italia)</option>
+            <option value="francia">+33 (Francia)</option>
+            <option value="portugal">+351 (Portugal)</option>
+            <option value="alemania">+49 (Alemania)</option>
+            <option value="reinounido">+44 (Reino Unido)</option>
+          </select>
+          <input type="text" v-model="phoneNumber" @input="handleInput" placeholder="Teléfono" required/>
+        </div>
+        <div class="input-group">
+          <input type="email" placeholder="Correo electrónico" required/>
+        </div>
+        <div class="input-group">
+            <input type="password" placeholder="Contraseña" required/>
+            <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
+        </div>
+        <div class="div-button">
+          <button type="submit" class="form-button txt-1vw">Registrarme</button>
+          <router-link :to="{ name: 'home' }" class="form-button txt-1vw">Volver</router-link>
+        </div>
+      </form>
+    </div>
     <Footer/>
   </main>
 </template>
 
 <style scoped>
 @import '@/assets/styles/fonts.css';
-
-header {
-  padding-top: 2%;
-}
-
-header h1 {
-  font-weight:lighter;
-  text-decoration: underline;
-  text-align: center;
-  color: var(--text-100);
-}
-
-form {
-  border: 3px solid var(--primary-300);
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 2%;
-  margin: 2%;
-}
-
-.input-group {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.input-group input[type="text"],
-form input[type="text"],
-form input[type="email"],
-form input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 3px solid var(--primary-300);
-  border-radius: 20px;
-  box-sizing: border-box;
-}
-
-.form-button {
-  color: var(--text-100);
-  background-color: var(--primary-100);
-  font-weight:bold;
-  padding: 10px 35px;
-  border: none;
-  cursor: pointer;
-  border-radius: 30px;
-  text-decoration: none;
-}
-
-.div-button {
-  display: flex;
-  justify-content: space-between;
-}
-
-.input-group input[type="text"]:nth-child(1) {
-  margin-right: 5px;
-}
-
-.input-group input[type="text"]:nth-child(2) {
-  margin-left: 5px;
-}
-
-.help-text {
-  color: var(--text-100); 
-  padding-left: 10px;
-  text-align: center;
-}
+@import '@/assets/styles/register.css';
 </style>
