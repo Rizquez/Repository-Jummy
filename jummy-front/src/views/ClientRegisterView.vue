@@ -1,71 +1,26 @@
 <script setup>
+import { reactive } from 'vue';
 import Footer from '@/components/Footer.vue';
 import { validateNumber } from '@/stores/utils';
 
+const formData = reactive({
+  nombre: '',
+  apellidos: '',
+  email: '',
+  direccion: '',
+  localidad: '',
+  cp: 0,
+  telefono: 0,
+  password: ''
+})
 
-
-
-
-
-/* import { ref } from 'vue';
-
-// Variables reactivas para los datos del formulario
-const nombre = ref('');
-const apellidos = ref('');
-const direccion = ref('');
-const localidad = ref('');
-const codigoPostal = ref('');
-const telefono = ref('');
-const correo = ref('');
-const contrasena = ref('');
-const mensajeError = ref('');
-
-// Función para enviar los datos a la API y guardarlos en la base de datos
-async function registerUser() {
-  try {
-    const response = await fetch('', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nombre: nombre.value,
-        apellidos: apellidos.value,
-        direccion: direccion.value,
-        localidad: localidad.value,
-        codigoPostal: codigoPostal.value,
-        telefono: telefono.value,
-        correo: correo.value,
-        contrasena: contrasena.value
-      })
-    });
-    
-
-    if (response.status === 201) {
-    console.log("Registro exitoso");
-    mensajeError.value = ''; // Resetea el mensaje de error si el registro es exitoso
-  } else if (response.status === 409) {
-    mensajeError.value = 'Error: el teléfono o el correo ya están registrados.';
-  } else if (response.status === 404) {
-    mensajeError.value = 'Error: la URL solicitada no fue encontrada.';
-  } else if (response.status === 500) {
-    mensajeError.value = 'Error: problema en el servidor. Intente nuevamente más tarde.';
-  } else {
-    mensajeError.value = 'Error desconocido. Intente nuevamente.';
-  }
-} catch (error) {
-  console.error("Error de conexión", error);
-  mensajeError.value = 'Error de conexión. Intente más tarde.';
+const submitForm = () => {
+  const data = Object.keys(formData).reduce((acc, key) =>{
+    acc[key] = formData[key]
+    return acc
+  }, {})
+  console.log(data);
 }
-}
-
-// Manejador de envío del formulario
-function handleSubmit(event) {
-  event.preventDefault();
-  registerUser();
-} */
-
-
-
-
 
 const handleInput = (event) => {
   validateNumber(event);
@@ -78,7 +33,7 @@ const handleInput = (event) => {
     <h1 class="txt-2vw">Formulario de registro para clientes</h1>
     </header>
     <div class="form-center">
-      <form>
+      <form @submit.prevent="submitForm">
         <div class="input-group">
           <input type="text" placeholder="Nombre" required/>
           <input type="text" placeholder="Apellidos" required/>
