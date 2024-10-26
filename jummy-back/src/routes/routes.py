@@ -82,9 +82,9 @@ def create_restaurante():
     email = data.get('email')
     nombre_comercial = data.get('nombre_comercial')
     descripcion = data.get('descripcion')
-    # logo = data.get('logo')
+    logo = data.get('logo')
     password = data.get('password')
-    id_gastronomia = data.get('id_gastronomia')
+    gastronomia = data.get('gastronomia')
 
     id_existing = instance_db.simple_query(
         engine_mysql,
@@ -101,7 +101,14 @@ def create_restaurante():
         return jsonify({'message': 'user already exists'}), 409
 
     try:
+        id_gastronomia = instance_db.simple_query(
+            engine_mysql, 
+            "SELECT id FROM gastronomias WHERE gastronomia=:gastronomia", 
+            params={'gastronomia': gastronomia.lower()}
+        )['id']
+
         instance_db.execute_dml_query(
+            engine_mysql,
             """
             INSERT INTO restaurantes (cif, nombre_fiscal, direccion_fiscal, localidad, cp, telefono, email, nombre_comercial, descripcion, logo, password, id_gastronomia) 
             VALUES (:cif, :nombre_fiscal, :direccion_fiscal, :localidad, :cp, :telefono, :email, :nombre_comercial, :descripcion, :logo, :password, :id_gastronomia)
@@ -116,7 +123,7 @@ def create_restaurante():
                 'email': email,
                 'nombre_comercial': nombre_comercial,
                 'descripcion': descripcion,
-                'logo': None,
+                'logo': logo,
                 'password': password,  
                 'id_gastronomia': id_gastronomia
             }

@@ -45,13 +45,13 @@ const handleSubmit = (event) => {
   })
   .then(response => {
     if (response.status === 201){
-      modalMessage.value = "Usuario creado correctamente"
+      modalMessage.value = "Usuario creado correctamente 📑"
     } else if (response.status === 409){
-      modalMessage.value = "El usuario ya se encuentra registrado"
+      modalMessage.value = "El usuario ya se encuentra registrado ⛔"
     } else if (response.status === 500){
-      modalMessage.value = "Error inesperado por parte del servidor"
+      modalMessage.value = `Los datos no se han podido registrar\n(${response.statusText}) 🛠️`
     } else {
-      modalMessage.value = `Error: ${response.statusText}`
+      modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`
     }
     isModalVisible.value = true
   })
