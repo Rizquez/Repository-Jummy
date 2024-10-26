@@ -1,25 +1,70 @@
 <script setup>
-import { reactive } from 'vue';
+import { ref } from 'vue';
 import Footer from '@/components/Footer.vue';
+import AlertModal from '@/components/AlertModal.vue';
 import { validateNumber } from '@/stores/utils';
 
-const formData = reactive({
+const modalMessage = ref('');
+const isModalVisible = ref(false);
+
+const formData = ref({
   nombre: '',
   apellidos: '',
-  email: '',
   direccion: '',
   localidad: '',
-  cp: 0,
-  telefono: 0,
+  codigoPostal: '',
+  pais: '',       
+  numeroTelefono: '', 
+  telefono: '', 
+  email: '',
   password: ''
-})
+});
 
-const submitForm = () => {
-  const data = Object.keys(formData).reduce((acc, key) =>{
-    acc[key] = formData[key]
-    return acc
-  }, {})
-  console.log(data);
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  formData.value.telefono = formData.value.pais + formData.value.numeroTelefono;
+  
+  const data = {
+    nombre: formData.value.nombre,
+    apellidos: formData.value.apellidos,
+    direccion: formData.value.direccion,
+    localidad: formData.value.localidad,
+    cp: formData.value.codigoPostal,
+    telefono: formData.value.telefono,
+    email: formData.value.email,
+    password: formData.value.password
+  };
+
+  fetch('http://127.0.0.1:5000/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.status === 201){
+      modalMessage.value = "Usuario creado correctamente"
+    } else if (response.status === 409){
+      modalMessage.value = "El usuario ya se encuentra registrado"
+    } else if (response.status === 500){
+      modalMessage.value = "Error inesperado por parte del servidor"
+    } else {
+      modalMessage.value = `Error: ${response.statusText}`
+    }
+    isModalVisible.value = true
+  })
+  .catch((error) => {
+    console.error('unexpected error:', error);
+    modalMessage.value = "Error inesperado durante la solicitud"
+    isModalVisible.value = true
+  });
+};
+
+const handleModalClose = () => {
+  isModalVisible.value = false
+  window.location.reload()
 }
 
 const handleInput = (event) => {
@@ -30,37 +75,37 @@ const handleInput = (event) => {
 <template>
   <main>
     <header>
-    <h1 class="txt-2vw">Formulario de registro para clientes</h1>
+      <h1 class="txt-2vw">Formulario de registro para clientes</h1>
     </header>
     <div class="form-center">
-      <form @submit.prevent="submitForm">
+      <form @submit="handleSubmit">
         <div class="input-group">
-          <input type="text" placeholder="Nombre" required/>
-          <input type="text" placeholder="Apellidos" required/>
+          <input type="text" v-model="formData.nombre" placeholder="Nombre" required/>
+          <input type="text" v-model="formData.apellidos" placeholder="Apellidos" required/>
         </div>
-        <input type="text" placeholder="Dirección" required/>
+        <input type="text" v-model="formData.direccion" placeholder="Dirección" required/>
         <div class="input-group">
-          <input type="text" placeholder="Localidad" required/>
-          <input type="text" v-model="postalCode" @input="handleInput" placeholder="Código Postal" required/>
+          <input type="text" v-model="formData.localidad" placeholder="Localidad" required/>
+          <input type="text" v-model="formData.codigoPostal" @input="handleInput" placeholder="Código Postal" required/>
         </div>
         <div class="input-group">
-          <select name="Pais" class="codigopais" required>
+          <select v-model="formData.pais" name="Pais" class="codigopais" required>
             <option value="" disabled selected>País</option>
-            <option value="spain">+34 (España)</option>
-            <option value="italia">+39 (Italia)</option>
-            <option value="francia">+33 (Francia)</option>
-            <option value="portugal">+351 (Portugal)</option>
-            <option value="alemania">+49 (Alemania)</option>
-            <option value="reinounido">+44 (Reino Unido)</option>
+            <option value="+34">+34 (España)</option>
+            <option value="+39">+39 (Italia)</option>
+            <option value="+33">+33 (Francia)</option>
+            <option value="+351">+351 (Portugal)</option>
+            <option value="+49">+49 (Alemania)</option>
+            <option value="+44">+44 (Reino Unido)</option>
           </select>
-          <input type="text" v-model="phoneNumber" @input="handleInput" placeholder="Teléfono" required/>
+          <input type="text" v-model="formData.numeroTelefono" @input="handleInput" placeholder="Teléfono" required/>
         </div>
         <div class="input-group">
-          <input type="email" placeholder="Correo electrónico" required/>
+          <input type="email" v-model="formData.email" placeholder="Correo electrónico" required/>
         </div>
         <div class="input-group">
-            <input type="password" placeholder="Contraseña" required/>
-            <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
+          <input type="password" v-model="formData.password" placeholder="Contraseña" required/>
+          <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
         </div>
         <div class="div-button">
           <button type="submit" class="form-button txt-1vw">Registrarme</button>
@@ -69,6 +114,7 @@ const handleInput = (event) => {
       </form>
     </div>
     <Footer/>
+    <AlertModal :message="modalMessage" :visible="isModalVisible" @close="handleModalClose"/>
   </main>
 </template>
 

@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 from ..services import MySQL
 
 
 # Instanciacion de la app de Flask
 app = Flask(__name__)
+CORS(app)
 
 
 # Instanciacion sobre el servicion de conexion a MySQL
