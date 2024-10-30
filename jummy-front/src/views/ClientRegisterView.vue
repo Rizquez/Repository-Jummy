@@ -1,106 +1,124 @@
 <script setup>
+import { ref } from 'vue';
 import Footer from '@/components/Footer.vue';
+import AlertModal from '@/components/AlertModal.vue';
+import { validateNumber } from '@/stores/utils';
+
+const modalMessage = ref('');
+const isModalVisible = ref(false);
+
+const formData = ref({
+  nombre: '',
+  apellidos: '',
+  direccion: '',
+  localidad: '',
+  codigoPostal: '',
+  pais: '',       
+  numeroTelefono: '', 
+  telefono: '', 
+  email: '',
+  password: ''
+});
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  formData.value.telefono = formData.value.pais + formData.value.numeroTelefono;
+  
+  const data = {
+    nombre: formData.value.nombre,
+    apellidos: formData.value.apellidos,
+    direccion: formData.value.direccion,
+    localidad: formData.value.localidad,
+    cp: formData.value.codigoPostal,
+    telefono: formData.value.telefono,
+    email: formData.value.email,
+    password: formData.value.password
+  };
+
+  fetch('http://127.0.0.1:5000/users', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => {
+    if (response.status === 201){
+      modalMessage.value = "Usuario creado correctamente 📑"
+    } else if (response.status === 409){
+      modalMessage.value = "El usuario ya se encuentra registrado ⛔"
+    } else if (response.status === 500){
+      modalMessage.value = `Los datos no se han podido registrar\n(${response.statusText}) 🛠️`
+    } else {
+      modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`
+    }
+    isModalVisible.value = true
+  })
+  .catch((error) => {
+    console.error('unexpected error:', error);
+    modalMessage.value = "Error inesperado durante la solicitud"
+    isModalVisible.value = true
+  });
+};
+
+const handleModalClose = () => {
+  isModalVisible.value = false
+  window.location.reload()
+}
+
+const handleInput = (event) => {
+  validateNumber(event);
+};
 </script>
 
 <template>
   <main>
     <header>
-    <h1 class="txt-2vw">Formulario de registro para clientes</h1>
+      <h1 class="txt-2vw">Formulario de registro para clientes</h1>
     </header>
-    <form>
-      <div class="input-group">
-        <input type="text" placeholder="Nombre"/>
-        <input type="text" placeholder="Apellidos"/>
-      </div>
-      <input type="text" placeholder="Dirección"/>
-      <div class="input-group">
-        <input type="text" placeholder="Localidad"/>
-        <input type="text" placeholder="Código Postal"/>
-      </div>
-      <div class="input-group">
-        <input type="text" placeholder="Teléfono"/>
-        <input type="email" placeholder="Correo electrónico"/>
-      </div>
-      <div class="input-group">
-          <input type="password" placeholder="Contraseña"/>
+    <div class="form-center">
+      <form @submit="handleSubmit">
+        <div class="input-group">
+          <input type="text" v-model="formData.nombre" placeholder="Nombre" required/>
+          <input type="text" v-model="formData.apellidos" placeholder="Apellidos" required/>
+        </div>
+        <input type="text" v-model="formData.direccion" placeholder="Dirección" required/>
+        <div class="input-group">
+          <input type="text" v-model="formData.localidad" placeholder="Localidad" required/>
+          <input type="text" v-model="formData.codigoPostal" @input="handleInput" placeholder="Código Postal" required/>
+        </div>
+        <div class="input-group">
+          <select v-model="formData.pais" name="Pais" class="codigopais" required>
+            <option value="" disabled selected>País</option>
+            <option value="+34">+34 (España)</option>
+            <option value="+39">+39 (Italia)</option>
+            <option value="+33">+33 (Francia)</option>
+            <option value="+351">+351 (Portugal)</option>
+            <option value="+49">+49 (Alemania)</option>
+            <option value="+44">+44 (Reino Unido)</option>
+          </select>
+          <input type="text" v-model="formData.numeroTelefono" @input="handleInput" placeholder="Teléfono" required/>
+        </div>
+        <div class="input-group">
+          <input type="email" v-model="formData.email" placeholder="Correo electrónico" required/>
+        </div>
+        <div class="input-group">
+          <input type="password" v-model="formData.password" placeholder="Contraseña" required/>
           <span class="help-text txt-1vw">Debe contener entre 6 y 8 caracteres alfanuméricos</span>
-      </div>
-      <div class="div-button">
-        <button type="submit" class="form-button txt-1vw">Registrarme</button>
-        <router-link :to="{ name: 'home' }" class="form-button txt-1vw">Volver</router-link>
-      </div>
-    </form>
+        </div>
+        <div class="div-button">
+          <button type="submit" class="form-button txt-1vw">Registrarme</button>
+          <router-link :to="{ name: 'home' }" class="form-button txt-1vw">Volver</router-link>
+        </div>
+      </form>
+    </div>
     <Footer/>
+    <AlertModal :message="modalMessage" :visible="isModalVisible" @close="handleModalClose"/>
   </main>
 </template>
 
 <style scoped>
 @import '@/assets/styles/fonts.css';
-
-header {
-  padding-top: 2%;
-}
-
-header h1 {
-  font-weight:lighter;
-  text-decoration: underline;
-  text-align: center;
-  color: var(--text-100);
-}
-
-form {
-  border: 3px solid var(--primary-300);
-  border-radius: 20px;
-  box-sizing: border-box;
-  padding: 2%;
-  margin: 2%;
-}
-
-.input-group {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.input-group input[type="text"],
-form input[type="text"],
-form input[type="email"],
-form input[type="password"] {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
-  border: 3px solid var(--primary-300);
-  border-radius: 20px;
-  box-sizing: border-box;
-}
-
-.form-button {
-  color: var(--text-100);
-  background-color: var(--primary-100);
-  font-weight:bold;
-  padding: 10px 35px;
-  border: none;
-  cursor: pointer;
-  border-radius: 30px;
-  text-decoration: none;
-}
-
-.div-button {
-  display: flex;
-  justify-content: space-between;
-}
-
-.input-group input[type="text"]:nth-child(1) {
-  margin-right: 5px;
-}
-
-.input-group input[type="text"]:nth-child(2) {
-  margin-left: 5px;
-}
-
-.help-text {
-  color: var(--text-100); 
-  padding-left: 10px;
-  text-align: center;
-}
+@import '@/assets/styles/register.css';
 </style>
