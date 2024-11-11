@@ -7,7 +7,7 @@
  * @param {Event} event - El evento de entrada que contiene el valor a validar.
  */
 export const validateNumber = (event) => {
-    event.target.value = event.target.value.replace(/[^0-9]/g, '');
+  event.target.value = event.target.value.replace(/[^0-9]/g, '');
 };
 
 
