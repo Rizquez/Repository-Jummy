@@ -7,6 +7,15 @@ import { validateNumber, fetchWithTimeout } from '@/stores/utils';
 const modalMessage = ref('');
 const isModalVisible = ref(false);
 
+const handleModalClose = () => {
+  isModalVisible.value = false
+  window.location.reload()
+}
+
+const handleInput = (event) => {
+  validateNumber(event);
+};
+
 const formData = ref({
   nombre: '',
   apellidos: '',
@@ -36,7 +45,7 @@ const handleSubmit = (event) => {
     password: formData.value.password
   };
 
-  fetchWithTimeout('http://127.0.0.1:5000/users', {
+  fetchWithTimeout('http://127.0.0.1:5000/build-diner', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -57,19 +66,10 @@ const handleSubmit = (event) => {
   })
   .catch((error) => {
     modalMessage.value = error.message.includes('tiempo de espera')
-    ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo mas tarde.'
+    ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo mas tarde'
     : 'Error inesperado durante la solicitud';
     isModalVisible.value = true;
   });
-};
-
-const handleModalClose = () => {
-  isModalVisible.value = false
-  window.location.reload()
-}
-
-const handleInput = (event) => {
-  validateNumber(event);
 };
 </script>
 

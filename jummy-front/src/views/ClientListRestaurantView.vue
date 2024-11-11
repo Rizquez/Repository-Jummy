@@ -6,13 +6,14 @@ import Footer from '@/components/Footer.vue';
 
 const route = useRoute()
 const type = computed(() => route.params.type)
+const restaurantes = ref(JSON.parse(route.query.restaurantes || '[]')).value;
+console.log(restaurantes)
 
 const images = import.meta.glob('@/assets/images/gastronomy/*.jpg', { eager: true })
 const imageUrl = computed(() => {
   return images[`/src/assets/images/gastronomy/${type.value}.jpg`]?.default
 })
 
-const restaurantes = ref([1, 2, 3]);
 </script>
 
 <template>
@@ -25,9 +26,8 @@ const restaurantes = ref([1, 2, 3]);
       <div v-for="(restaurante, index) in restaurantes" :key="index" id="restaurante" class="info-restaurante">
         <div class="container-info">
           <div>
-            <p class="txt-1vw">Nombre del restaurante</p>
-            <p class="txt-1vw">Gastronomia del restaurante</p>
-            <p class="txt-1vw">Descripcion del restaurante</p>
+            <p class="txt-1vw">{{ restaurante.nombre_comercial }}</p>
+            <p class="txt-1vw">{{ restaurante.descripcion }}</p>
           </div>
           <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
         </div>
