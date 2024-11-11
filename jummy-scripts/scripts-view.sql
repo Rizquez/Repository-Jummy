@@ -21,4 +21,14 @@ FROM
     restaurantes;
 
 
-    
+-- Vista los datos base de los restaurantes disponibles
+
+CREATE VIEW v_restaurantes_gastronomias AS
+SELECT 
+    r.nombre_comercial,
+    r.descripcion,
+    g.gastronomia
+FROM 
+    restaurantes AS r
+INNER JOIN 
+    gastronomias AS g ON r.id_gastronomia = g.id;
