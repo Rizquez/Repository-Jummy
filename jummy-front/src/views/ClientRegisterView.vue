@@ -6,16 +6,6 @@ import { validateNumber, fetchWithTimeout } from '@/stores/utils';
 
 const modalMessage = ref('');
 const isModalVisible = ref(false);
-
-const handleModalClose = () => {
-  isModalVisible.value = false
-  window.location.reload()
-}
-
-const handleInput = (event) => {
-  validateNumber(event);
-};
-
 const formData = ref({
   nombre: '',
   apellidos: '',
@@ -28,6 +18,15 @@ const formData = ref({
   email: '',
   password: ''
 });
+
+const handleModalClose = () => {
+  isModalVisible.value = false
+  window.location.reload()
+}
+
+const handleInput = (event) => {
+  validateNumber(event);
+};
 
 const handleSubmit = (event) => {
   event.preventDefault();

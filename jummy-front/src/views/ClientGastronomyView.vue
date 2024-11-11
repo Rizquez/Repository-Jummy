@@ -8,13 +8,13 @@ import AlertModal from '@/components/AlertModal.vue';
 
 const modalMessage = ref('');
 const isModalVisible = ref(false);
+const router = useRouter();
 
 const handleModalClose = () => {
   isModalVisible.value = false
   window.location.reload()
 }
 
-const router = useRouter();
 async function redirectToRestaurant(type) {
     try {
         const response = await fetchWithTimeout('http://127.0.0.1:5000/find-restaurants', {
@@ -31,7 +31,7 @@ async function redirectToRestaurant(type) {
             sessionStorage.setItem('restaurantes', JSON.stringify(restaurantes));
             router.push({ name: 'client-restaurant', params: { type } });
         } else if (response.status === 500) {
-            modalMessage.value = `No se han obtenido datos de la gastronomia indicada\n(${response.statusText}) 🛠️`;
+            modalMessage.value = `No se han obtenido datos de la gastronomia indicada`;
             isModalVisible.value = true;
         } else {
             modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`;

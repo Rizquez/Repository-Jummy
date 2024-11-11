@@ -1,21 +1,30 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import HeaderClient from '@/components/HeaderClient.vue'
 import Footer from '@/components/Footer.vue';
 
 const route = useRoute()
 const type = computed(() => route.params.type)
-const restaurantes = ref(JSON.parse(sessionStorage.getItem('restaurantes') || '[]'));
+const restaurantes = ref([]);
 
 const images = import.meta.glob('@/assets/images/gastronomy/*.jpg', { eager: true })
 const imageUrl = computed(() => {
   return images[`/src/assets/images/gastronomy/${type.value}.jpg`]?.default
 })
 
-import { onBeforeUnmount } from 'vue';
-onBeforeUnmount(() => {
-  sessionStorage.removeItem('restaurantes');
+const loadRestaurants = () => {
+  const storedData = sessionStorage.getItem('restaurantes');
+  if (storedData) {
+    restaurantes.value = JSON.parse(storedData);
+  }
+};
+onMounted(() => {
+  loadRestaurants();
+});
+
+watch([type, () => route.query.reload], () => {
+  loadRestaurants();
 });
 </script>
 

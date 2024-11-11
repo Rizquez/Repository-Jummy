@@ -146,7 +146,10 @@ def obtain_restaurants():
                 type_data='multi',
                 params={'nombre_comercial': nombre_comercial}
             )
-            return jsonify({'data': data}), 200
+            if data:
+                return jsonify({'data': data}), 200
+            else:
+                return jsonify({'message': 'restaurant not found'}), 404
         except Exception as e:
             return jsonify({'error': str(e)}), 500
         
