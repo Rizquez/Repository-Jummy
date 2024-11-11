@@ -28,11 +28,8 @@ async function redirectToRestaurant(type) {
         if (response.status === 200) {
             const data = await response.json();
             const restaurantes = data.data; 
-            router.push({
-                name: 'client-restaurant',
-                params: { type },
-                query: { restaurantes: JSON.stringify(restaurantes) }
-            });
+            sessionStorage.setItem('restaurantes', JSON.stringify(restaurantes));
+            router.push({ name: 'client-restaurant', params: { type } });
         } else if (response.status === 500) {
             modalMessage.value = `No se han obtenido datos de la gastronomia indicada\n(${response.statusText}) 🛠️`;
             isModalVisible.value = true;

@@ -6,14 +6,17 @@ import Footer from '@/components/Footer.vue';
 
 const route = useRoute()
 const type = computed(() => route.params.type)
-const restaurantes = ref(JSON.parse(route.query.restaurantes || '[]')).value;
-console.log(restaurantes)
+const restaurantes = ref(JSON.parse(sessionStorage.getItem('restaurantes') || '[]'));
 
 const images = import.meta.glob('@/assets/images/gastronomy/*.jpg', { eager: true })
 const imageUrl = computed(() => {
   return images[`/src/assets/images/gastronomy/${type.value}.jpg`]?.default
 })
 
+import { onBeforeUnmount } from 'vue';
+onBeforeUnmount(() => {
+  sessionStorage.removeItem('restaurantes');
+});
 </script>
 
 <template>
