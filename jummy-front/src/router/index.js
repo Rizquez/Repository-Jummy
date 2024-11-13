@@ -36,12 +36,6 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
-    path: '/configuracion',
-    name: 'company-configuration',
-    component: () => import('@/views/CompanyConfigurationView.vue'),
-    beforeEnter: authGuard,
-  },
-  {
     path: '/editar-menu',
     name: 'company-edit-menu',
     component: () => import('@/views/CompanyEditMenuView.vue'),

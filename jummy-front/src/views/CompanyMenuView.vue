@@ -16,8 +16,8 @@ const handleLogout = () => {
     <div class="container-general">
       <img src="@/assets/images/general/logo-jummy.png" alt="Logo Jummy"/>
       <div class="button-container">
-        <router-link :to="{ name: 'company-edit-menu' }" class="btn-loggin txt-2vw">Modificar Carta</router-link>
-        <router-link :to="{ name: 'company-configuration' }" class="btn-loggin txt-2vw">Configuracion</router-link>
+        <router-link :to="{ name: 'company-edit-menu' }" class="btn-loggin txt-2vw">Modificar carta</router-link>
+        <router-link :to="{ name: 'company-menu' }" class="btn-loggin txt-2vw">Lista de pedidos (sin uso)</router-link>
       </div>
     </div>
     <Footer/>

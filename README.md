@@ -83,8 +83,9 @@ El proyecto está organizado en tres directorios principales, lo que facilita su
 
 ### jummy-scripts (Scripts SQL)
 ```
-├── script-gastronomias.sql
-└── script-restaurantes.sql
+├── scripts-clean-data.sql
+├── scripts-insert.sql
+└── scripts-view.sql
 ```
 
 ## 🖥️ Descripción de las Ramas de Trabajo en Git
