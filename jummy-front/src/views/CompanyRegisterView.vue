@@ -49,7 +49,7 @@ const handleSubmit = (event) => {
     gastronomia: formData.value.gastronomia
   };
 
-  fetchWithTimeout('http://127.0.0.1:5000/build-restaurant', {
+  fetchWithTimeout('https://api-jummy.onrender.com/build-restaurant', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
