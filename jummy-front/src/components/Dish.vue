@@ -15,7 +15,7 @@ export default {
 </script>
 
 <template>
-  <div id="plato" class="info-plato" v-if="plato">
+  <div id="plato" class="info-plato">
     <div class="container-info">
       <div>
         <p class="txt-1vw">{{ plato.nombre || 'N/A' }}</p>
@@ -26,9 +26,6 @@ export default {
       <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" />
     </div>
     <button class="btn-anadir txt-1vw" @click="addDish">Añadir</button>
-  </div>
-  <div v-else>
-    no hay plato
   </div>
 </template>
 
