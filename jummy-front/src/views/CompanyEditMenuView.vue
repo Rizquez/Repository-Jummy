@@ -2,44 +2,28 @@
 import { ref } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
 import Footer from '@/components/Footer.vue';
+import FormDish from '@/components/FormDish.vue';
 
-const popupPlatoVisible = ref(false);
-const popupBebidaVisible = ref(false);
-const nuevoPlato = ref({
+const { isAuthenticated, user, isLoading } = useAuth0();
+const email = user.value.name;
+const popupDishDrinkVisible = ref(false);
+const nuevoDishDrink = ref({
   nombre: '',
   descripcion: '',
   ingredientes: '',
   precio: 0,
 });
-const nuevaBebida = ref({
-  nombre: '',
-  precio: 0,
-});
 
-const mostrarPopupPlato = () => {
-  popupPlatoVisible.value = true;
+const addDishDrink = () => {
+  closePopupDishDrink();
 };
 
-const cerrarPopupPlato = () => {
-  popupPlatoVisible.value = false;
+const showPopupDishDrink = () => {
+  popupDishDrinkVisible.value = true;
 };
 
-const agregarPlato = () => {
-  console.log('Nuevo plato:', nuevoPlato.value);
-  cerrarPopupPlato();
-};
-
-const mostrarPopupBebida = () => {
-  popupBebidaVisible.value = true;
-};
-
-const cerrarPopupBebida = () => {
-  popupBebidaVisible.value = false;
-};
-
-const agregarBebida = () => {
-  console.log('Nueva bebida:', nuevaBebida.value);
-  cerrarPopupBebida();
+const closePopupDishDrink = () => {
+  popupDishDrinkVisible.value = false;
 };
 
 const { logout } = useAuth0();
@@ -54,10 +38,10 @@ const handleLogout = () => {
     <div class="container-btn-nav">
       <div>
         <ul>
-          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Entrantes</button></li>
-          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Principales</button></li>
-          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Postres</button></li>
-          <li><button class="txt-1-5vw" @click="mostrarPopupBebida">Bebidas</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink">Entrantes</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink">Principales</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink">Postres</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink">Bebidas</button></li>
         </ul>
       </div>
       <div class="container-volver-salir">
@@ -68,7 +52,7 @@ const handleLogout = () => {
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Entrantes</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupPlato">Añadir entrante</button>
+          <button class="anadir" @click="showPopupDishDrink">Añadir entrante</button>
       </div>
       <div class="lista-platos">
       </div>
@@ -76,7 +60,7 @@ const handleLogout = () => {
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Principales</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupPlato">Añadir principal</button>
+          <button class="anadir" @click="showPopupDishDrink">Añadir principal</button>
       </div>
       <div class="lista-platos">
       </div>
@@ -84,7 +68,7 @@ const handleLogout = () => {
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Bebidas</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupBebida">Añadir bebida</button>
+          <button class="anadir" @click="showPopupDishDrink">Añadir bebida</button>
       </div>
       <div class="lista-platos">
       </div>
@@ -92,7 +76,7 @@ const handleLogout = () => {
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Postres</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupPlato">Añadir postre</button>
+          <button class="anadir" @click="showPopupDishDrink">Añadir postre</button>
       </div>
       <div class="lista-platos">
       </div>
@@ -100,52 +84,33 @@ const handleLogout = () => {
     <Footer/>
   </main>
   
-  <!-- Popup (Modal) para los platos -->
+  <!-- Popup (Modal) para los platos/bebidas -->
   <div class="boton-anadir-container">
-    <div v-if="popupPlatoVisible" class="modal">
-      <h2>Añadir Nuevo Plato</h2>
-      <form @submit.prevent="agregarPlato">
+    <div v-if="popupDishDrinkVisible" class="modal">
+      <h2>Añadir Plato/Bebida</h2>
+      <form @submit.prevent="addDishDrink">
         <div>
           <label for="nombre-plato">Nombre:</label>
-          <input type="text" id="nombre-plato" v-model="nuevoPlato.nombre" required />
+          <input type="text" id="nombre-plato" v-model="nuevoDishDrink.nombre" required />
         </div>
         <div>
           <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" v-model="nuevoPlato.descripcion" required></textarea>
+          <textarea id="descripcion" v-model="nuevoDishDrink.descripcion" required></textarea>
         </div>
         <div>
           <label for="ingredientes">Ingredientes:</label>
-          <textarea id="ingredientes" v-model="nuevoPlato.ingredientes" required></textarea>
+          <textarea id="ingredientes" v-model="nuevoDishDrink.ingredientes" required></textarea>
         </div>
         <div>
           <label for="precio">Precio:</label>
-          <input type="number" id="precio" v-model="nuevoPlato.precio" required />
+          <input type="number" id="precio" v-model="nuevoDishDrink.precio" required />
         </div>
         <div class="modal-buttons">
           <button type="submit">Guardar</button>
-          <button type="button" @click="cerrarPopupPlato">Cancelar</button>
+          <button type="button" @click="closePopupDishDrink">Cancelar</button>
         </div>
       </form>
     </div>
-  </div>
-
-  <!-- Popup (Modal) para bebida -->
-  <div v-if="popupBebidaVisible" class="modal">
-    <h2>Añadir Nueva Bebida</h2>
-    <form @submit.prevent="agregarBebida">
-      <div>
-        <label for="nombre-bebida">Nombre:</label>
-        <input type="text" id="nombre-bebida" v-model="nuevaBebida.nombre" required />
-      </div>
-      <div>
-        <label for="precio-bebida">Precio:</label>
-        <input type="number" id="precio-bebida" v-model="nuevaBebida.precio" required />
-      </div>
-      <div class="modal-buttons">
-        <button type="submit">Guardar</button>
-        <button type="button" @click="cerrarPopupBebida">Cancelar</button>
-      </div>
-    </form>
   </div>
 </template>
 
