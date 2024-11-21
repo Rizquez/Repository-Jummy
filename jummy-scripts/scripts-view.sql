@@ -21,7 +21,7 @@ FROM
     restaurantes;
 
 
--- Vista los datos base de los restaurantes disponibles
+-- Vista con los datos base de los restaurantes disponibles
 
 CREATE VIEW v_restaurantes_gastronomias AS
 SELECT 
@@ -32,3 +32,20 @@ FROM
     restaurantes AS r
 INNER JOIN 
     gastronomias AS g ON r.id_gastronomia = g.id;
+
+--  Vista con los datos de los platos agrupados por restaurantes
+CREATE VIEW v_menus AS
+SELECT 
+	r.nombre_comercial,
+    p.nombre,
+    p.descripcion,
+    p.ingredientes,
+    p.precio,
+    tp.tipo_plato,
+    p.foto
+FROM 
+    platos AS p
+INNER JOIN 
+    restaurantes AS r ON p.id_restaurante = r.id
+INNER JOIN 
+	tipo_platos AS tp ON p.id_tipo_plato = tp.id

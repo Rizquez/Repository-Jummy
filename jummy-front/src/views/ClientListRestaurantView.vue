@@ -43,7 +43,7 @@ watch([type, () => route.query.reload], () => {
           </div>
           <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
         </div>
-        <router-link :to="{ name: 'client-gastronomy' }" class="btn-carta txt-1vw">Ver carta</router-link>
+        <router-link :to="{ name: 'menu-restaurant', params: { nombre_comercial: restaurante.nombre_comercial } }" class="btn-carta txt-1vw">Ver carta</router-link>
       </div>
     </div>
     <Footer/>
