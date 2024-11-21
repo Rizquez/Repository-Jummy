@@ -174,6 +174,7 @@ def obtain_restaurants():
 def obtain_dishes():
     
     nombre_comercial = request.json.get('nombre_comercial')
+    email = request.json.get('email')
 
     if nombre_comercial:
         try:
@@ -189,6 +190,28 @@ def obtain_dishes():
                 return jsonify({'message': 'dishes not found for this restaurant'}), 404
         except Exception as e:
             return jsonify({'message': str(e)}), 500
+    elif email:
+        try:
+            nombre_comercial = instance_db.simple_query(
+                engine_mysql,
+                "SELECT nombre_comercial FROM restaurantes WHERE email = :email",
+                params={'email': email}
+            )['nombre_comercial']
+
+            
+            data = instance_db.simple_query(
+                engine_mysql,
+                "SELECT * FROM  v_menus WHERE nombre_comercial = :nombre_comercial",
+                type_data='multi',
+                params={'nombre_comercial': nombre_comercial}
+            )
+            if data:
+                return jsonify({'data': data}), 200
+            else:
+                return jsonify({'message': 'dishes not found for this restaurant'}), 404
+        except Exception as e:
+            return jsonify({'message': str(e)}), 500
+
     else:
         return jsonify({'message': 'nombre_restaurante not indicated'}), 400
 
@@ -220,7 +243,7 @@ def create_plato():
             params={'tipo_plato': tipo_plato}
         )['id']
 
-        # Ejecutar la inserción utilizando la función execute_dml_query
+       
         rowcount = instance_db.execute_dml_query(
             engine_mysql,
             """
@@ -237,13 +260,80 @@ def create_plato():
             }
         )
 
-        # Verificar si la inserción fue exitosa
+        
         if rowcount > 0:
             return jsonify({'mensaje': 'successfully created dish'}), 201
         else:
             return jsonify({'message': 'the dish cannot be created'}), 500
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+    
+
+# Endpoint para actualizar un plato mediante el nombre comercial del restaurante y el nombre del plato
+@app.route('/update-dish', methods=['PUT'])
+def update_plato():
+    email = request.json.get('email')
+    nombre_plato = request.json.get('nombre')
+    nuevo_tipo_plato = request.json.get('tipo_plato')
+    nueva_descripcion = request.json.get('descripcion')
+    nuevos_ingredientes = request.json.get('ingredientes')
+    nuevo_precio = request.json.get('precio')
+    
+    try:
+        
+        restaurante = instance_db.simple_query(
+            engine_mysql,
+            "SELECT id FROM restaurantes WHERE email = :email",
+            params={'email': email}
+        )['id']
+
+        plato = instance_db.simple_query(
+            engine_mysql,
+            "SELECT id FROM platos WHERE nombre = :nombre_plato AND id_restaurante = :id_restaurante",
+            params={'nombre_plato': nombre_plato, 'id_restaurante': restaurante}
+        )['id']
+
+        updates = []
+        params = {'id_plato': plato, 'id_restaurante': restaurante}
+
+        if nuevo_tipo_plato:
+            tipo_plato = instance_db.simple_query(
+                engine_mysql,
+                "SELECT id FROM tipo_platos WHERE tipo_plato = :tipo_plato",
+                params={'tipo_plato': nuevo_tipo_plato}
+            )['id']
+            updates.append("id_tipo_plato = :id_tipo_plato")
+            params['id_tipo_plato'] = tipo_plato
+
+        if nueva_descripcion:
+            updates.append("descripcion = :nueva_descripcion")
+            params['nueva_descripcion'] = nueva_descripcion
+        if nuevos_ingredientes:
+            updates.append("ingredientes = :nuevos_ingredientes")
+            params['nuevos_ingredientes'] = nuevos_ingredientes
+        if nuevo_precio is not None:
+            updates.append("precio = :nuevo_precio")
+            params['nuevo_precio'] = nuevo_precio
+
+        if not updates:
+            return jsonify({'message': 'No fields to update'}), 400
+
+        update_query = f"""
+        UPDATE platos
+        SET {', '.join(updates)}
+        WHERE id = :id_plato AND id_restaurante = :id_restaurante
+        """
+        rowcount = instance_db.execute_dml_query(engine_mysql, update_query, params)
+
+        if rowcount > 0:
+            return jsonify({'mensaje': 'Dish updated successfully'}), 200
+        else:
+            return jsonify({'message': 'Failed to update the dish'}), 500
+
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+
 
 
 # Endpoint para controlar la peticion sobre endpoints inexistentes
