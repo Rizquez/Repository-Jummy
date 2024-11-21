@@ -2,11 +2,10 @@
 import { ref } from 'vue';
 import Footer from '@/components/Footer.vue';
 import AlertModal from '@/components/AlertModal.vue';
-import { validateNumber } from '@/stores/utils';
+import { validateNumber, fetchWithTimeout } from '@/stores/utils';
 
 const modalMessage = ref('');
 const isModalVisible = ref(false);
-
 const formData = ref({
   cif: '',
   nombre_fiscal: '',
@@ -20,6 +19,15 @@ const formData = ref({
   password: '',
   gastronomia: ''
 });
+
+const handleModalClose = () => {
+  isModalVisible.value = false
+  window.location.reload()
+}
+
+const handleInput = (event) => {
+  validateNumber(event);
+};
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -41,15 +49,13 @@ const handleSubmit = (event) => {
     gastronomia: formData.value.gastronomia
   };
 
-  console.log(data)
-
-  fetch('http://127.0.0.1:5000/restaurante', {
+  fetchWithTimeout('http://127.0.0.1:5000/build-restaurant', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(data)
-  })
+  }, 60000)
   .then(response => {
     if (response.status === 201){
       modalMessage.value = "Restaurante creado correctamente 📑"
@@ -63,19 +69,11 @@ const handleSubmit = (event) => {
     isModalVisible.value = true
   })
   .catch((error) => {
-    console.error('unexpected error:', error);
-    modalMessage.value = "Error inesperado durante la solicitud"
-    isModalVisible.value = true
+    modalMessage.value = error.message.includes('tiempo de espera')
+    ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo mas tarde'
+    : 'Error inesperado durante la solicitud';
+    isModalVisible.value = true;
   });
-};
-
-const handleModalClose = () => {
-  isModalVisible.value = false
-  window.location.reload()
-}
-
-const handleInput = (event) => {
-  validateNumber(event);
 };
 </script>
 

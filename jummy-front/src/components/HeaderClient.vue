@@ -1,6 +1,14 @@
 <script setup>
 import { useAuth0 } from '@auth0/auth0-vue';
-import { defineProps } from 'vue';
+import { ref, defineProps } from 'vue';
+import { useRouter } from 'vue-router';
+import { fetchWithTimeout } from '@/stores/utils';
+import AlertModal from '@/components/AlertModal.vue';
+
+const router = useRouter();
+const searchRestaurant = ref('');
+const modalMessage = ref('');
+const isModalVisible = ref(false);
 
 const props = defineProps({
     showReturn: {
@@ -13,6 +21,45 @@ const { logout } = useAuth0();
 const handleLogout = () => {
   logout({ returnTo: window.location.origin });
 };
+
+const handleModalClose = () => {
+  isModalVisible.value = false
+  window.location.reload()
+}
+
+async function handleSearch() {
+    const restaurante = searchRestaurant.value.trim(); 
+    if (!restaurante) return; 
+
+    try {
+        const response = await fetchWithTimeout('http://127.0.0.1:5000/find-restaurants', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ nombre_comercial: restaurante })
+        }, 10000);
+
+        if (response.status === 200) {
+            const data = await response.json();
+            const restaurantes = data.data;
+            const type = restaurantes[0].gastronomia
+            sessionStorage.setItem('restaurantes', JSON.stringify(restaurantes));
+            router.push({ name: 'client-restaurant', params: { type }, query: { reload: Date.now() } });
+        } else if (response.status === 404) {
+            modalMessage.value = `El restaurante solicitado no se encuentra registrado en Jummy`;
+            isModalVisible.value = true;
+        } else {
+            modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`;
+            isModalVisible.value = true;
+        }
+    } catch (error) {
+        modalMessage.value = error.message.includes('tiempo de espera')
+            ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo más tarde'
+            : 'Error inesperado durante la solicitud';
+        isModalVisible.value = true;
+    }
+}
 </script>
 
 <template>
@@ -25,12 +72,13 @@ const handleLogout = () => {
                     <router-link v-if="showReturn" :to="{ name: 'client-gastronomy' }" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
                 </div>
                 <div class="contenedor-general">
-                    <input class="barra txt-1-5vw" type="text" value="" placeholder="Busca en Jummy">
-                    <router-link :to="{ name: 'client-gastronomy' }" class="boton-buscador txt-1-5vw">Buscar</router-link>
+                    <input v-model="searchRestaurant" class="barra txt-1-5vw" type="text" placeholder="Busca en Jummy" />
+                    <button @click="handleSearch" class="boton-buscador txt-1-5vw">Buscar</button>
                 </div>
             </div>
         </div>
     </header>
+    <AlertModal :message="modalMessage" :visible="isModalVisible" @close="handleModalClose"/>
 </template>
 
 <style scoped>
@@ -84,5 +132,4 @@ const handleLogout = () => {
     border-radius: 10px;
     padding: 10px;
 }
-
 </style>
