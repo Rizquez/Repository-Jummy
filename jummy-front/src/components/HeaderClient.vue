@@ -100,12 +100,12 @@ async function handleSearch() {
     z-index: 999;
     background-color: var(--bg-200);
     padding-top: 60px;
-    gap: calc(20%);
+    gap: 20%;
 }
 
 .contenedor-fijo img {
     width: 30%;
-    height: auto;
+    height: 20%;
     display: flex;
     align-items: flex-start;
 }

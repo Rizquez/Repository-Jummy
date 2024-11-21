@@ -1,10 +1,8 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
-import Dish from '@/components/Dish.vue';
 import Footer from '@/components/Footer.vue';
 
-// Variables de estado
 const popupPlatoVisible = ref(false);
 const popupBebidaVisible = ref(false);
 const nuevoPlato = ref({
@@ -18,7 +16,6 @@ const nuevaBebida = ref({
   precio: 0,
 });
 
-// Métodos
 const mostrarPopupPlato = () => {
   popupPlatoVisible.value = true;
 };
@@ -29,7 +26,7 @@ const cerrarPopupPlato = () => {
 
 const agregarPlato = () => {
   console.log('Nuevo plato:', nuevoPlato.value);
-  cerrarPopupPlato(); // Cierra el modal después de guardar
+  cerrarPopupPlato();
 };
 
 const mostrarPopupBebida = () => {
@@ -42,7 +39,7 @@ const cerrarPopupBebida = () => {
 
 const agregarBebida = () => {
   console.log('Nueva bebida:', nuevaBebida.value);
-  cerrarPopupBebida(); // Cierra el modal después de guardar
+  cerrarPopupBebida();
 };
 
 const { logout } = useAuth0();
@@ -74,9 +71,6 @@ const handleLogout = () => {
           <button class="anadir" @click="mostrarPopupPlato">Añadir entrante</button>
       </div>
       <div class="lista-platos">
-        <Dish />
-        <Dish />
-        <Dish />
       </div>
     </div>
     <div class="contaniner-dish">
@@ -85,9 +79,6 @@ const handleLogout = () => {
           <button class="anadir" @click="mostrarPopupPlato">Añadir principal</button>
       </div>
       <div class="lista-platos">
-        <Dish />
-        <Dish />
-        <Dish />
       </div>
     </div>
     <div class="contaniner-dish">
@@ -96,9 +87,6 @@ const handleLogout = () => {
           <button class="anadir" @click="mostrarPopupBebida">Añadir bebida</button>
       </div>
       <div class="lista-platos">
-        <Dish />
-        <Dish />
-        <Dish />
       </div>
     </div>
     <div class="contaniner-dish">
@@ -107,9 +95,6 @@ const handleLogout = () => {
           <button class="anadir" @click="mostrarPopupPlato">Añadir postre</button>
       </div>
       <div class="lista-platos">
-        <Dish />
-        <Dish />
-        <Dish />
       </div>
     </div>
     <Footer/>

@@ -169,8 +169,7 @@ def obtain_restaurants():
         return jsonify({'error': 'gastronomia or nombre_comercial not indicated'}), 400
     
     
-#Endpoint que nos devuelve todos los platos de un restaurante a través del nombre del restaurante
-
+# Endpoint que nos devuelve todos los platos de un restaurante a través del nombre del restaurante
 @app.route('/find-dishes', methods=['POST'])
 def obtain_dishes():
     
@@ -178,33 +177,27 @@ def obtain_dishes():
 
     if nombre_comercial:
         try:
-            
-            
             data = instance_db.simple_query(
                 engine_mysql,
                 "SELECT * FROM  v_menus WHERE nombre_comercial = :nombre_comercial",
                 type_data='multi',
                 params={'nombre_comercial': nombre_comercial}
             )
-
             if data:
                 return jsonify({'data': data}), 200
             else:
                 return jsonify({'message': 'dishes not found for this restaurant'}), 404
-
         except Exception as e:
-            return jsonify({'error': str(e)}), 500
-
+            return jsonify({'message': str(e)}), 500
     else:
-        return jsonify({'error': 'nombre_restaurante not indicated'}), 400
+        return jsonify({'message': 'nombre_restaurante not indicated'}), 400
 
-#Endpoint que nos permite crear un plato a través del nombre comercial del restaurante
 
+# Endpoint que nos permite crear un plato a través del nombre comercial del restaurante
 @app.route('/create-dish', methods=['POST'])
 def create_plato():
     
     nombre_comercial = request.json.get('nombre_comercial')
-    
     nombre = request.json.get('nombre')
     descripcion = request.json.get('descripcion')
     ingredientes = request.json.get('ingredientes')
@@ -212,10 +205,9 @@ def create_plato():
     tipo_plato = request.json.get('tipo_plato')
 
     if not nombre or not descripcion or not ingredientes or precio is None:
-        return jsonify({'error': 'Todos los campos excepto foto son obligatorios'}), 400
+        return jsonify({'message': 'all fields except photo are required'}), 400
 
     try:
-        # Realizar la consulta para obtener el id del restaurante por nombre_comercial
         id_restaurante = instance_db.simple_query(
             engine_mysql,
             "SELECT id FROM restaurantes WHERE nombre_comercial = :nombre_comercial",
@@ -228,34 +220,33 @@ def create_plato():
             params={'tipo_plato': tipo_plato}
         )['id']
 
-        # Consulta para insertar el plato
-        query = """
+        # Ejecutar la inserción utilizando la función execute_dml_query
+        rowcount = instance_db.execute_dml_query(
+            engine_mysql,
+            """
             INSERT INTO platos (nombre, descripcion, ingredientes, precio, id_tipo_plato, id_restaurante)
             VALUES (:nombre, :descripcion, :ingredientes, :precio, :id_tipo_plato, :id_restaurante)
-        """
-        params = {
+            """, 
+            {
             'nombre': nombre,
             'descripcion': descripcion,
             'ingredientes': ingredientes,
             'precio': precio,
             'id_tipo_plato': id_tipo_plato,
             'id_restaurante': id_restaurante
-        }
-
-        # Ejecutar la inserción utilizando la función execute_dml_query
-        rowcount = instance_db.execute_dml_query(engine_mysql, query, params)
+            }
+        )
 
         # Verificar si la inserción fue exitosa
         if rowcount > 0:
-            return jsonify({'mensaje': 'Plato creado exitosamente'}), 201
+            return jsonify({'mensaje': 'successfully created dish'}), 201
         else:
-            return jsonify({'error': 'Error al crear el plato'}), 500
-
+            return jsonify({'message': 'the dish cannot be created'}), 500
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'message': str(e)}), 500
 
 
-# Funcion para controlar la peticion sobre endpoints inexistentes
+# Endpoint para controlar la peticion sobre endpoints inexistentes
 @app.errorhandler(404)
 def error_handler(error):
     return jsonify({'message': 'endpoint not found'}), 404
