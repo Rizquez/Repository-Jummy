@@ -1,10 +1,27 @@
+<script>
+import { validateNumber } from '@/stores/utils';
+export default {
+  props: {
+    plato: {
+      type: Object,
+      required: true,
+    },
+  },
+  methods: {
+    handleInput(event) {
+      validateNumber(event);
+    },
+  },
+};
+</script>
+
 <template>
     <div class="form-center">
         <form>
-            <input type="text" required/>
-            <input type="text" required/>
-            <input type="text" required/>
-            <input type="text" required/>
+            <input type="text" v-model="plato.nombre" required/>
+            <input type="text" v-model="plato.descripcion" required/>
+            <input type="text" v-model="plato.ingredientes" required/>
+            <input type="text" v-model="plato.precio" @input="handleInput" required/>
         </form>
         <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" />
     </div>
