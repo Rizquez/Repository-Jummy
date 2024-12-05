@@ -1,50 +1,116 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useAuth0 } from '@auth0/auth0-vue';
+import { validateNumber, fetchWithTimeout } from '@/stores/utils';
 import Footer from '@/components/Footer.vue';
+import FormDish from '@/components/FormDish.vue';
+import AlertModal from '@/components/AlertModal.vue';
 
-const popupPlatoVisible = ref(false);
-const popupBebidaVisible = ref(false);
-const nuevoPlato = ref({
+const platos = ref([])
+const modalMessage = ref('');
+const isModalVisible = ref(false);
+const popupDishDrinkVisible = ref(false);
+const formData = ref({
   nombre: '',
   descripcion: '',
   ingredientes: '',
   precio: 0,
-});
-const nuevaBebida = ref({
-  nombre: '',
-  precio: 0,
+  tipo_plato: '',
+  email: ''
 });
 
-const mostrarPopupPlato = () => {
-  popupPlatoVisible.value = true;
+const loadDish = () => {
+  const storedPlatos = sessionStorage.getItem('platos');
+  const storedEmail = sessionStorage.getItem('email');
+  if (storedPlatos) {
+    platos.value = JSON.parse(storedPlatos);
+  }
+
+  if (storedEmail) {
+    formData.value.email = storedEmail;
+  }
 };
 
-const cerrarPopupPlato = () => {
-  popupPlatoVisible.value = false;
+onMounted(() => {
+  loadDish();
+});
+
+const handleInput = (event) => {
+  validateNumber(event);
 };
 
-const agregarPlato = () => {
-  console.log('Nuevo plato:', nuevoPlato.value);
-  cerrarPopupPlato();
+const filterDish = (tipo) => {
+  return platos.value.filter((plato) => plato.tipo_plato === tipo);
 };
 
-const mostrarPopupBebida = () => {
-  popupBebidaVisible.value = true;
+const showPopupDishDrink = (tipo) => {
+  popupDishDrinkVisible.value = true;
+  formData.value.tipo_plato = tipo;
 };
 
-const cerrarPopupBebida = () => {
-  popupBebidaVisible.value = false;
-};
-
-const agregarBebida = () => {
-  console.log('Nueva bebida:', nuevaBebida.value);
-  cerrarPopupBebida();
+const closePopupDishDrink = () => {
+  popupDishDrinkVisible.value = false;
 };
 
 const { logout } = useAuth0();
 const handleLogout = () => {
   logout({ returnTo: window.location.origin });
+};
+
+const handleModalClose = () => {
+  isModalVisible.value = false
+}
+
+const saveNewDishDrink = async (event) => {
+  event.preventDefault();
+
+  const data = {
+    email: formData.value.email,
+    nombre: formData.value.nombre,
+    descripcion: formData.value.descripcion,
+    ingredientes: formData.value.ingredientes,
+    precio: formData.value.precio,
+    tipo_plato: formData.value.tipo_plato
+  };
+
+  try {
+    const response = await fetchWithTimeout('http://127.0.0.1:5000/create-dish', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    }, 10000);
+
+    if (response.status === 201) {
+      closePopupDishDrink();
+      modalMessage.value = "El nuevo plato/bebida se ha registrado correctamente";
+
+      const newResponse = await fetchWithTimeout('http://127.0.0.1:5000/find-dishes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: formData.value.email })
+      }, 10000);
+
+      const data = await newResponse.json();
+      platos.value = data.data;
+    } else if (response.status === 500) {
+      closePopupDishDrink();
+      modalMessage.value = `Los datos no se han podido registrar\n(${response.statusText}) 🛠️`;
+    } else {
+      closePopupDishDrink();
+      modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`;
+    }
+    isModalVisible.value = true;
+  } catch (error) {
+    closePopupDishDrink();
+    modalMessage.value = error.message.includes('tiempo de espera')
+      ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo mas tarde'
+      : 'Error inesperado durante la solicitud';
+    isModalVisible.value = true;
+  }
 };
 </script>
 
@@ -54,10 +120,10 @@ const handleLogout = () => {
     <div class="container-btn-nav">
       <div>
         <ul>
-          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Entrantes</button></li>
-          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Principales</button></li>
-          <li><button class="txt-1-5vw" @click="mostrarPopupPlato">Postres</button></li>
-          <li><button class="txt-1-5vw" @click="mostrarPopupBebida">Bebidas</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink('Entrantes')">Entrantes</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink('Principales')">Principales</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink('Postres')">Postres</button></li>
+          <li><button class="txt-1-5vw" @click="showPopupDishDrink('Bebidas')">Bebidas</button></li>
         </ul>
       </div>
       <div class="container-volver-salir">
@@ -68,85 +134,71 @@ const handleLogout = () => {
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Entrantes</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupPlato">Añadir entrante</button>
+          <button class="anadir" @click="showPopupDishDrink('Entrantes')">Añadir entrante</button>
       </div>
       <div class="lista-platos">
+        <FormDish v-for="(plato, index) in filterDish('Entrantes')" :key="index" :plato="plato" />
       </div>
     </div>
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Principales</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupPlato">Añadir principal</button>
+          <button class="anadir" @click="showPopupDishDrink('Principales')">Añadir principal</button>
       </div>
       <div class="lista-platos">
+        <FormDish v-for="(plato, index) in filterDish('Principales')" :key="index" :plato="plato" />
       </div>
     </div>
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Bebidas</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupBebida">Añadir bebida</button>
+          <button class="anadir" @click="showPopupDishDrink('Bebidas')">Añadir bebida</button>
       </div>
       <div class="lista-platos">
+        <FormDish v-for="(plato, index) in filterDish('Bebidas')" :key="index" :plato="plato" />
       </div>
     </div>
     <div class="contaniner-dish">
       <p class="txt-1-5vw">Postres</p>
       <div class="contaniner-anadir">
-          <button class="anadir" @click="mostrarPopupPlato">Añadir postre</button>
+        <button class="anadir" @click="showPopupDishDrink('Postres')">Añadir postre</button>
       </div>
       <div class="lista-platos">
+        <FormDish v-for="(plato, index) in filterDish('Postres')" :key="index" :plato="plato" />
       </div>
     </div>
     <Footer/>
-  </main>
-  
-  <!-- Popup (Modal) para los platos -->
-  <div class="boton-anadir-container">
-    <div v-if="popupPlatoVisible" class="modal">
-      <h2>Añadir Nuevo Plato</h2>
-      <form @submit.prevent="agregarPlato">
-        <div>
-          <label for="nombre-plato">Nombre:</label>
-          <input type="text" id="nombre-plato" v-model="nuevoPlato.nombre" required />
-        </div>
-        <div>
-          <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" v-model="nuevoPlato.descripcion" required></textarea>
-        </div>
-        <div>
-          <label for="ingredientes">Ingredientes:</label>
-          <textarea id="ingredientes" v-model="nuevoPlato.ingredientes" required></textarea>
-        </div>
-        <div>
-          <label for="precio">Precio:</label>
-          <input type="number" id="precio" v-model="nuevoPlato.precio" required />
-        </div>
-        <div class="modal-buttons">
-          <button type="submit">Guardar</button>
-          <button type="button" @click="cerrarPopupPlato">Cancelar</button>
-        </div>
-      </form>
-    </div>
-  </div>
+    <AlertModal :message="modalMessage" :visible="isModalVisible" @close="handleModalClose"/>
 
-  <!-- Popup (Modal) para bebida -->
-  <div v-if="popupBebidaVisible" class="modal">
-    <h2>Añadir Nueva Bebida</h2>
-    <form @submit.prevent="agregarBebida">
-      <div>
-        <label for="nombre-bebida">Nombre:</label>
-        <input type="text" id="nombre-bebida" v-model="nuevaBebida.nombre" required />
+    <!-- Popup (Modal) para los platos/bebidas -->
+    <div class="boton-anadir-container">
+      <div v-if="popupDishDrinkVisible" class="modal">
+        <h2>Añadir Plato/Bebida</h2>
+        <form @submit.prevent="saveNewDishDrink">
+          <div>
+            <label for="nombre-plato">Nombre:</label>
+            <input type="text" id="nombre-plato" v-model="formData.nombre" required />
+          </div>
+          <div>
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" v-model="formData.descripcion" required></textarea>
+          </div>
+          <div>
+            <label for="ingredientes">Ingredientes:</label>
+            <textarea id="ingredientes" v-model="formData.ingredientes" required></textarea>
+          </div>
+          <div>
+            <label for="precio">Precio:</label>
+            <input type="text" id="precio" v-model="formData.precio" @input="handleInput" required />
+          </div>
+          <div class="modal-buttons">
+            <button type="submit">Guardar</button>
+            <button type="button" @click="closePopupDishDrink">Cancelar</button>
+          </div>
+        </form>
       </div>
-      <div>
-        <label for="precio-bebida">Precio:</label>
-        <input type="number" id="precio-bebida" v-model="nuevaBebida.precio" required />
-      </div>
-      <div class="modal-buttons">
-        <button type="submit">Guardar</button>
-        <button type="button" @click="cerrarPopupBebida">Cancelar</button>
-      </div>
-    </form>
-  </div>
+    </div>
+  </main>
 </template>
 
 <style scoped>
