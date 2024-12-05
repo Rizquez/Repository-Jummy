@@ -59,7 +59,6 @@ const handleLogout = () => {
 
 const handleModalClose = () => {
   isModalVisible.value = false
-  window.location.reload()
 }
 
 const saveNewDishDrink = async (event) => {
@@ -170,36 +169,36 @@ const saveNewDishDrink = async (event) => {
     </div>
     <Footer/>
     <AlertModal :message="modalMessage" :visible="isModalVisible" @close="handleModalClose"/>
-  </main>
-  
-  <!-- Popup (Modal) para los platos/bebidas -->
-  <div class="boton-anadir-container">
-    <div v-if="popupDishDrinkVisible" class="modal">
-      <h2>Añadir Plato/Bebida</h2>
-      <form @submit.prevent="saveNewDishDrink">
-        <div>
-          <label for="nombre-plato">Nombre:</label>
-          <input type="text" id="nombre-plato" v-model="formData.nombre" required />
-        </div>
-        <div>
-          <label for="descripcion">Descripción:</label>
-          <textarea id="descripcion" v-model="formData.descripcion" required></textarea>
-        </div>
-        <div>
-          <label for="ingredientes">Ingredientes:</label>
-          <textarea id="ingredientes" v-model="formData.ingredientes" required></textarea>
-        </div>
-        <div>
-          <label for="precio">Precio:</label>
-          <input type="text" id="precio" v-model="formData.precio" @input="handleInput" required />
-        </div>
-        <div class="modal-buttons">
-          <button type="submit">Guardar</button>
-          <button type="button" @click="closePopupDishDrink">Cancelar</button>
-        </div>
-      </form>
+
+    <!-- Popup (Modal) para los platos/bebidas -->
+    <div class="boton-anadir-container">
+      <div v-if="popupDishDrinkVisible" class="modal">
+        <h2>Añadir Plato/Bebida</h2>
+        <form @submit.prevent="saveNewDishDrink">
+          <div>
+            <label for="nombre-plato">Nombre:</label>
+            <input type="text" id="nombre-plato" v-model="formData.nombre" required />
+          </div>
+          <div>
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" v-model="formData.descripcion" required></textarea>
+          </div>
+          <div>
+            <label for="ingredientes">Ingredientes:</label>
+            <textarea id="ingredientes" v-model="formData.ingredientes" required></textarea>
+          </div>
+          <div>
+            <label for="precio">Precio:</label>
+            <input type="text" id="precio" v-model="formData.precio" @input="handleInput" required />
+          </div>
+          <div class="modal-buttons">
+            <button type="submit">Guardar</button>
+            <button type="button" @click="closePopupDishDrink">Cancelar</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <style scoped>

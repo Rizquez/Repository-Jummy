@@ -261,26 +261,6 @@ def create_plato():
         return jsonify({'message': str(e)}), 500
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
 # Endpoint para actualizar un plato mediante el nombre comercial del restaurante y el nombre del plato
 @app.route('/update-dish', methods=['PUT'])
 def update_plato():
@@ -290,7 +270,6 @@ def update_plato():
     descripcion = request.json.get('descripcion')
     ingredientes = request.json.get('ingredientes')
     precio = request.json.get('precio')
-    
     try:
         id_restaurante = instance_db.simple_query(
             engine_mysql,
