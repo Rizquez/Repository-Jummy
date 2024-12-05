@@ -30,6 +30,12 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
+    path: '/carta/:nombre_comercial',
+    name: 'menu-restaurant',
+    component: () => import('@/views/ClientMenuView.vue'),
+    beforeEnter: authGuard,
+  },
+  {
     path: '/empresa',
     name: 'company-menu',
     component: () => import('@/views/CompanyMenuView.vue'),
