@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from ..services import MySQL
+from datetime import datetime
 
 
 # Instanciacion de la app de Flask
@@ -325,6 +326,179 @@ def update_plato():
             return jsonify({'message': 'Failed to update the dish'}), 500
     except Exception as e:
         return jsonify({'message': str(e)}), 500
+
+#Endpoint que nos permite crear un pedido    
+@app.route('/create-order', methods=['POST'])
+def create_order():
+    
+    email_comensal = request.json.get('email')
+    nombres_platos = request.json.get('nombres_platos')  
+    nombre_comercial = request.json.get('nombre_comercial')
+
+    try:
+        
+        id_comensal = instance_db.simple_query(
+            engine_mysql,
+            "SELECT id FROM comensales WHERE email = :email",
+            params={'email': email_comensal}
+        )['id']
+
+        
+        id_restaurante = instance_db.simple_query(
+            engine_mysql,
+            "SELECT id FROM restaurantes WHERE nombre_comercial = :nombre_comercial",
+            params={'nombre_comercial': nombre_comercial}
+        )['id']
+
+       
+        fecha_actual = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        instance_db.execute_dml_query(
+            engine_mysql,
+            """
+            INSERT INTO pedidos (fecha, estado, id_comensales)
+            VALUES (:fecha, :estado, :id_comensales)
+            """,
+            {
+                'fecha': fecha_actual,
+                'estado': 'Pendiente',
+                'id_comensales': id_comensal
+            }
+        )
+
+        
+        id_pedido = instance_db.simple_query(
+            engine_mysql,
+            "SELECT LAST_INSERT_ID() AS id_pedido"
+        )['id_pedido']
+
+        
+        for nombre_plato in nombres_platos:
+            id_plato = instance_db.simple_query(
+                engine_mysql,
+                "SELECT id FROM platos WHERE nombre = :nombre",
+                params={'nombre': nombre_plato}
+            )['id']
+
+            instance_db.execute_dml_query(
+                engine_mysql,
+                """
+                INSERT INTO detalles_pedido (id_platos, id_pedidos, id_restaurantes)
+                VALUES (:id_platos, :id_pedidos, :id_restaurantes)
+                """,
+                {
+                    'id_platos': id_plato,
+                    'id_pedidos': id_pedido,
+                    'id_restaurantes': id_restaurante
+                }
+            )
+
+        return jsonify({'mensaje': 'Pedido creado exitosamente', 'id_pedido': id_pedido}), 201
+
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+    
+
+# Endpoint que nos permite recibir todos los pedidos de un restaurante o de un comensal
+@app.route('/get-orders', methods=['GET'])
+def get_orders():
+    nombre_comercial = request.json.get('nombre_comercial')
+    email_comensal = request.json.get('email_comensal')  
+
+    try:
+        
+        query = """
+        SELECT id_pedidos, nombre_plato, email_comensal, estado, fecha
+        FROM v_detalles_pedidos
+        WHERE 1=1
+        """
+        params = {}
+
+
+        if nombre_comercial:
+            query += " AND nombre_comercial = :nombre_comercial"
+            params['nombre_comercial'] = nombre_comercial
+
+        
+        if email_comensal:
+            query += " AND email_comensal = :email_comensal"
+            params['email_comensal'] = email_comensal
+
+        pedidos = instance_db.simple_query(
+            engine_mysql,
+            query,
+            type_data='multi',
+            params=params
+        )
+
+        
+        resultado = {}
+        for pedido in pedidos:
+            id_pedido = pedido['id_pedidos']
+            if id_pedido not in resultado:
+                resultado[id_pedido] = {
+                    'email_comensal': pedido['email_comensal'],
+                    'estado': pedido['estado'],
+                    'fecha': pedido['fecha'],
+                    'nombres_platos': []
+                }
+            resultado[id_pedido]['nombres_platos'].append(pedido['nombre_plato'])
+
+        
+        pedidos_list = [
+            {'id_pedido': id_pedido, **datos}
+            for id_pedido, datos in resultado.items()
+        ]
+
+        return jsonify(pedidos_list), 200
+
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+    
+
+# Endpoint para actualizar el estado de un pedido a 'Finalizado'
+@app.route('/finalizar-pedido', methods=['POST'])
+def finalizar_pedido():
+    id_pedido = request.json.get('id_pedido')  # Recibimos el id_pedido
+
+    try:
+        
+        pedido = instance_db.simple_query(
+            engine_mysql,
+            """
+            SELECT estado FROM pedidos WHERE id = :id_pedido
+            """,
+            params={'id_pedido': id_pedido}
+        )
+
+        if not pedido:
+            return jsonify({'message': 'Pedido no encontrado'}), 404
+
+        if pedido['estado'] != 'Pendiente':
+            return jsonify({'message': 'El pedido no está en estado pendiente'}), 400
+
+        
+        instance_db.execute_dml_query(
+            engine_mysql,
+            """
+            UPDATE pedidos SET estado = 'Finalizado' WHERE id = :id_pedido
+            """,
+            params={'id_pedido': id_pedido}
+        )
+
+        return jsonify({'message': 'Pedido finalizado exitosamente'}), 200
+
+    except Exception as e:
+        return jsonify({'message': str(e)}), 500
+
+    
+
+
+
+
+
+
+
 
 
 # Endpoint para controlar la peticion sobre endpoints inexistentes
