@@ -52,7 +52,11 @@ CREATE TABLE `comensales` (
 
 LOCK TABLES `comensales` WRITE;
 /*!40000 ALTER TABLE `comensales` DISABLE KEYS */;
-INSERT INTO `comensales` VALUES (2,'María','García','maria.garcia@example.com','Avenida Siempre Viva 742','Pueblo',67890,'+34633504225','password456'),(4,'Ana','López','ana.lopez@example.com','Plaza Mayor 1','Metropoli',33445,'+34633504225','password101'),(5,'Luis','Hernández','luis.hernandez@example.com','Boulevard del Sol 789','Ciudadela',55667,'+34633504225','password202'),(7,'Ana','García López','ana.garcia@example.com','Avenida de la Libertad 45','Barcelona',8001,'+34911223344','12345');
+INSERT INTO `comensales` VALUES 
+(2,'María','García','maria.garcia@example.com','Avenida Siempre Viva 742','Pueblo',67890,'+34633504225','password456'),
+(4,'Ana','López','ana.lopez@example.com','Plaza Mayor 1','Metropoli',33445,'+34633504225','password101'),
+(5,'Luis','Hernández','luis.hernandez@example.com','Boulevard del Sol 789','Ciudadela',55667,'+34633504225','password202'),
+(7,'Ana','García López','ana.garcia@example.com','Avenida de la Libertad 45','Barcelona',8001,'+34911223344','12345');
 /*!40000 ALTER TABLE `comensales` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;

@@ -45,7 +45,13 @@ CREATE TABLE `gastronomias` (
 
 LOCK TABLES `gastronomias` WRITE;
 /*!40000 ALTER TABLE `gastronomias` DISABLE KEYS */;
-INSERT INTO `gastronomias` VALUES (3,'japonesa'),(4,'italiana'),(5,'española'),(6,'venezolana'),(7,'mexicana'),(8,'tailandesa');
+INSERT INTO `gastronomias` VALUES 
+(3,'japonesa'),
+(4,'italiana'),
+(5,'española'),
+(6,'venezolana'),
+(7,'mexicana'),
+(8,'tailandesa');
 /*!40000 ALTER TABLE `gastronomias` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;

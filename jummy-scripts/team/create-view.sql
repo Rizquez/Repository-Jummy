@@ -59,6 +59,7 @@ SELECT
     c.email AS email_comensal, 
     ped.estado, 
     r.nombre_comercial,
+    r.email AS email_restaurante,
     ped.fecha
 FROM 
     detalles_pedido dp

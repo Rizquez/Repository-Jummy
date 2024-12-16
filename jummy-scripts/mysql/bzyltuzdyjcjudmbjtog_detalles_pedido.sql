@@ -52,7 +52,17 @@ CREATE TABLE `detalles_pedido` (
 
 LOCK TABLES `detalles_pedido` WRITE;
 /*!40000 ALTER TABLE `detalles_pedido` DISABLE KEYS */;
-INSERT INTO `detalles_pedido` VALUES (1,14,1,46),(2,15,1,46),(3,16,1,46),(4,17,1,46),(5,16,3,46),(6,17,3,46),(7,14,4,46),(8,17,4,46),(9,14,5,46),(10,63,5,46);
+INSERT INTO `detalles_pedido` VALUES 
+(1,14,1,46),
+(2,15,1,46),
+(3,16,1,46),
+(4,17,1,46),
+(5,16,3,46),
+(6,17,3,46),
+(7,14,4,46),
+(8,17,4,46),
+(9,14,5,46),
+(10,63,5,46);
 /*!40000 ALTER TABLE `detalles_pedido` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;

@@ -48,7 +48,12 @@ CREATE TABLE `pedidos` (
 
 LOCK TABLES `pedidos` WRITE;
 /*!40000 ALTER TABLE `pedidos` DISABLE KEYS */;
-INSERT INTO `pedidos` VALUES (1,'2024-12-06 10:43:48','Finalizado',4),(2,'2024-12-06 10:57:03','Pendiente',4),(3,'2024-12-06 10:59:45','Pendiente',4),(4,'2024-12-06 11:00:04','Pendiente',4),(5,'2024-12-06 11:11:51','Pendiente',4);
+INSERT INTO `pedidos` VALUES 
+(1,'2024-12-06 10:43:48','Finalizado',4),
+(2,'2024-12-06 10:57:03','Pendiente',4),
+(3,'2024-12-06 10:59:45','Pendiente',4),
+(4,'2024-12-06 11:00:04','Pendiente',4),
+(5,'2024-12-06 11:11:51','Pendiente',4);
 /*!40000 ALTER TABLE `pedidos` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;

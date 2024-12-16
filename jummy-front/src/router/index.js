@@ -30,6 +30,12 @@ const routes = [
     beforeEnter: authGuard,
   },
   {
+    path: '/pedidos/cliente',
+    name: 'client-orders',
+    component: () => import('@/views/ClientOrdersView.vue'),
+    beforeEnter: authGuard,
+  },
+  {
     path: '/carta/:nombre_comercial',
     name: 'menu-restaurant',
     component: () => import('@/views/ClientMenuView.vue'),
@@ -45,6 +51,12 @@ const routes = [
     path: '/editar-menu',
     name: 'company-edit-menu',
     component: () => import('@/views/CompanyEditMenuView.vue'),
+    beforeEnter: authGuard,
+  },
+  {
+    path: '/pedidos/empresa',
+    name: 'company-orders',
+    component: () => import('@/views/CompanyOrdersView.vue'),
     beforeEnter: authGuard,
   },
   {

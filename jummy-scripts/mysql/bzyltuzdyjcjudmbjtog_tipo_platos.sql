@@ -45,7 +45,11 @@ CREATE TABLE `tipo_platos` (
 
 LOCK TABLES `tipo_platos` WRITE;
 /*!40000 ALTER TABLE `tipo_platos` DISABLE KEYS */;
-INSERT INTO `tipo_platos` VALUES (1,'Entrantes'),(2,'Principales'),(3,'Postres'),(4,'Bebidas');
+INSERT INTO `tipo_platos` VALUES 
+(1,'Entrantes'),
+(2,'Principales'),
+(3,'Postres'),
+(4,'Bebidas');
 /*!40000 ALTER TABLE `tipo_platos` ENABLE KEYS */;
 UNLOCK TABLES;
 SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
