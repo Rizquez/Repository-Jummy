@@ -9,6 +9,8 @@ const router = useRouter();
 const searchRestaurant = ref('');
 const modalMessage = ref('');
 const isModalVisible = ref(false);
+const { isAuthenticated, user, isLoading } = useAuth0();
+const email = user.value.name;
 
 const props = defineProps({
     showReturn: {
@@ -18,8 +20,9 @@ const props = defineProps({
 });
 
 const { logout } = useAuth0();
-const handleLogout = () => {
-  logout({ returnTo: window.location.origin });
+const handleLogout = () => {  
+    sessionStorage.clear();
+    logout({ returnTo: window.location.origin });
 };
 
 const handleModalClose = () => {
@@ -60,6 +63,35 @@ async function handleSearch() {
         isModalVisible.value = true;
     }
 }
+
+async function obtainAllOrders() {
+    try {
+        const response = await fetchWithTimeout('http://127.0.0.1:5000/get-orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email_comensal: email })
+        }, 10000);
+        if (response.status === 200) {
+            const data = await response.json();
+            const allOrders = data.data;
+            sessionStorage.setItem('allOrders', JSON.stringify(allOrders));
+            router.push({ name: 'client-orders', query: { reload: Date.now() } });
+        } else if (response.status === 500) {
+            modalMessage.value = `No se han podido obtener el resumen de los pedidos`;
+            isModalVisible.value = true;
+        } else {
+            modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`;
+            isModalVisible.value = true;
+        }
+    } catch (error) {
+        modalMessage.value = error.message.includes('tiempo de espera')
+            ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo más tarde'
+            : 'Error inesperado durante la solicitud';
+        isModalVisible.value = true;
+    }
+}
 </script>
 
 <template>
@@ -68,6 +100,7 @@ async function handleSearch() {
             <img src="@/assets/images/general/img-gastronomy.png" alt="Logo Gastronomias"/>
             <div class="contenedor-general">
                 <div class="salir-volver">
+                    <p class="boton-salir txt-1-5vw boton-volver" @click="obtainAllOrders">Pedidos</p>
                     <p class="boton-salir txt-1-5vw" @click="handleLogout">Salir</p>
                     <router-link v-if="showReturn" :to="{ name: 'client-gastronomy' }" class="boton-salir txt-1-5vw boton-volver">Volver</router-link>
                 </div>

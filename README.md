@@ -23,33 +23,34 @@ Jummy no solo mejora la eficiencia del servicio, sino que también beneficia a l
 
 ## 🛠️ Tecnologías Utilizadas
 Jummy está construido con una sólida base tecnológica que garantiza velocidad, seguridad y una excelente experiencia de usuario. Entre las tecnologías empleadas se incluyen:
-- Backend: `Flask`.
-- Frontend: `Vue.js`.
+- Back-End: `Flask`.
+- Front-End: `Vue.js`.
 - Base de datos: `MySQL`.
 - Seguridad: Autenticación JWT (`Auth0`).
-- Infraestructura: Despliegue del Frontend en `Netlify` y del Backend en `Render`; almacenamiento de la Base de Datos en linea en `Clever Cloud`.
+- Infraestructura: Despliegue del Front-End en `Netlify` y del Back-End en `Render`; almacenamiento de la Base de Datos en linea en `Clever Cloud`.
 
 ## 📂 Estructura del Proyecto
 El proyecto está organizado en tres directorios principales, lo que facilita su mantenimiento y escalabilidad. Debido a la cantidad de carpetas y archivos involucrados, se ha separado en las siguientes secciones para una mejor comprensión:
 
-### jummy-back (Backend)
+### jummy-back (Back-End)
 ```
 ├── config
 │   └── config.py
 ├── src
-│   ├── models
-│   │   └── models.py
+│   ├── _design
+│   │   └── singleton.py
 │   ├── routes
 │   │   └── routes.py
-│   └── tools
-│       └── tools.py
+│   └── services
+│       └── database.py
 ├── .gitignore
-└── main.py
+├── main.py
+└── requirements.txt
 ```
 > [!IMPORTANT]
-> Dentro de `jummy-back` debe existir un fichero llamado `.env` el cual contiene las variables de entonro necesarias para la ejecucion del proyecto. Por seguridad este fichero nunca es subido a `GitHub` y el mismo esta configurado para generarse durante el despliegue a produccion del Backend. De necesitar los valores de estos parametros, conmuniquese con los responsables del proyecto.
+> Dentro de `jummy-back` debe existir un fichero llamado `.env` el cual contiene las variables de entonro necesarias para la ejecucion del proyecto. Por seguridad este fichero nunca es subido a `GitHub` y el mismo esta configurado para generarse durante el despliegue a produccion del Back-End. De necesitar los valores de estos parametros, conmuniquese con los responsables del proyecto.
 
-### jummy-front (Frontend)
+### jummy-front (Front-End)
 ```
 ├── .vscode/...
 ├── dist/...
@@ -60,16 +61,19 @@ El proyecto está organizado en tres directorios principales, lo que facilita su
 │   │   ├── styles/...
 │   │   └── main.css
 │   ├── components
+│   │   ├── AlertModal.vue
 │   │   ├── Dish.vue
 │   │   ├── Footer.vue
-│   │   ├── HeaderClient.vue
-│   │   └── HeaderHome.vue
+│   │   ├── FormDish.vue
+│   │   └── HeaderClient.vue
 │   ├── router
 │   │   └── index.js
 │   ├── stores
-│   │   └── counter.js
+│   │   ├── counter.js
+│   │   └── utils.js
 │   ├── views/...
 │   ├── App.vue
+│   ├── auth0.js
 │   └── main.js
 ├── .gitignore
 ├── index.html
@@ -83,20 +87,32 @@ El proyecto está organizado en tres directorios principales, lo que facilita su
 
 ### jummy-scripts (Scripts SQL)
 ```
-├── scripts-clean-data.sql
-├── scripts-insert.sql
-└── scripts-view.sql
+├── mysql
+│   ├── bzyltuzdyjcjudmbjtog_routines.sql
+│   ├── bzyltuzdyjcjudmbjtog_restaurantes.sql
+│   ├── bzyltuzdyjcjudmbjtog_detalles_pedido.sql
+│   ├── bzyltuzdyjcjudmbjtog_comensales.sql
+│   ├── bzyltuzdyjcjudmbjtog_platos.sql
+│   ├── bzyltuzdyjcjudmbjtog_tipo_platos.sql
+│   ├── bzyltuzdyjcjudmbjtog_pedidos.sql
+│   └── bzyltuzdyjcjudmbjtog_gastronomias.sql
+└── team
+    ├── clean-data.sql
+    ├── create-view.sql
+    └── insert-data.sql
 ```
+> [!IMPORTANT]
+> Este proyecto esta diseñado para que el registro y login de usuarios lo realice `Auth0`, el cual esta configurado para conectar a la base de datos albergada en `Clever Cloud` y asi poder registrar o consultar los datos del usuario. Aunque se hable de un fichero `.env` para el back-End, este solo se usa para ejecucion del `back-end` en entorno local para hacer uso de los endpoints, por su lado el `front-end` siempre hace uso de `Auth0` y `Clever Cloud`. Para cualquier consulta, comuniquese con los responsables del proyecto.
 
 ## 🖥️ Descripción de las Ramas de Trabajo en Git
-- __main__: Esta es la rama principal, utilizada para el despliegue en `Netlify` y `Render`.
+- __main__: Esta es la rama principal, utilizada para el despliegue en `Netlify` (Front-End) y `Render` (Back-End).
 - __develop__: Recibe el desarrollo y cambios nuevos, sirviendo como filtro antes de fusionarse con main para evitar la introducción de código no testeado que pueda afectar al sistema en producción.
-- __dev_pedro__: Rama de desarrollo de `Pedro`.
-- __dev_mario__: Rama de desarrollo de `Mario`.
 - __dev_marc__: Rama de desarrollo de `Marc`.
+- __dev_mario__: Rama de desarrollo de `Mario`.
+- __dev_pedro__: Rama de desarrollo de `Pedro`.
 
 > [!IMPORTANT]
-> Solo las ramas `main` y `develop` deben contener el directorio `dist` dentro de `jummy-front`, el cual es esencial para el despliegue en `Netlify`. Este directorio debe actualizarse localmente sobre la rama `develop` cada vez que se quiera realizar un despliegue a produccion, esto solo aplica al `Frontend`.
+> Solo las ramas `main` y `develop` deben contener el directorio `dist` dentro de `jummy-front`, el cual es esencial para el despliegue en `Netlify`. Este directorio debe actualizarse localmente sobre la rama `develop` cada vez que se quiera realizar un despliegue a produccion, esto solo aplica al `Front-End` mediante la ejecucion del comando `npm run build`.
 
 ## 🚧 Contribuciones
 Este proyecto __no__ está abierto a contribuciones externas. No se aceptarán pull requests ni issues. Gracias por tu comprensión.

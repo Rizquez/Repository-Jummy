@@ -14,6 +14,7 @@ const isModalVisible = ref(false);
 
 const { logout } = useAuth0();
 const handleLogout = () => {
+  sessionStorage.clear();
   logout({ returnTo: window.location.origin });
 };
 
@@ -51,6 +52,35 @@ async function redirectToMenuRestaurant() {
     isModalVisible.value = true;
   }
 }
+
+async function obtainAllOrders() {
+    try {
+        const response = await fetchWithTimeout('http://127.0.0.1:5000/get-orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email_restaurante: email })
+        }, 10000);
+        if (response.status === 200) {
+            const data = await response.json();
+            const allOrders = data.data;
+            sessionStorage.setItem('allOrdersCompany', JSON.stringify(allOrders));
+            router.push({ name: 'company-orders', query: { reload: Date.now() } });
+        } else if (response.status === 500) {
+            modalMessage.value = `No se han podido obtener el resumen de los pedidos`;
+            isModalVisible.value = true;
+        } else {
+            modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`;
+            isModalVisible.value = true;
+        }
+    } catch (error) {
+        modalMessage.value = error.message.includes('tiempo de espera')
+            ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo más tarde'
+            : 'Error inesperado durante la solicitud';
+        isModalVisible.value = true;
+    }
+}
 </script>
 
 <template>
@@ -62,7 +92,7 @@ async function redirectToMenuRestaurant() {
       <img src="@/assets/images/general/logo-jummy.png" alt="Logo Jummy"/>
       <div class="button-container">
         <button @click="redirectToMenuRestaurant()" class="btn-loggin txt-2vw">Modificar carta</button>
-        <router-link :to="{ name: 'company-menu' }" class="btn-loggin txt-2vw">Lista de pedidos (sin uso)</router-link>
+        <button @click="obtainAllOrders()" class="btn-loggin txt-2vw">Lista de pedidos</button>
       </div>
     </div>
     <Footer/>
