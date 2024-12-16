@@ -25,7 +25,7 @@ const handleModalClose = () => {
 
 async function redirectToMenuRestaurant() {
     try {
-      const response = await fetchWithTimeout('http://127.0.0.1:5000/find-dishes', {
+      const response = await fetchWithTimeout('https://api-jummy.onrender.com/find-dishes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -55,7 +55,7 @@ async function redirectToMenuRestaurant() {
 
 async function obtainAllOrders() {
     try {
-        const response = await fetchWithTimeout('http://127.0.0.1:5000/get-orders', {
+        const response = await fetchWithTimeout('https://api-jummy.onrender.com/get-orders', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

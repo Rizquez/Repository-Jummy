@@ -61,7 +61,7 @@ const handleModalClose = () => {
 
 async function registerOrderClient() {
     try {
-        const response = await fetchWithTimeout('http://127.0.0.1:5000/create-order', {
+        const response = await fetchWithTimeout('https://api-jummy.onrender.com/create-order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

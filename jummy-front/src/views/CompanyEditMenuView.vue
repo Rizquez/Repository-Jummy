@@ -75,7 +75,7 @@ const saveNewDishDrink = async (event) => {
   };
 
   try {
-    const response = await fetchWithTimeout('http://127.0.0.1:5000/create-dish', {
+    const response = await fetchWithTimeout('https://api-jummy.onrender.com/create-dish', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -87,7 +87,7 @@ const saveNewDishDrink = async (event) => {
       closePopupDishDrink();
       modalMessage.value = "El nuevo plato/bebida se ha registrado correctamente";
 
-      const newResponse = await fetchWithTimeout('http://127.0.0.1:5000/find-dishes', {
+      const newResponse = await fetchWithTimeout('https://api-jummy.onrender.com/find-dishes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -31,7 +31,7 @@ export default {
 
     const finishOrder = async () => {
       try {
-        const response = await fetchWithTimeout('http://127.0.0.1:5000/complete-order', {
+        const response = await fetchWithTimeout('https://api-jummy.onrender.com/complete-order', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

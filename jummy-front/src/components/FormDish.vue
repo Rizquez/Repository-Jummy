@@ -41,7 +41,7 @@ export default {
       };
 
       try {
-        const response = await fetchWithTimeout('http://127.0.0.1:5000/update-dish', {
+        const response = await fetchWithTimeout('https://api-jummy.onrender.com/update-dish', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
