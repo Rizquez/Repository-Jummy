@@ -53,7 +53,8 @@ const closePopupDishDrink = () => {
 };
 
 const { logout } = useAuth0();
-const handleLogout = () => {
+const handleLogout = () => {  
+  sessionStorage.clear();
   logout({ returnTo: window.location.origin });
 };
 
@@ -240,7 +241,7 @@ h1 {
   text-decoration: none;
   cursor: pointer;
   text-align: right;
-  padding-top: 20px;
+  padding: 10px 0px;
 }
 
 .lista-platos {

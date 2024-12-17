@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import { useAuth0 } from '@auth0/auth0-vue';
+import { fetchWithTimeout } from '@/stores/utils';
 import HeaderClient from '@/components/HeaderClient.vue'
 import Footer from '@/components/Footer.vue';
 import Dish from '@/components/Dish.vue';
@@ -10,6 +12,8 @@ const nombre_restaurante = ref('')
 const comanda = ref([]);
 const modalMessage = ref('');
 const isModalVisible = ref(false);
+const { isAuthenticated, user, isLoading } = useAuth0();
+const email = user.value.name;
 
 const loadRestaurants = () => {
   const storedPlatos = sessionStorage.getItem('platos');
@@ -46,15 +50,41 @@ const handleOrder = () => {
     modalMessage.value = 'Debe agregar al menos un producto a la comanda para realizar el pedido 😕';
     isModalVisible.value = true;
   } else {
-    modalMessage.value = 'La comanda ha sido enviada correctamente, gracias por confiar en Jummy 😎';
-    isModalVisible.value = true;
-    comanda.value = [];
+    registerOrderClient()
   }
 };
 
 const handleModalClose = () => {
   isModalVisible.value = false
   window.location.reload()
+}
+
+async function registerOrderClient() {
+    try {
+        const response = await fetchWithTimeout('http://127.0.0.1:5000/create-order', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email: email, nombres_platos: comanda.value.map(plato => plato.nombre), nombre_comercial: nombre_restaurante.value })
+        }, 10000);
+
+        if (response.status === 201) {
+            modalMessage.value = 'La comanda ha sido enviada correctamente, gracias por confiar en Jummy 😎';
+            isModalVisible.value = true;
+        } else if (response.status === 500) {
+            modalMessage.value = `No se ha podido registrar la comanda enviada`;
+            isModalVisible.value = true;
+        } else {
+            modalMessage.value = `Error inesperado en el servidor\n${response.statusText} 🛠️`;
+            isModalVisible.value = true;
+        }
+    } catch (error) {
+        modalMessage.value = error.message.includes('tiempo de espera')
+            ? 'La solicitud ha excedido el tiempo de espera. Por favor, intentelo de nuevo mas tarde'
+            : 'Error inesperado durante la solicitud';
+        isModalVisible.value = true;
+    }
 }
 </script>
 
