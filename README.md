@@ -65,7 +65,8 @@ El proyecto está organizado en tres directorios principales, lo que facilita su
 │   │   ├── Dish.vue
 │   │   ├── Footer.vue
 │   │   ├── FormDish.vue
-│   │   └── HeaderClient.vue
+│   │   ├── HeaderClient.vue
+│   │   └── Order.vue
 │   ├── router
 │   │   └── index.js
 │   ├── stores
@@ -88,14 +89,14 @@ El proyecto está organizado en tres directorios principales, lo que facilita su
 ### jummy-scripts (Scripts SQL)
 ```
 ├── mysql
-│   ├── bzyltuzdyjcjudmbjtog_routines.sql
-│   ├── bzyltuzdyjcjudmbjtog_restaurantes.sql
-│   ├── bzyltuzdyjcjudmbjtog_detalles_pedido.sql
 │   ├── bzyltuzdyjcjudmbjtog_comensales.sql
-│   ├── bzyltuzdyjcjudmbjtog_platos.sql
-│   ├── bzyltuzdyjcjudmbjtog_tipo_platos.sql
+│   ├── bzyltuzdyjcjudmbjtog_detalles_pedido.sql
+│   ├── bzyltuzdyjcjudmbjtog_gastronomias.sql
 │   ├── bzyltuzdyjcjudmbjtog_pedidos.sql
-│   └── bzyltuzdyjcjudmbjtog_gastronomias.sql
+│   ├── bzyltuzdyjcjudmbjtog_platos.sql
+│   ├── bzyltuzdyjcjudmbjtog_restaurantes.sql
+│   ├── bzyltuzdyjcjudmbjtog_routines.sql
+│   └── bzyltuzdyjcjudmbjtog_tipo_platos.sql
 └── team
     ├── clean-data.sql
     ├── create-view.sql
