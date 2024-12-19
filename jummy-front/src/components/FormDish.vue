@@ -31,6 +31,12 @@ export default {
     handleInput(event) {
       validateNumber(event);
     },
+    getDishImage(tipoPlato) {
+      const images = import.meta.glob('@/assets/images/dishes/*.png', { eager: true });
+      const normalizedTipoPlato = tipoPlato.toLowerCase();
+      const imagePath = `/src/assets/images/dishes/${normalizedTipoPlato}.png`;
+      return images[imagePath]?.default || '@/assets/images/dishes/default.png';
+    },
     async udpateDishDrink() {
       const data = {
         email: sessionStorage.getItem('email'),
@@ -73,7 +79,7 @@ export default {
       <input type="text" v-model="plato.precio" @input="handleInput" required />
       <button @click="udpateDishDrink" class="txt-0-8vw" type="submit">Guardar cambios</button>
     </form>
-    <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" />
+    <img :src="getDishImage(plato.tipo_plato)" :alt="`Imagen de ${plato.nombre || 'plato'}`" />
   </div>
   <AlertModal :message="modalMessage" :visible="isModalVisible" @close="handleModalClose"/>
 </template>
@@ -97,7 +103,7 @@ export default {
 }
 
 .form-center img {
-  width: 40%;
+  width: 25%;
   height: auto;
   padding-left: 5%;
 }
