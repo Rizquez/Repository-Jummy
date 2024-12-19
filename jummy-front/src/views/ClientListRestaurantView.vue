@@ -83,7 +83,7 @@ async function redirectToMenuRestaurant(nombre_restaurante) {
             <p class="txt-1vw">{{ restaurante.nombre_comercial }}</p>
             <p class="txt-1vw">{{ restaurante.descripcion }}</p>
           </div>
-          <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato"/>
+          <img src="@/assets/images/dishes/restaurante.png" alt="Imagen plato"/>
         </div>
         <button @click="redirectToMenuRestaurant(restaurante.nombre_comercial)" class="btn-carta txt-1vw">Ver carta</button>
       </div>
@@ -113,7 +113,7 @@ async function redirectToMenuRestaurant(nombre_restaurante) {
 }
 
 .info-restaurante img {
-  width: 50%;
+  width: 15%;
   height: auto;
 }
 
