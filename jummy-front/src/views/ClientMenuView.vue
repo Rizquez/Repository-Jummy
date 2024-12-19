@@ -20,6 +20,7 @@ const loadRestaurants = () => {
   const storedNombreRestaurante = sessionStorage.getItem('nombre_restaurante');
   if (storedPlatos) {
     platos.value = JSON.parse(storedPlatos);
+    console.log(platos.value)
   }
 
   if (storedNombreRestaurante) {

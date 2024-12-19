@@ -10,6 +10,12 @@ export default {
     addDish() {
       this.$emit('add', this.plato);
     },
+    getDishImage(tipoPlato) {
+      const images = import.meta.glob('@/assets/images/dishes/*.png', { eager: true });
+      const normalizedTipoPlato = tipoPlato.toLowerCase();
+      const imagePath = `/src/assets/images/dishes/${normalizedTipoPlato}.png`;
+      return images[imagePath]?.default || '@/assets/images/dishes/default.png';
+    },
   },
 };
 </script>
@@ -23,7 +29,7 @@ export default {
         <p class="txt-1vw">{{ plato.ingredientes || 'N/A' }}</p>
         <p class="txt-1vw">{{ plato.precio ? `${plato.precio}€` : 'N/A' }}</p>
       </div>
-      <img src="@/assets/images/temp/plato-lujo.jpeg" alt="Imagen plato" />
+      <img :src="getDishImage(plato.tipo_plato)" :alt="`Imagen de ${plato.nombre || 'plato'}`" />
     </div>
     <button class="btn-anadir txt-1vw" @click="addDish">Añadir</button>
   </div>
@@ -41,7 +47,7 @@ export default {
 }
 
 .info-plato img {
-  width: 40%;
+  width: 25%;
   height: auto;
 }
 
