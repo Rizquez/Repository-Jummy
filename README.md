@@ -17,9 +17,9 @@ Jummy no solo mejora la eficiencia del servicio, sino que también beneficia a l
 ## 🚀 Funcionalidades Clave
 - __Gestión de Menús Digitales:__ Los restaurantes pueden crear, editar y visualizar menús digitales atractivos y fáciles de usar, accesibles desde cualquier dispositivo móvil.
 - __Sistema de Pedidos Integrado:__ Los clientes pueden realizar sus pedidos directamente desde la aplicación, lo que reduce tiempos de espera y minimiza errores en los pedidos.
-- __Proceso de Pago Seguro:__ Jummy incluye una opción de pago integrada y segura, que permite a los clientes realizar pagos desde su propio dispositivo, mejorando la seguridad y reduciendo riesgos de impago.
-- __Análisis y Reportes:__ Los restaurantes tienen acceso a herramientas de análisis que les permiten evaluar el rendimiento de ventas, las preferencias de los clientes y otros indicadores clave, facilitando la toma de decisiones informadas.
-- __Soporte Multilingüe:__ La aplicación ofrece soporte en varios idiomas, asegurando su accesibilidad para usuarios de diferentes regiones y culturas.
+- __Proceso de Pago Seguro (en desarrollo):__ Jummy incluira una opción de pago integrada y segura, que permite a los clientes realizar pagos desde su propio dispositivo, mejorando la seguridad y reduciendo riesgos de impago.
+- __Análisis y Reportes (en desarrollo):__ Los restaurantes tendran acceso a herramientas de análisis que les permiten evaluar el rendimiento de ventas, las preferencias de los clientes y otros indicadores clave, facilitando la toma de decisiones informadas.
+- __Soporte Multilingüe (en desarrollo):__ La aplicación ofrecera soporte en varios idiomas, asegurando su accesibilidad para usuarios de diferentes regiones y culturas.
 
 ## 🛠️ Tecnologías Utilizadas
 Jummy está construido con una sólida base tecnológica que garantiza velocidad, seguridad y una excelente experiencia de usuario. Entre las tecnologías empleadas se incluyen:
